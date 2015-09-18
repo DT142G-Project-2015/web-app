@@ -1,0 +1,14 @@
+apply plugin: "war"
+apply plugin: "jetty"
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+   compile "javax.servlet:servlet-api:2.5"
+}
+
+httpPort = 8080
+stopPort = 9090
+stopKey = "stopKey"
