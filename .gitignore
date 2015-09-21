@@ -3,7 +3,7 @@ Desktop.ini
 Thumbs.db
 ehthumbs.db
 build
-web.iml
+*.iml
 .gradle
 .idea
 local.properties
