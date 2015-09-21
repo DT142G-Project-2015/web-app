@@ -7,6 +7,8 @@ repositories {
 
 dependencies {
    compile "javax.servlet:servlet-api:2.5"
+   compile "com.h2database:h2:1.4.189"
+   compile "mysql:mysql-connector-java:5.1.36"
 }
 
 httpPort = 8080
