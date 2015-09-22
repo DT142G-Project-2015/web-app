@@ -9,6 +9,8 @@ dependencies {
    compile "javax.servlet:servlet-api:2.5"
    compile "com.h2database:h2:1.4.189"
    compile "mysql:mysql-connector-java:5.1.36"
+   compile "com.google.code.gson:gson:2.3.1"
+   compile "org.simpleflatmapper:sfm:2.2"
 }
 
 httpPort = 8080
