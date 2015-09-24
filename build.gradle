@@ -21,3 +21,7 @@ dependencies {
 
 httpPort = 8080
 
+jettyRun {
+		scanIntervalSeconds = 2
+}
+
