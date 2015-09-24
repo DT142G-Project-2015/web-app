@@ -33,12 +33,12 @@ INSERT INTO menu VALUES (0, 'lunch');
 INSERT INTO menu VALUES (1, 'dinner');
 INSERT INTO menu VALUES (2, 'alacarte');
 
-INSERT INTO item VALUES (0, 'Beef Stew', 'mouth watering description', 75, 0);
-INSERT INTO item VALUES (1, 'Smoked Rabbit', 'mouth watering description', 59, 0);
-INSERT INTO item VALUES (2, 'Tartar Sauce', 'mouth watering description', 15, 0);
-INSERT INTO item VALUES (3, 'Vitlökssås', 'gott', 15, 0);
+INSERT INTO item (name, description, price) VALUES ('Beef Stew', 'mouth watering description', 75);
+INSERT INTO item (name, description, price) VALUES ('Smoked Rabbit', 'mouth watering description', 59);
+INSERT INTO item (name, description, price) VALUES ('Tartar Sauce', 'mouth watering description', 15);
+INSERT INTO item (name, description, price) VALUES ('Vitlökssås', 'gott', 15);
 
-INSERT INTO menu_item VALUES (0, 0);
 INSERT INTO menu_item VALUES (0, 1);
 INSERT INTO menu_item VALUES (0, 2);
+INSERT INTO menu_item VALUES (0, 3);
 

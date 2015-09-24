@@ -37,7 +37,9 @@ public class ItemResource {
     @POST
     public Response addItem(String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
-            PreparedStatement st = conn.prepareStatement("INSERT INTO item (name, description, price) VALUES ((?), (?), (?))")) {
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO item (name, description, price) VALUES ((?), (?), (?))",
+                     Statement.RETURN_GENERATED_KEYS)) {
 
             Gson gson = new Gson();
 
