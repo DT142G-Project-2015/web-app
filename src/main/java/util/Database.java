@@ -1,11 +1,7 @@
-package org.test;
+package util;
 
 import javax.servlet.ServletContext;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +11,35 @@ import java.util.Scanner;
 
 public class Database {
 
-    public static Connection getConnection(ServletContext context) throws SQLException {
+    private static boolean loaded;
+    private static Object lock = new Object();
+
+
+    public static void initDatabase(ServletContext context) throws SQLException {
+
+        try (Connection conn = getConnection()) {
+            try (Statement st = conn.createStatement()) {
+
+                // if the people table doesn't exist: load the database setup script "/WEB-INF/setup.sql"
+                try {
+                    st.execute("select * from menu");
+                } catch (SQLException e) {
+
+                    // prevent multiple threads from loading the setup script at the same time
+                    synchronized (lock) {
+                        if (!loaded) {
+                            loadSqlFile(conn, context.getResourceAsStream("/WEB-INF/setup.sql"));
+                            loaded = true;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    public static Connection getConnection() throws SQLException {
 
         Connection conn;
 
@@ -29,22 +53,12 @@ public class Database {
             try {
                 Class.forName("org.h2.Driver");
                 conn = DriverManager.
-                        getConnection("jdbc:h2:mem:test");
+                        getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
             } catch (Exception e2) {
                 System.err.println("Failed to connect to the H2 database");
                 throw new RuntimeException(e2);
             }
 
-        }
-
-        try (Statement st = conn.createStatement()) {
-
-            // if the people table doesn't exist: load the database setup script "/WEB-INF/setup.sql"
-            try {
-                st.execute("select * from people");
-            } catch (SQLException e) {
-                loadSqlFile(conn, context.getResourceAsStream("/WEB-INF/setup.sql"));
-            }
         }
 
         return conn;

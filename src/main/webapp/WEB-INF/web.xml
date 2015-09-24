@@ -1,26 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns="http://java.sun.com/xml/ns/javaee"
-xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+		 version="3.0">
+
+	<listener>
+		<listener-class>controller.ContextListener</listener-class>
+	</listener>
+
+
 	<servlet>
-		<servlet-name>Hello</servlet-name>
-		<servlet-class>org.test.HelloServlet</servlet-class>
+		<servlet-name>rest-api</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>controller.api</param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>controller.api.MenuItemResource</param-value>
+		</init-param>
 	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>rest-api</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+
 	<servlet>
-		<servlet-name>People</servlet-name>
-		<servlet-class>org.test.PeopleServlet</servlet-class>
+		<servlet-name>menu</servlet-name>
+		<servlet-class>controller.web.MenuServlet</servlet-class>
 	</servlet>
+
 	<servlet-mapping>
-		<servlet-name>Hello</servlet-name>
-		<url-pattern>/hello</url-pattern>
+		<servlet-name>menu</servlet-name>
+		<url-pattern>/menu/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>People</servlet-name>
-		<url-pattern>/people</url-pattern>
-	</servlet-mapping>
+
+
+	<filter>
+		<filter-name>disableCache</filter-name>
+		<filter-class>controller.filter.DisableCache</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>disableCache</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+
 </web-app>
