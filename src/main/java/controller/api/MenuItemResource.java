@@ -26,7 +26,7 @@ public class MenuItemResource {
     @GET
     public String getMenuItems() throws SQLException {
 
-        String query = "SELECT item.id, item.name AS name, description, price, type " +
+        String query = "SELECT item.id, item.name AS name, description, price, foodtype " +
                        "FROM item, menu, menu_item " +
                        "WHERE menu.id = menu_id AND item.id = item_id AND menu.id = (?)";
 

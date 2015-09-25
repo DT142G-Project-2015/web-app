@@ -98,4 +98,4 @@ INSERT INTO item (name, description, foodtype, price) VALUES
 INSERT INTO item (name, description, foodtype, price) VALUES 
 ('Tartar Sauce', 'mouth watering description', 0, 4.99);
 INSERT INTO item (name, description, foodtype, price) VALUES 
-('Vitlökssås', 'mouth watering description', 0, 4.99);
+('VitlÃ¶kssÃ¥s', 'gott', 0, 4.99);
