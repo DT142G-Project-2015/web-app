@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+<body>
+
+
+<div id="header">
+
+	<div id="nav">
+		
+		<div class="nav-item">Om Restaurangen</div>
+		<div class="nav-item">Boka Bord</div>
+		<div class="nav-item">Vägbeskrivning</div>
+
+	</div>
+
+</div>
+
+<div id="content">
+		<div id="logo_area">
+			<div class="logo"><img width="500" src="img/logo_new.png" /></div>
+		</div>
+	<div class="section-holder">
+
+		<div class="section-4">
+			<h3>Öppettider</h3>
+		</div>
+
+		<div class="section-4">
+			<h3>Dagens lunch</h3>
+		</div>
+
+
+
+	</div>
+
+	<div class="section">
+		<h3>Meny</h3>
+	</div>
+	<div class="section">
+		<h3>Om Anders Skafferi</h3>
+	</div>
+	<div class="section">
+		<h3>Kontakt och vägbeskrivning</h3>
+		<div id="map"></div>
+		<script>
+	      function initialize() {
+	        var mapCanvas = document.getElementById('map');
+	        var mapOptions = {
+	          center: new google.maps.LatLng(62.394099, 17.283968),
+	          zoom: 15,
+	          mapTypeId: google.maps.MapTypeId.ROADMAP
+	        }
+	        var map = new google.maps.Map(mapCanvas, mapOptions);
+	        var styles = [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-80},{"lightness":50},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}];
+
+			map.setOptions({styles: styles});
+	      }
+	      google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>
+	</div>
+
+
+
+
+</div>
+
+<div id="footer"></div>
+
+
+
+</body>
+</html>
