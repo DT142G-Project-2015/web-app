@@ -57,18 +57,26 @@ CREATE TABLE note
 	text		VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE recipt
+CREATE TABLE receipt
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT
 );
 
-CREATE TABLE recipt_item
+CREATE TABLE receipt_item
 (
 	id			INT NOT NULL AUTO_INCREMENT,
 	item_id		INT NOT NULL,
-	recipt_id	INT NOT NULL,
+	receipt_id	INT NOT NULL,
 	note_id		INT,
-	PRIMARY KEY (id, item_id, recipt_id)
+	receipt_item_group_id	INT NOT NULL,
+
+	PRIMARY KEY (id, item_id, receipt_id)
+);
+
+CREATE TABLE receipt_item_group
+(
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	status VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
@@ -76,9 +84,10 @@ ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
 ALTER TABLE menu_item ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
 ALTER TABLE menu_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE recipt_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE recipt_item ADD FOREIGN KEY (recipt_id) REFERENCES recipt(id);
-ALTER TABLE recipt_item ADD FOREIGN KEY (note_id) REFERENCES note(id);
+ALTER TABLE receipt_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
+ALTER TABLE receipt_item ADD FOREIGN KEY (receipt_id) REFERENCES receipt(id);
+ALTER TABLE receipt_item ADD FOREIGN KEY (note_id) REFERENCES note(id);
+ALTER TABLE receipt_item ADD FOREIGN KEY (receipt_item_group_id) REFERENCES receipt_item_group(id);
 
 INSERT INTO account (username, userhash, role) VALUES 
 ('root', 'toor', 0);
@@ -99,3 +108,24 @@ INSERT INTO item (name, description, foodtype, price) VALUES
 ('Tartar Sauce', 'mouth watering description', 0, 4.99);
 INSERT INTO item (name, description, foodtype, price) VALUES 
 ('Vitlökssås', 'gott', 0, 4.99);
+
+
+
+INSERT INTO receipt () VALUES ();
+INSERT INTO receipt () VALUES ();
+INSERT INTO receipt () VALUES ();
+
+INSERT INTO receipt_item_group (status) VALUES ('initial');
+INSERT INTO receipt_item_group (status) VALUES ('readyForKitchen');
+INSERT INTO receipt_item_group (status) VALUES ('done');
+
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (1, 1, NULL, 1);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (2, 2, NULL, 1);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (4, 1, NULL, 1);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (1, 2, NULL, 2);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (2, 1, NULL, 2);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (3, 1, NULL, 2);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (4, 2, NULL, 3);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (2, 1, NULL, 3);
+INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) VALUES (4, 3, NULL, 3);
+
