@@ -46,7 +46,7 @@ public class Database {
         try {
             // Attempt to connect to the mysql server
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/main_project?user=dt142g");
+            conn = DriverManager.getConnection("jdbc:mysql://db/main_project?user=dt142g&password=dt142g");
         } catch (Exception e1) {
             System.err.println("Failed to connect to MySQL, using fallback embedded H2 in-memory database");
 

@@ -12,7 +12,6 @@
 	<servlet>
 		<servlet-name>rest-api</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<load-on-startup>1</load-on-startup>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>controller.api</param-value>
@@ -21,6 +20,7 @@
 			<param-name>jersey.config.server.provider.classnames</param-name>
 			<param-value>controller.api.MenuItemResource</param-value>
 		</init-param>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -47,7 +47,7 @@
 
 	<filter-mapping>
 		<filter-name>disableCache</filter-name>
-		<url-pattern>*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 
