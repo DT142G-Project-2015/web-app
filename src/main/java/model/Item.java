@@ -7,7 +7,7 @@ public class Item {
     public String name;
     public String description;
     public BigDecimal price;
-    public int type;
+    public int foodtype;
 
     public boolean isValid() {
         return price.compareTo(new BigDecimal(0)) >= 0 &&   // TODO: Add more checks?
