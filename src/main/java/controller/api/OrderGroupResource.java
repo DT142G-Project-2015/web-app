@@ -7,12 +7,14 @@ import util.Database;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
+@Produces(MediaType.APPLICATION_JSON)
 public class OrderGroupResource {
 
     private final int orderId;
