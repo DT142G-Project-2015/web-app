@@ -27,7 +27,7 @@ public class MenuResource {
 
     }
 
-    @GET @Path("{id}")
+    @GET @Path("{id: [0-9]+}")
     public Response getMenu(@PathParam("id") String id) throws SQLException {
         try (Connection conn = Database.getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM menu WHERE id = (?)")) {
@@ -45,7 +45,7 @@ public class MenuResource {
         }
     }
 
-    @Path("{menu_id}/item")
+    @Path("{menu_id: [0-9]+}/item")
     public MenuItemResource getMenuItem(@PathParam("menu_id") String menu_id) {
         return new MenuItemResource(menu_id);
     }

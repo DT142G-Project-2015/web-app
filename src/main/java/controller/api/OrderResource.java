@@ -1,7 +1,6 @@
 package controller.api;
 
 import com.google.gson.Gson;
-import model.Item;
 import model.Order;
 import util.Database;
 import util.Utils;
@@ -10,7 +9,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +35,9 @@ public class OrderResource {
     }
 
     @GET @Path("{id: [0-9]+}")
-    public String getItem(@PathParam("id") int id) throws SQLException {
+    public Response getOrder(@PathParam("id") int id) throws SQLException {
 
-
+        // TODO: IMPORTANT: Fix Notes!
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
                      "SELECT * FROM item, receipt, receipt_item, receipt_item_group " +
@@ -48,61 +46,56 @@ public class OrderResource {
                              "AND receipt_item_group.id = receipt_item.receipt_item_group_id " +
                              "AND receipt.id = (?)")) {
 
-
-
-
             st.setInt(1, id);
-
             ResultSet rs = st.executeQuery();
-
 
             List<Map<String, Object>> rows = Utils.toList(rs);
 
-            Order order = new Order();
-            order.id = id;
+            if (rows.size() > 0) {
+
+                Order order = new Order();
+                order.id = id;
+
+                Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
+                        collect(Collectors.groupingBy(row -> row.get("receipt_item_group_id")));
+
+                Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
+                    List<Map<String, Object>> groupRows = byGroup.get(group);
+
+                    Order.Group g = new Order.Group();
+                    g.status = (String) groupRows.get(0).get("status");
+
+                    g.items = new ArrayList<Order.Item>();
+
+                    for (Map<String, Object> row : groupRows) {
+
+                        Order.Item i = new Order.Item();
+
+                        if (row.containsKey("text")) {
+                            i.note = new Order.Note();
+                            i.note.text = (String) row.get("text");
+                        }
+
+                        i.name = (String) row.get("name");
+                        i.description = (String) row.get("description");
+                        i.price = (BigDecimal) row.get("price");
+                        i.id = (Integer) row.get("item_id");
+                        i.foodtype = (Integer) row.get("foodtype");
 
 
-            Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
-                    collect(Collectors.groupingBy(row -> row.get("receipt_item_group_id")));
-
-            Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
-                List<Map<String, Object>> groupRows = byGroup.get(group);
-
-                Order.Group g = new Order.Group();
-                g.status = (String) groupRows.get(0).get("status");
-
-                g.items = new ArrayList<Order.Item>();
-
-                for (Map<String, Object> row : groupRows) {
-
-                    Order.Item i = new Order.Item();
-
-                    if (row.containsKey("text")) {
-                        i.note = new Order.Note();
-                        i.note.text = (String)row.get("text");
+                        g.items.add(i);
                     }
 
-                    i.name = (String)row.get("name");
-                    i.description = (String)row.get("description");
-                    i.price = (BigDecimal)row.get("price");
-                    i.id = (Integer)row.get("item_id");
-                    i.foodtype = (Integer)row.get("foodtype");
+                    return g;
+                });
 
+                order.groups = groups.collect(Collectors.toList());
 
-                    g.items.add(i);
-                }
-
-
-                return g;
-            });
-
-            order.groups = groups.collect(Collectors.toList());
-
-
-            return new Gson().toJson(order);
+                return Response.ok(new Gson().toJson(order)).build();
+            } else
+                return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
 
 
     int getAutoIncrementID(Statement st) throws SQLException {
@@ -110,7 +103,6 @@ public class OrderResource {
         rs.next();
         return rs.getInt(1);
     }
-
 
     int insertNote(Connection conn, String text) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO note (text) VALUES (?)",
@@ -191,6 +183,8 @@ public class OrderResource {
                 conn.commit();  // Commit Transaction
 
                 // TODO: output Id
+                //getOrder(orderId).getEntity().toString();
+
                 return Response.created(null).build();
 
             } else {
@@ -209,13 +203,9 @@ public class OrderResource {
     }
 
 
-    /*
     @Path("{id}/group")
-    public MenuItemResource getMenuItem(@PathParam("menu_id") String menu_id) {
-        return new MenuItemResource(menu_id);
-    }*/
+    public OrderGroupResource getGroup(@PathParam("id") int id) {
+        return new OrderGroupResource(id);
+    }
 
-
-
-    //TODO: PUT
 }
