@@ -2,7 +2,6 @@ package controller.api;
 
 import com.google.gson.Gson;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,7 +23,7 @@ public class MenuResource {
         try (Connection conn = Database.getConnection()) {
             try (Statement st = conn.createStatement()) {
                 ResultSet rs = st.executeQuery("SELECT * FROM menu");
-                return new Gson().toJson(Utils.toList(rs));
+                return new Gson().toJson(Database.toList(rs));
             }
         }
 
@@ -37,7 +36,7 @@ public class MenuResource {
                 st.setString(1, id);
                 ResultSet rs = st.executeQuery();
 
-                List<Map<String, Object>> menus = Utils.toList(rs);
+                List<Map<String, Object>> menus = Database.toList(rs);
 
                 if (menus.size() == 1) {
                     return Response.ok(new Gson().toJson(menus.get(0))).build();

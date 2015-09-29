@@ -3,7 +3,6 @@ package controller.api;
 import com.google.gson.Gson;
 import model.Order;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,7 +29,7 @@ public class OrderResource {
              PreparedStatement st = conn.prepareStatement(query)) {
 
             ResultSet rs = st.executeQuery();
-            return new Gson().toJson(Utils.toList(rs));
+            return new Gson().toJson(Database.toList(rs));
         }
     }
 
@@ -49,7 +48,7 @@ public class OrderResource {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
 
-            List<Map<String, Object>> rows = Utils.toList(rs);
+            List<Map<String, Object>> rows = Database.toList(rs);
 
             if (rows.size() > 0) {
 

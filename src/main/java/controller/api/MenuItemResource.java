@@ -4,7 +4,6 @@ package controller.api;
 import com.google.gson.Gson;
 import model.MenuItem;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -36,7 +35,7 @@ public class MenuItemResource {
             st.setString(1, menuId);
 
             ResultSet rs = st.executeQuery();
-            return new Gson().toJson(Utils.toList(rs));
+            return new Gson().toJson(Database.toList(rs));
         }
     }
 

@@ -1,7 +1,6 @@
 package controller.web;
 
 import util.Database;
-import util.Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,7 +49,7 @@ public class MenuServlet extends HttpServlet {
         try (Statement st = conn.createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM menu");
 
-            req.setAttribute("menus", Utils.toList(rs));
+            req.setAttribute("menus", Database.toList(rs));
             req.getRequestDispatcher("/WEB-INF/menu-list.jsp").forward(req, resp);
         }
     }
@@ -65,7 +64,7 @@ public class MenuServlet extends HttpServlet {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
 
-            List<Map<String, Object>> menus = Utils.toList(rs);
+            List<Map<String, Object>> menus = Database.toList(rs);
 
             if (menus.size() == 1) {
                 String menuName = (String)menus.get(0).get("name");

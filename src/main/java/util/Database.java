@@ -2,11 +2,8 @@ package util;
 
 import javax.servlet.ServletContext;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
+import java.sql.*;
+import java.util.*;
 
 
 public class Database {
@@ -79,6 +76,25 @@ public class Database {
                 }
             }
         }
+    }
+
+    public static List<Map<String, Object>> toList(ResultSet rs) throws SQLException {
+
+        List<Map<String, Object>> rows = new ArrayList<>();
+
+        while (rs.next()) {
+            ResultSetMetaData md = rs.getMetaData();
+            int numColumns = md.getColumnCount();
+
+            Map<String, Object> currentRow = new HashMap<>();
+
+            for (int i = 1; i <= numColumns; i++) {
+                currentRow.put(md.getColumnLabel(i).toLowerCase(), rs.getObject(i));
+            }
+            rows.add(currentRow);
+        }
+
+        return rows;
     }
 
 }
