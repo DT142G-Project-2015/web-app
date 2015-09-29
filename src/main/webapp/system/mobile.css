@@ -1,0 +1,82 @@
+/*
+colors:
+	main: #fff
+	accent: #def
+	shadows/borders: #ccc
+
+shadows:
+	box-shadow: 0 2px 4px #ccc;
+
+*/
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-family: Arial, Verdana;
+	font-size: 20px;
+	color: #222;
+	background: #f1f0f0
+}
+
+h1{
+	padding: 12px;
+	background: #def;
+	font-weight: normal;
+	font-size: 24px;
+}
+
+a{
+	text-decoration: none;
+	color: #222;
+}
+
+#header{
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	width: 100%;
+	height: 80px;
+	border-top: 8px solid #def;
+	background: #fff;
+	box-shadow: 0 2px 4px #ccc;
+}
+
+#nav{
+	width: 100%;
+	height: 80px;
+	float: right;
+	background: #fff;
+}
+
+.nav-item{
+	width: 20%;
+	height: 42px;
+	padding-top: 30px;
+	float: left;
+	text-align: center;
+	background: #fff;
+}
+.nav-item:hover{
+	cursor: pointer;
+	border-bottom: 8px solid #def;
+}
+
+#content{
+	margin-top: 80px;
+	padding-top: 20px;
+}
+
+.section, .section2, .section3{
+	background: #fff;
+	border-top: 8px solid #def;
+	box-shadow: 0 2px 4px #ccc;
+	min-height: 100px;
+}
+
+.section, .section2, .section3{
+	margin: 20px 2%;
+	min-height: 100px;
+}
