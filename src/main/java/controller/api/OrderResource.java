@@ -19,17 +19,77 @@ import java.util.stream.Stream;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderResource {
 
+    // Convers a group of rows into an Order object
+    private static Order parseRows(List<Map<String, Object>> rows)  {
+
+        Order order = new Order();
+        order.id = (Integer)rows.get(0).get("receipt_id");
+
+        Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
+                collect(Collectors.groupingBy(row -> row.get("receipt_item_group_id")));
+
+        Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
+            List<Map<String, Object>> groupRows = byGroup.get(group);
+
+            Order.Group g = new Order.Group();
+            g.status = (String) groupRows.get(0).get("status");
+
+            g.items = new ArrayList<Order.Item>();
+
+            for (Map<String, Object> row : groupRows) {
+
+                Order.Item i = new Order.Item();
+
+                if (row.containsKey("text")) {
+                    i.note = new Order.Note();
+                    i.note.text = (String) row.get("text");
+                }
+
+                i.name = (String) row.get("name");
+                i.description = (String) row.get("description");
+                i.price = (BigDecimal) row.get("price");
+                i.id = (Integer) row.get("item_id");
+                i.foodtype = (Integer) row.get("foodtype");
+
+                g.items.add(i);
+            }
+
+            return g;
+        });
+
+        order.groups = groups.collect(Collectors.toList());
+
+        return order;
+    }
+
+
     @GET
     public String getOrders() throws SQLException {
 
-
-        String query = "SELECT * FROM receipt";
+        // TODO: IMPORTANT: Fix Notes!
+        String query = "SELECT * FROM item, receipt, receipt_item, receipt_item_group " +
+                "WHERE item.id = receipt_item.item_id " + //AND note.id = receipt_item.note_id " +
+                "AND receipt.id = receipt_item.receipt_id " +
+                "AND receipt_item_group.id = receipt_item.receipt_item_group_id";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
 
             ResultSet rs = st.executeQuery();
-            return new Gson().toJson(Database.toList(rs));
+            List<Map<String, Object>> rows = Database.toList(rs);
+
+            // group rows by order id
+            Map<Object, List<Map<String, Object>>> byId = rows.stream()
+                    .collect(Collectors.groupingBy(row -> row.get("receipt_id")));
+
+            // convert each group of rows into an Order object
+            Stream<Order> orders = byId.keySet().stream().map(id -> {
+                List<Map<String, Object>> rowsForId = byId.get(id);
+
+                return parseRows(rowsForId);
+            });
+
+            return new Gson().toJson(orders.collect(Collectors.toList()));
         }
     }
 
@@ -52,43 +112,7 @@ public class OrderResource {
 
             if (rows.size() > 0) {
 
-                Order order = new Order();
-                order.id = id;
-
-                Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
-                        collect(Collectors.groupingBy(row -> row.get("receipt_item_group_id")));
-
-                Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
-                    List<Map<String, Object>> groupRows = byGroup.get(group);
-
-                    Order.Group g = new Order.Group();
-                    g.status = (String) groupRows.get(0).get("status");
-
-                    g.items = new ArrayList<Order.Item>();
-
-                    for (Map<String, Object> row : groupRows) {
-
-                        Order.Item i = new Order.Item();
-
-                        if (row.containsKey("text")) {
-                            i.note = new Order.Note();
-                            i.note.text = (String) row.get("text");
-                        }
-
-                        i.name = (String) row.get("name");
-                        i.description = (String) row.get("description");
-                        i.price = (BigDecimal) row.get("price");
-                        i.id = (Integer) row.get("item_id");
-                        i.foodtype = (Integer) row.get("foodtype");
-
-
-                        g.items.add(i);
-                    }
-
-                    return g;
-                });
-
-                order.groups = groups.collect(Collectors.toList());
+                Order order = parseRows(rows);
 
                 return Response.ok(new Gson().toJson(order)).build();
             } else
