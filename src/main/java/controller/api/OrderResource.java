@@ -1,8 +1,10 @@
 package controller.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Order;
 import util.Database;
+import util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -64,7 +66,7 @@ public class OrderResource {
 
 
     @GET
-    public String getOrders() throws SQLException {
+    public String getOrders(@QueryParam("status") String status) throws SQLException {
 
         // TODO: IMPORTANT: Fix Notes!
         String query = "SELECT * FROM item, receipt, receipt_item, receipt_item_group " +
@@ -72,8 +74,16 @@ public class OrderResource {
                 "AND receipt.id = receipt_item.receipt_id " +
                 "AND receipt_item_group.id = receipt_item.receipt_item_group_id";
 
+        if (status != null)
+            query += " AND receipt_item_group.status = (?)";
+
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
+
+            if (status != null)
+                st.setString(1, status);
+
+
 
             ResultSet rs = st.executeQuery();
             List<Map<String, Object>> rows = Database.toList(rs);
@@ -89,7 +99,8 @@ public class OrderResource {
                 return parseRows(rowsForId);
             });
 
-            return new Gson().toJson(orders.collect(Collectors.toList()));
+
+            return Utils.toJson(orders.collect(Collectors.toList()));
         }
     }
 
@@ -114,7 +125,7 @@ public class OrderResource {
 
                 Order order = parseRows(rows);
 
-                return Response.ok(new Gson().toJson(order)).build();
+                return Response.ok(Utils.toJson(order)).build();
             } else
                 return Response.status(Response.Status.NOT_FOUND).build();
         }
