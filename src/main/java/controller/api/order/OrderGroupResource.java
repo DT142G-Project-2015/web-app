@@ -1,4 +1,4 @@
-package controller.api;
+package controller.api.order;
 
 import com.google.gson.Gson;
 import model.OrderGroup;

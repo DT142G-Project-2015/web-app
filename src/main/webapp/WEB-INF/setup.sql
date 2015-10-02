@@ -33,12 +33,6 @@ CREATE TABLE menu
 	stopdate	DATE NOT NULL
 );
 
-CREATE TABLE menu_item
-(
-	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	item_id		INT NOT NULL
-);
-
 CREATE TABLE menu_group
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -48,15 +42,15 @@ CREATE TABLE menu_group
 
 CREATE TABLE menu_group_item
 (
-	menu_item_id	INT NOT NULL,
+	item_id			INT NOT NULL,
 	menu_group_id	INT NOT NULL,
-	PRIMARY KEY (menu_item_id, menu_group_id)
+	PRIMARY KEY (item_id, menu_group_id)
 );
 
-ALTER TABLE menu_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
+-- ALTER TABLE menu_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
 ALTER TABLE menu_group ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
 
-ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_item_id) REFERENCES menu_item(id);
+ALTER TABLE menu_group_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
 ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_group_id) REFERENCES menu_group(id);
 
 -- ############

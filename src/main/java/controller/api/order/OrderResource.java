@@ -1,7 +1,6 @@
-package controller.api;
+package controller.api.order;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import model.Order;
 import util.Database;
 import util.Utils;
