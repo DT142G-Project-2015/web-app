@@ -54,21 +54,14 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 	<div id="header">
 		<div id="nav">
 			<a class="nav-item" href="index.htm">Överblick</a>
-			<a class="nav-item active" href="arbetspass.htm">Arbetspass</a>
-			<a class="nav-item" href="meny.htm">Meny</a>
-			<a class="nav-item" href="lager.htm">Lager</a>
+			<a class="nav-item active" href="staff.htm">Arbetspass</a>
+			<a class="nav-item" href="menu.htm">Meny</a>
+			<a class="nav-item" href="inventory.htm">Lager</a>
 			<a class="nav-item" href="login.htm">Logga ut</a>
 		</div>
 	</div>
 
 	<div id="content">
-
-		<div class="section">
-			<h1>Hantera personal</h1>
-			<div id="staff-list">
-
-			</div>
-		</div>
 
 		<div class="section">
 			<div id="schedule-holder">
@@ -112,6 +105,47 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 
 			</div>
 		</div>
+
+		<div class="section">
+			<h1>Hantera personal</h1>
+			<div id="staff-sidebar">
+				<div id="add-staff">
+					Användarnamn:<br>
+					<input id="username" type="text"><br>
+					Lösenord:<br>
+					<input id="password" type="password"><br>
+					Repetera lösenord:<br>
+					<input id="password-repeat" type="password">
+				</div>
+			</div><div id="staff-content">
+			<div id="staff-list">
+				<table>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+					<tr>
+						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</div>
+
 	</div>
 	<script src="../jquery-1.11.3.min.js"></script>
 	<script src="js/staff.js"></script>
