@@ -20,40 +20,72 @@ import java.util.stream.Stream;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderResource {
 
-    // Convers a group of rows into an Order object
+    // Converts a group of rows into an Order object
     private static Order parseRows(List<Map<String, Object>> rows)  {
 
         Order order = new Order();
         order.id = (Integer)rows.get(0).get("receipt_id");
 
         Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
-                collect(Collectors.groupingBy(row -> row.get("receipt_item_group_id")));
+                collect(Collectors.groupingBy(row -> row.get("receipt_group_id")));
 
         Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
             List<Map<String, Object>> groupRows = byGroup.get(group);
 
             Order.Group g = new Order.Group();
             g.status = (String) groupRows.get(0).get("status");
+            g.id = (Integer) groupRows.get(0).get("receipt_group_id");
 
             g.items = new ArrayList<Order.Item>();
 
-            for (Map<String, Object> row : groupRows) {
+            Map<Object, List<Map<String, Object>>> byItem = groupRows.stream().
+                    collect(Collectors.groupingBy(row -> row.get("item_id")));
+
+            Stream<Order.Item> items = byItem.keySet().stream().map(item -> {
+                List<Map<String, Object>> itemRows = byItem.get(item);
 
                 Order.Item i = new Order.Item();
 
-                if (row.containsKey("text")) {
-                    i.note = new Order.Note();
-                    i.note.text = (String) row.get("text");
-                }
+
+                Map<String, Object> row = itemRows.get(0);
 
                 i.name = (String) row.get("name");
                 i.description = (String) row.get("description");
                 i.price = (BigDecimal) row.get("price");
                 i.id = (Integer) row.get("item_id");
-                i.foodtype = (Integer) row.get("foodtype");
+                i.type = (Integer) row.get("type");
 
+                i.subItems = new ArrayList<Order.SubItem>();
+
+                for (Map<String, Object> r : itemRows) {
+
+
+                    if (r.get("sub_id") != null) {
+
+                        Order.SubItem sub = new Order.SubItem();
+                        /*if (row.containsKey("text")) {
+                        i.note = new Order.Note();
+                        i.note.text = (String) row.get("text");
+                         }*/
+                        sub.name = (String) r.get("sub_name");
+                        sub.description = (String) r.get("sub_description");
+                        sub.price = (BigDecimal) r.get("sub_price");
+                        sub.id = (Integer) r.get("sub_id");
+                        sub.type = (Integer) r.get("sub_type");
+
+                        i.subItems.add(sub);
+                    }
+                }
+                /*if (row.containsKey("text")) {
+                    i.note = new Order.Note();
+                    i.note.text = (String) row.get("text");
+                }*/
                 g.items.add(i);
-            }
+
+                return i;
+            });
+
+            g.items = items.collect(Collectors.toList());
 
             return g;
         });
@@ -63,26 +95,64 @@ public class OrderResource {
         return order;
     }
 
+/*  // Saved for Nick
+    List<Map<String, Object>> singleTableQuery(Connection conn, String q, Object parameter) throws SQLException {
+
+        try (PreparedStatement st = conn.prepareStatement(q)) {
+
+            if (parameter != null)
+                st.setInt(1, (Integer)parameter);
+
+            ResultSet rs = st.executeQuery();
+            return Database.toList(rs);
+        }
+    }
+
+    try (Connection conn = Database.getConnection()) {
+        for (Map<String, Object> order : singleTableQuery(conn, "SELECT * FROM receipt", null)) {
+            for (Map<String, Object> group : singleTableQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
+                for (Map<String, Object> gItem : singleTableQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
+
+                }
+            }
+        }
+    }
+*/
+
+    private static String getOrdersQuery = "SELECT * " +
+            "FROM item I, " +
+            "receipt_group RG, receipt_group_item RGI, receipt R, receipt_item RI  " +
+
+            "LEFT JOIN " +
+            "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
+            "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
+            "I2.id AS sub_id " +
+            "FROM item I2, receipt_item RI2, receipt_item_item RII " +
+            "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) " +
+            "ON dom_receipt_item_id = RI.id " +
+
+            "WHERE I.id = RI.item_id " +
+            "AND RG.id = RGI.receipt_group_id " +
+            "AND RG.receipt_id = R.id " +
+            "AND RGI.receipt_item_id = RI.id ";
 
     @GET
     public String getOrders(@QueryParam("status") String status) throws SQLException {
 
         // TODO: IMPORTANT: Fix Notes!
-        String query = "SELECT * FROM item, receipt, receipt_item, receipt_item_group " +
-                "WHERE item.id = receipt_item.item_id " + //AND note.id = receipt_item.note_id " +
-                "AND receipt.id = receipt_item.receipt_id " +
-                "AND receipt_item_group.id = receipt_item.receipt_item_group_id";
+
+        String query = getOrdersQuery;
 
         if (status != null)
             query += " AND receipt_item_group.status = (?)";
 
+
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
 
+
             if (status != null)
                 st.setString(1, status);
-
-
 
             ResultSet rs = st.executeQuery();
             List<Map<String, Object>> rows = Database.toList(rs);
@@ -98,22 +168,19 @@ public class OrderResource {
                 return parseRows(rowsForId);
             });
 
-
             return Utils.toJson(orders.collect(Collectors.toList()));
         }
+
     }
 
     @GET @Path("{id: [0-9]+}")
     public Response getOrder(@PathParam("id") int id) throws SQLException {
 
+        String query = getOrdersQuery + " AND R.id = (?)";
+
         // TODO: IMPORTANT: Fix Notes!
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(
-                     "SELECT * FROM item, receipt, receipt_item, receipt_item_group " +
-                     "WHERE item.id = receipt_item.item_id " + //AND note.id = receipt_item.note_id " +
-                             "AND receipt.id = receipt_item.receipt_id " +
-                             "AND receipt_item_group.id = receipt_item.receipt_item_group_id " +
-                             "AND receipt.id = (?)")) {
+             PreparedStatement st = conn.prepareStatement(query)) {
 
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();

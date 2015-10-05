@@ -169,9 +169,14 @@ INSERT INTO account (username, userhash, role) VALUES
 INSERT INTO account (username, userhash, role) VALUES 
 ('waitress', 'tipme', 2);
 
--- INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch');
+INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch', NOW(), NOW());
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
+
+INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
+
+
+
 
 INSERT INTO item (name, description, type, price) VALUES
 ('Beef Stew', 'mouth watering description', 0, 79.99);
@@ -181,6 +186,14 @@ INSERT INTO item (name, description, type, price) VALUES
 ('Tartar Sauce', 'mouth watering description', 0, 4.99);
 INSERT INTO item (name, description, type, price) VALUES
 ('Vitlökssås', 'gott', 0, 4.99);
+INSERT INTO item (name, description, type, price) VALUES
+('Kanelbulle', 'bäst', 0, 35);
+
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 1);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 3);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
 
 INSERT INTO receipt () VALUES ();
 INSERT INTO receipt () VALUES ();
@@ -193,7 +206,13 @@ INSERT INTO receipt_group (status, receipt_id) VALUES ('done', 3);
 INSERT INTO receipt_item (item_id) VALUES (1);
 INSERT INTO receipt_item (item_id) VALUES (2);
 INSERT INTO receipt_item (item_id) VALUES (2);
+INSERT INTO receipt_item (item_id) VALUES (4);
+INSERT INTO receipt_item (item_id) VALUES (1);
+
+
+INSERT INTO receipt_item_item VALUES (2, 4);
 
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (1, 1);
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (2, 2);
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (3, 3);
+INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (5, 2);

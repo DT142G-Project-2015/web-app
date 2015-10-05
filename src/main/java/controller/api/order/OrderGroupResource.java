@@ -1,7 +1,7 @@
 package controller.api.order;
 
 import com.google.gson.Gson;
-import model.OrderGroup;
+import model.Order;
 import util.Database;
 
 import javax.ws.rs.PUT;
@@ -30,7 +30,7 @@ public class OrderGroupResource {
                      "UPDATE receipt_item_group SET status = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
-            OrderGroup group = gson.fromJson(postData, OrderGroup.class);
+            Order.Group group = gson.fromJson(postData, Order.Group.class);
 
 
             st.setString(1, group.status);

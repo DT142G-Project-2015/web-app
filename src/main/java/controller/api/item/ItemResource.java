@@ -3,6 +3,7 @@ package controller.api.item;
 import com.google.gson.Gson;
 import model.Item;
 import util.Database;
+import util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,7 +30,7 @@ public class ItemResource {
                 st.setString(1, excludeMenuId);
 
             ResultSet rs = st.executeQuery();
-            return new Gson().toJson(Database.toList(rs));
+            return Utils.toJson(Database.toList(rs));
         }
     }
 

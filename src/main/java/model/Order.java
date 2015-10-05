@@ -12,9 +12,15 @@ public class Order {
 
     public static class Item extends model.Item {
         public Note note;
+        public List<SubItem> subItems;
+    }
+
+    public static class SubItem extends model.Item {
+        public Note note;
     }
 
     public static class Group {
+        public int id;
         public List<Item> items;
         public String status;
     }
