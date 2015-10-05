@@ -24,7 +24,7 @@ body{
 h1{
 	padding: 8px;
 	background: #def;
-	font-weight: normal;
+	font-weight: bold;
 	font-size: 16px;
 }
 
@@ -33,9 +33,21 @@ a{
 	color: #222;
 }
 
+input[type="text"], input[type="password"]{
+	padding: 8px;
+	border: 2px solid #def;
+	border-radius: 4px;
+	margin: 4px 0;
+}
+
 table {
 	width: 100%;
 	border-collapse:collapse;
+}
+
+tr:first-child{
+	font-weight: bold;
+	border-bottom: 2px solid #def;
 }
 
 tr:nth-child(even){
@@ -44,6 +56,21 @@ tr:nth-child(even){
 
 td{
 	padding: 8px;
+}
+
+.button{
+	margin: 4px;
+	padding: 4px;
+	border: 2px solid #def;
+	border-radius: 4px;
+	background: #f1f0f0;
+	transition: all 0.2s;
+	font-size: 14px;
+}
+
+.button:hover{
+	background: #fff;
+	cursor: pointer;
 }
 
 #header{
@@ -136,11 +163,6 @@ td{
 	font-size: 12px;
 }
 
-#login-content input[type="text"], #login-content input[type="password"]{
-	padding: 8px;
-	border: 1px solid #ccc;
-}
-
 #login-content a{
 	display: block;
 	float: right;
@@ -154,18 +176,21 @@ td{
 	background: #def;
 }
 
-#add-staff-holder{
+#staff-sidebar{
 	display: inline-block;
-	width: 30%;
-	height: 200px;
-	background: #f00;
+	vertical-align: top;
+	width: 20%;
+	box-shadow: inset -4px 0 0 #def;
 }
 
-#staff-list-holder{
+#staff-content{
 	display: inline-block;
-	width: 70%;
-	height: 200px;
-	background: #0f0;
+	vertical-align: top;
+	width: 80%;
+}
+
+#add-staff{
+	padding: 20px;
 }
 
 #schedule-holder{
