@@ -39,6 +39,12 @@
 		<url-pattern>/menu/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>staff</servlet-name>
+		<url-pattern>/staff/*</url-pattern>
+	</servlet-mapping>
+
+
 
 	<filter>
 		<filter-name>disableCache</filter-name>
