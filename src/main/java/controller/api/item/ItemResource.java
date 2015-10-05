@@ -1,4 +1,4 @@
-package controller.api;
+package controller.api.item;
 
 import com.google.gson.Gson;
 import model.Item;
