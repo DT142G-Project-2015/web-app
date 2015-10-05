@@ -89,17 +89,15 @@ td{
 	background: #fff;
 	border-top: 8px solid #def;
 	box-shadow: 0 2px 4px #ccc;
-	min-height: 200px;
+	clear: both;
 }
 
 .section-holder{
 	margin: 20px 2%;
-	min-height: 200px;
 }
 
 .section{
 	margin: 20px 2%;
-	min-height: 200px;
 }
 
 .section2{
@@ -154,6 +152,20 @@ td{
 
 #login-content a:hover{
 	background: #def;
+}
+
+#add-staff-holder{
+	display: inline-block;
+	width: 30%;
+	height: 200px;
+	background: #f00;
+}
+
+#staff-list-holder{
+	display: inline-block;
+	width: 70%;
+	height: 200px;
+	background: #0f0;
 }
 
 #schedule-holder{
