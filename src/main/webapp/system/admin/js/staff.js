@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     getStaff();
-
+    alert();
     function getStaff() {
 
         $.ajax({
@@ -13,6 +13,4 @@ $(document).ready(function(){
             alert(data);
 
         });
-    }
-
 });
