@@ -38,7 +38,7 @@ public class ItemResource {
     public Response addItem(String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
             PreparedStatement st = conn.prepareStatement(
-                    "INSERT INTO item (name, description, price, foodtype) VALUES ((?), (?), (?), (?))",
+                    "INSERT INTO item (name, description, price, type) VALUES ((?), (?), (?), (?))",
                      Statement.RETURN_GENERATED_KEYS)) {
 
             Gson gson = new Gson();
@@ -49,7 +49,7 @@ public class ItemResource {
                 st.setString(1, item.name);
                 st.setString(2, item.description);
                 st.setBigDecimal(3, item.price);
-                st.setInt(4, 0);
+                st.setInt(4, item.type);
                 st.executeUpdate();
 
                 // get the ID that was genereated by auto increment

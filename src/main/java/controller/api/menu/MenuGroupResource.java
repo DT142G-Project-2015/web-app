@@ -25,7 +25,7 @@ public class MenuGroupResource  {
     public String getGroups() throws SQLException {
 
         try (Connection conn = Database.getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement("SELECT (id, name) FROM menu_group WHERE menu_id = (?)")) {
+            try (PreparedStatement st = conn.prepareStatement("SELECT id, name FROM menu_group WHERE menu_id = (?)")) {
                 st.setInt(1, menuId);
                 ResultSet rs = st.executeQuery();
                 return Utils.toJson(Database.toList(rs));

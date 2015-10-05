@@ -176,8 +176,6 @@ INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch', NOW(), NOW());
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
 
 
-
-
 INSERT INTO item (name, description, type, price) VALUES
 ('Beef Stew', 'mouth watering description', 0, 79.99);
 INSERT INTO item (name, description, type, price) VALUES

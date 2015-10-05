@@ -21,8 +21,8 @@ public class Order {
 
     public static class Group {
         public int id;
-        public List<Item> items;
         public String status;
+        public List<Item> items;
     }
 
     public int id;

@@ -259,9 +259,6 @@ public class OrderResource {
     @POST
     public Response addOrder(String postData) throws SQLException {
 
-        System.out.println(postData);
-
-
         Connection conn = null;
         try {
             conn = Database.getConnection();
