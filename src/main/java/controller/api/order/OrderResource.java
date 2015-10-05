@@ -144,7 +144,7 @@ public class OrderResource {
         String query = getOrdersQuery;
 
         if (status != null)
-            query += " AND receipt_item_group.status = (?)";
+            query += " AND RG.status = (?)";
 
 
         try (Connection conn = Database.getConnection();
@@ -213,10 +213,11 @@ public class OrderResource {
         return getAutoIncrementID(st);
     }
 
-    int insertGroup(Connection conn, String status) throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_item_group (status) VALUES (?)",
+    int insertGroup(Connection conn, String status, int orderId) throws SQLException {
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_group (status, receipt_id) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
         st.setString(1, status);
+        st.setInt(2, orderId);
         st.executeUpdate();
 
         return getAutoIncrementID(st);
@@ -230,31 +231,37 @@ public class OrderResource {
         return getAutoIncrementID(st);
     }
 
-    int insertItem(Connection conn, int itemId, int orderId, Integer noteId, int groupId)
+    int insertItem(Connection conn, int itemId)
             throws SQLException {
-        PreparedStatement st = conn.prepareStatement(
-                "INSERT INTO receipt_item (item_id, receipt_id, note_id, receipt_item_group_id) " +
-                "VALUES ((?), (?), (?), (?))",
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_item (item_id) VALUES ((?))",
                 Statement.RETURN_GENERATED_KEYS);
 
 
         st.setInt(1, itemId);
-        st.setInt(2, orderId);
-
-        if (noteId == null)
-            st.setNull(3, Types.INTEGER);
-        else
-            st.setInt(3, noteId);
-
-        st.setInt(4, groupId);
 
         st.executeUpdate();
 
         return getAutoIncrementID(st);
     }
 
+    void insertGroupItem(Connection conn, int orderItemId, int groupId)
+            throws SQLException {
+        PreparedStatement st = conn.prepareStatement(
+                "INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) " +
+                "VALUES ((?), (?))");
+
+        st.setInt(1, orderItemId);
+        st.setInt(2, groupId);
+
+        st.executeUpdate();
+    }
+
     @POST
     public Response addOrder(String postData) throws SQLException {
+
+        System.out.println(postData);
+
+
         Connection conn = null;
         try {
             conn = Database.getConnection();
@@ -265,27 +272,29 @@ public class OrderResource {
 
             if (order.isValidPost()) {
 
-                int orderId = insertOrder(conn);
+                order.id = insertOrder(conn);
+                
                 for (Order.Group g : order.groups) {
 
-                    int groupId = insertGroup(conn, g.status);
+                    int groupId = insertGroup(conn, g.status, order.id);
                     for (Order.Item i : g.items) {
-
+                        
+                        /*
                         Integer noteId = null;
                         if (i.note != null) {
                             noteId = insertNote(conn, i.note.text);
-                        }
-
-                        insertItem(conn, i.id, orderId, noteId, groupId);
+                        }*/
+                        int orderItemId = insertItem(conn, i.id);
+                        
+                        insertGroupItem(conn, orderItemId, groupId);
                     }
                 }
 
                 conn.commit();  // Commit Transaction
 
-                // TODO: output Id
-                //getOrder(orderId).getEntity().toString();
+                model.Response response = new model.Response("created", order.id);
 
-                return Response.created(null).build();
+                return Response.ok(Utils.toJson(response)).build();
 
             } else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
