@@ -5,7 +5,7 @@ $(document).ready(function(){
     function getStaff() {
 
         $.ajax({
-            url: '../api/staff',
+            url: '../../api/staff',
             type: 'GET',
             dataType: 'json'
         }).done(function(data) {
