@@ -2,7 +2,6 @@ $(document).ready(function(){
 
     getStaff();
 
-
     function getStaff() {
 
         $.ajax({
