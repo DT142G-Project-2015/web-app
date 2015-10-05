@@ -38,11 +38,11 @@ public class OrderResource {
 
             g.items = new ArrayList<Order.Item>();
 
-            Map<Object, List<Map<String, Object>>> byItem = groupRows.stream().
-                    collect(Collectors.groupingBy(row -> row.get("item_id")));
+            Map<Object, List<Map<String, Object>>> byGroupItem = groupRows.stream().
+                    collect(Collectors.groupingBy(row -> row.get("receipt_item_id") + ":" + row.get("receipt_group_id")));
 
-            Stream<Order.Item> items = byItem.keySet().stream().map(item -> {
-                List<Map<String, Object>> itemRows = byItem.get(item);
+            Stream<Order.Item> items = byGroupItem.keySet().stream().map(item -> {
+                List<Map<String, Object>> itemRows = byGroupItem.get(item);
 
                 Order.Item i = new Order.Item();
 
