@@ -2,6 +2,45 @@
 
 
 <html>
+
+
+<!--CREATE TABLE account
+(
+id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+username	VARCHAR(255) NOT NULL,
+userhash	VARCHAR(255) NOT NULL,
+role		INT NOT NULL
+);
+
+CREATE TABLE employee
+(
+account_id	INT NOT NULL PRIMARY KEY NOT NULL,
+first_name	VARCHAR(255) NOT NULL,
+last_name	VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE shift
+(
+id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+minimum		INT NOT NULL,
+maximum		INT NOT NULL,
+startdate	DATE NOT NULL,
+stopdate	DATE NOT NULL
+);
+
+CREATE TABLE schedule
+(
+shift_id	INT NOT NULL,
+account_id	INT NOT NULL,
+PRIMARY KEY	(account_id, shift_id)
+);
+
+ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
+ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
+ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
+
+
+
 <head>
 	<meta charset="UTF-8">
 	<title>Antons Skafferi - inloggad</title>
@@ -23,6 +62,14 @@
 	</div>
 
 	<div id="content">
+
+		<div class="section">
+			<h1>Hantera personal</h1>
+			<div id="staff-list">
+
+			</div>
+		</div>
+
 		<div class="section">
 			<div id="schedule-holder">
 					<div>
@@ -66,6 +113,7 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="../jquery-1.11.3.min.js"></script>
+	<script src="js/staff.js"></script>
 </body>
 </html>
