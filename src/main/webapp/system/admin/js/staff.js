@@ -10,8 +10,8 @@ $(document).ready(function(){
             dataType: 'json'
         }).done(function(data){
 
-            $.each(data, function(i, staff){
-                alert(staff[i].username);
+            $.each(data, function(staff){
+                alert(staff.username);
             });
 
         });
