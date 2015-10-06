@@ -146,11 +146,12 @@ td{
 }
 
 #login-holder{
+	border-radius: 10px;
 	position: absolute;
 	top: 40%;
 	left: 50%;
-	width: 200px;
-	height: 220px;
+	width: 225px;
+	height: 240px;
 	margin-top: -110px;
 	margin-left: -100px;
 	background: #fff;
@@ -235,4 +236,33 @@ td{
 
 .time-interval.booked{
 	cursor: not-allowed;
+<<<<<<< HEAD
+	box-shadow: inset 4px 0 0 #900;
+}
+
+/* Style for the inventory.*/
+.inventory-list {
+}
+.inventory-list h4 {
+	padding:10px;
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.inventory-list-menu{
+	display: inline-block;
+	font-weight:bold;
+	width:18%;
+	padding:10px;
+}
+
+.inventory-list-item{
+	display: inline-block;
+	width:18%;
+	padding:10px;
+}
+/* End styling of the inventory. */
+=======
 	box-shadow: inset 4px 
+>>>>>>> 97e715e7243fa54d689bd39de0cfa6a1fcfd6fc2
