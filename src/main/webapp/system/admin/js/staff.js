@@ -11,7 +11,7 @@ $(document).ready(function(){
         }).done(function(data){
 
             $.each(data, function(staff){
-                alert(JSON.stringify(staff));
+                alert(JSON.stringify(staff[0].username));
             });
 
         });
