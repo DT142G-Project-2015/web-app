@@ -8,9 +8,11 @@ $(document).ready(function(){
             url: '../../api/staff',
             type: 'GET',
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function(data){
 
-            alert(data.username);
+            data.forEach(function(staff){
+                alert(staff);
+            });
 
         });
     }
