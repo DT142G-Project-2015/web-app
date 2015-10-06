@@ -2,6 +2,7 @@ package controller.api.order;
 
 import com.google.gson.Gson;
 import model.Order;
+import model.UpdateMessage;
 import util.Database;
 import util.Utils;
 
@@ -289,9 +290,9 @@ public class OrderResource {
 
                 conn.commit();  // Commit Transaction
 
-                model.Response response = new model.Response("created", order.id);
+                UpdateMessage msg = new UpdateMessage("created", order.id);
 
-                return Response.ok(Utils.toJson(response)).build();
+                return Response.ok(Utils.toJson(msg)).build();
 
             } else {
                 return Response.status(Response.Status.BAD_REQUEST).build();

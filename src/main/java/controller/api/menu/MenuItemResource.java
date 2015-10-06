@@ -2,7 +2,8 @@ package controller.api.menu;
 
 
 import com.google.gson.Gson;
-import model.MenuItem;
+import model.IdHolder;
+import model.UpdateMessage;
 import util.Database;
 import util.Utils;
 
@@ -28,9 +29,9 @@ public class MenuItemResource {
     @GET
     public String getMenuItems() throws SQLException {
 
-        String query = "SELECT item.id, item.name AS name, description, price, type " +
-                       "FROM item, menu, menu_group, menu_group_item " +
-                       "WHERE menu.id = menu_id AND item.id = item_id AND menu.id = (?)";
+        String query = "SELECT I.id, I.name, I.description, I.price, I.type " +
+                       "FROM item I, menu, menu_group, menu_group_item " +
+                       "WHERE menu.id = menu_id AND I.id = item_id AND menu.id = (?)";
 
 
         try (Connection conn = Database.getConnection();
@@ -50,7 +51,7 @@ public class MenuItemResource {
             st.setInt(2, id);
 
             st.executeUpdate();
-            return Response.ok().build();
+            return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
         }
     }
 
@@ -62,14 +63,13 @@ public class MenuItemResource {
 
             Gson gson = new Gson();
 
-            MenuItem menuItem = gson.fromJson(postData, MenuItem.class);
-
+            IdHolder idHolder = gson.fromJson(postData, IdHolder.class);
 
             st.setInt(1, groupId);
-            st.setInt(2, menuItem.item_id);
+            st.setInt(2, idHolder.id);
             st.executeUpdate();
 
-            return Response.created(null).build();
+            return Response.ok(new UpdateMessage("created", idHolder.id).toJson()).build();
         }
     }
 

@@ -2,8 +2,8 @@ package controller.api.order;
 
 import com.google.gson.Gson;
 import model.Order;
+import model.UpdateMessage;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -38,9 +38,9 @@ public class OrderGroupResource {
             st.setInt(2, id);
             st.executeUpdate();
 
-            model.Response msg = new model.Response("updated", 7);
+            UpdateMessage msg = new UpdateMessage("updated", 7);
 
-            return Response.ok(Utils.toJson(msg)).build();
+            return Response.ok(msg.toJson()).build();
         }
     }
 }

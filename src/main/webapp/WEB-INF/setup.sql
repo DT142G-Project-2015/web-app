@@ -202,6 +202,8 @@ INSERT INTO item (name, description, type, price) VALUES
 INSERT INTO item (name, description, type, price) VALUES
 ('Kanelbulle', 'bäst', 0, 35);
 
+INSERT INTO item_item VALUES (2, 4);
+
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 1);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 3);
