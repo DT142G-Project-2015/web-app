@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     getStaff();
-    alert();
+
     function getStaff() {
 
         $.ajax({
@@ -10,7 +10,7 @@ $(document).ready(function(){
             dataType: 'json'
         }).done(function(data) {
 
-            alert(data);
+            alert(data.username);
 
         });
     }
