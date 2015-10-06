@@ -35,7 +35,6 @@ public class Database {
 
     }
 
-
     public static Connection getConnection() throws SQLException {
 
         Connection conn;
@@ -97,4 +96,28 @@ public class Database {
         return rows;
     }
 
+    public static int getAutoIncrementID(Statement st) throws SQLException {
+        ResultSet rs = st.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
+    }
+
+    public static List<Map<String, Object>> singleTableQuery(Connection conn, String q, Integer parameter) throws SQLException {
+
+        try (PreparedStatement st = conn.prepareStatement(q)) {
+
+            if (parameter != null)
+                st.setInt(1, parameter);
+
+            ResultSet rs = st.executeQuery();
+            return Database.toList(rs);
+        }
+    }
+
+    public static List<Map<String, Object>> singleTableQuery(String q, Integer parameter) throws SQLException {
+
+        try (Connection conn = getConnection()) {
+            return singleTableQuery(conn, q, parameter);
+        }
+    }
 }

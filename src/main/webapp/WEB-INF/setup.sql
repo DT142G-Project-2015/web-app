@@ -37,8 +37,8 @@ CREATE TABLE menu
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name		VARCHAR(255) NOT NULL,
-	startdate	DATE NOT NULL,
-	stopdate	DATE NOT NULL
+	start_date	TIMESTAMP,
+	stop_date	TIMESTAMP
 );
 
 CREATE TABLE menu_group
@@ -151,8 +151,8 @@ CREATE TABLE shift
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	minimum		INT NOT NULL,
 	maximum		INT NOT NULL,
-	startdate	DATE NOT NULL,
-	stopdate	DATE NOT NULL
+	start_date	TIMESTAMP NOT NULL,
+	stop_date	TIMESTAMP NOT NULL
 );
 
 CREATE TABLE schedule
@@ -184,11 +184,12 @@ INSERT INTO employee (account_id, first_name, last_name) VALUES
 INSERT INTO employee (account_id, first_name, last_name) VALUES
 (3, 'Viktor', 'Spindler');
 
-INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch', NOW(), NOW());
+INSERT INTO menu (name, start_date, stop_date) VALUES ('lunch', NOW(), NOW());
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
 
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
+INSERT INTO menu_group (name, menu_id) VALUES ('Dryck', 1);
 
 
 INSERT INTO item (name, description, type, price) VALUES
@@ -209,6 +210,7 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 3);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 
 INSERT INTO receipt () VALUES ();
 INSERT INTO receipt () VALUES ();

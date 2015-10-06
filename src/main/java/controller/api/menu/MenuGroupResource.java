@@ -31,7 +31,6 @@ public class MenuGroupResource  {
                 return Utils.toJson(Database.toList(rs));
             }
         }
-
     }
 
     @Path("{group_id: [0-9]+}/item")
