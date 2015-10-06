@@ -3,6 +3,7 @@ package controller.api.order;
 import com.google.gson.Gson;
 import model.Order;
 import util.Database;
+import util.Utils;
 
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -27,7 +28,7 @@ public class OrderGroupResource {
     public Response addMenuItem(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "UPDATE receipt_item_group SET status = (?) WHERE id = (?)")) {
+                     "UPDATE receipt_group SET status = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
             Order.Group group = gson.fromJson(postData, Order.Group.class);
@@ -37,7 +38,9 @@ public class OrderGroupResource {
             st.setInt(2, id);
             st.executeUpdate();
 
-            return Response.ok().build();
+            model.Response msg = new model.Response("updated", 7);
+
+            return Response.ok(Utils.toJson(msg)).build();
         }
     }
 }
