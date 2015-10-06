@@ -61,15 +61,15 @@ td{
 .button{
 	margin: 4px;
 	padding: 4px;
-	border: 2px solid #def;
 	border-radius: 4px;
-	background: #f1f0f0;
+	background: #222;
 	transition: all 0.2s;
 	font-size: 14px;
+	color: #fff;
 }
 
 .button:hover{
-	background: #fff;
+	background: #555;
 	cursor: pointer;
 }
 
@@ -235,5 +235,4 @@ td{
 
 .time-interval.booked{
 	cursor: not-allowed;
-	box-shadow: inset 4px 0 0 #900;
-}
+	box-shadow: inset 4px 

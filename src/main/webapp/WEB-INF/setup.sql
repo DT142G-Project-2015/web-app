@@ -1,3 +1,11 @@
+
+-- ###########
+-- # Charset #
+-- ###########
+
+-- DEFAULT CHARACTER SET utf8;
+-- DEFAULT COLLATE utf8_general_ci;
+
 -- #########
 -- # Items #
 -- #########
@@ -168,6 +176,13 @@ INSERT INTO account (username, userhash, role) VALUES
 ('boss', 'password', 1);
 INSERT INTO account (username, userhash, role) VALUES 
 ('waitress', 'tipme', 2);
+
+INSERT INTO employee (account_id, first_name, last_name) VALUES
+(1, 'Gustav', 'Åström');
+INSERT INTO employee (account_id, first_name, last_name) VALUES
+(2, 'Sebastian', 'Persson');
+INSERT INTO employee (account_id, first_name, last_name) VALUES
+(3, 'Viktor', 'Spindler');
 
 INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch', NOW(), NOW());
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
