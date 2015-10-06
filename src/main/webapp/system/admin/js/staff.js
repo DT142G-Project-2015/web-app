@@ -10,7 +10,7 @@ $(document).ready(function(){
             dataType: 'json'
         }).done(function(data){
 
-            data.forEach(function(i, staff){
+            $.each(data, function(i, staff){
                 alert(staff[i].username);
             });
 
