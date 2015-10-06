@@ -11,7 +11,7 @@ $(document).ready(function(){
         }).done(function(data){
 
             data.forEach(function(staff){
-                alert(staff[0]);
+                alert(JSON.stringify(staff));
             });
 
         });
