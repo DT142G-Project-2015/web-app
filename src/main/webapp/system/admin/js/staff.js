@@ -11,7 +11,7 @@ $(document).ready(function(){
         }).done(function(data){
 
             $.each(data, function(i, staff){
-                alert(i + " : " + staff);
+                alert(i + " : " + staff.username);
             });
 
         });
