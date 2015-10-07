@@ -14,6 +14,10 @@ public class Menu {
         public int id;
         public String name;
         public List<Item> items;
+
+        public boolean isValidPost() {
+            return name != null && name.length() > 0;
+        }
     }
 
     public int id;
