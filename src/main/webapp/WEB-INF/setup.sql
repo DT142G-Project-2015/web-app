@@ -45,7 +45,7 @@ CREATE TABLE menu_group
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	menu_id		INT NOT NULL,
-	name		VARCHAR(255) NOT NULL
+	name		VARCHAR(255)
 );
 
 CREATE TABLE menu_group_item

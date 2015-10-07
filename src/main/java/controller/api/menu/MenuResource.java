@@ -37,10 +37,21 @@ public class MenuResource {
 
     private Response getExpandedMenu(int id) throws SQLException {
 
-        String q = "SELECT I.name AS name, description, price, type, I.id AS item_id, " +
-                "M.name AS menu_name, M.id AS menu_id, MG.name AS group_name, MG.id AS group_id " +
-                "FROM menu M, item I, menu_group MG, menu_group_item MGI " +
-                "WHERE M.id = (?) AND M.id = MG.menu_id AND MG.id = MGI.menu_group_id AND MGI.item_id = I.id";
+
+        String q =
+                "SELECT m.id AS menu_id, " +
+                       "m.name AS menu_name, " +
+                       "mg.id AS group_id, " +
+                       "mg.name AS group_name, " +
+                       "i.id AS item_id, " +
+                       "i.name AS item_name, " +
+                       "i.description AS item_description, " +
+                       "i.price AS item_price, " +
+                       "i.type AS item_type " +
+                "FROM menu m LEFT JOIN menu_group mg ON m.id = mg.menu_id " +
+                            "LEFT JOIN menu_group_item mgi ON mg.id = mgi.menu_group_id " +
+                            "LEFT JOIN item i ON mgi.item_id = i.id " +
+                "WHERE m.id = (?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q)) {
@@ -64,16 +75,17 @@ public class MenuResource {
                     g.items = new ArrayList<Menu.Item>();
 
                     for (Map<String, Object> row : groupRows) {
+                        if (row.get("item_id") != null) {
+                            Menu.Item i = new Menu.Item();
 
-                        Menu.Item i = new Menu.Item();
+                            i.id = (Integer) row.get("item_id");
+                            i.name = (String) row.get("item_name");
+                            i.description = (String) row.get("item_description");
+                            i.price = (BigDecimal) row.get("item_price");
+                            i.type = (Integer) row.get("item_type");
 
-                        i.id = (Integer) row.get("item_id");
-                        i.name = (String) row.get("name");
-                        i.description = (String) row.get("description");
-                        i.price = (BigDecimal) row.get("price");
-                        i.type = (Integer) row.get("type");
-
-                        g.items.add(i);
+                            g.items.add(i);
+                        }
                     }
 
 
@@ -132,8 +144,8 @@ public class MenuResource {
 
         try (PreparedStatement st = c.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
             st.setString(1, name);
-            st.setTimestamp(2, new java.sql.Timestamp(start.getTime()));
-            st.setTimestamp(3, new java.sql.Timestamp(stop.getTime()));
+            st.setTimestamp(2, start == null ? null : new Timestamp(start.getTime()));
+            st.setTimestamp(3, stop == null ? null : new Timestamp(stop.getTime()));
             st.executeUpdate();
 
             return Database.getAutoIncrementID(st);
