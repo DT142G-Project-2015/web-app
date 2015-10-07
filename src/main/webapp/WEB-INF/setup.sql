@@ -55,11 +55,15 @@ CREATE TABLE menu_group_item
 	PRIMARY KEY (item_id, menu_group_id)
 );
 
--- ALTER TABLE menu_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE menu_group ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
-
+--ALTER TABLE menu_group ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
 ALTER TABLE menu_group_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_group_id) REFERENCES menu_group(id);
+-- ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_group_id) REFERENCES menu_group(id);
+
+-- CASCADE DELETE (override)
+ALTER TABLE menu_group ADD CONSTRAINT menu_group_cascade
+	FOREIGN KEY (menu_id) REFERENCES menu(id) ON DELETE CASCADE;
+ALTER TABLE menu_group_item ADD CONSTRAINT menu_group_item_cascade
+	FOREIGN KEY (menu_group_id) REFERENCES menu_group(id) ON DELETE CASCADE;
 
 -- ############
 -- # Ordering #
@@ -165,6 +169,19 @@ CREATE TABLE schedule
 ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
+
+-- ###########
+-- # Storage #
+-- ###########
+
+CREATE TABLE article
+(
+	id			INT PRIMARY KEY,
+	name		VARCHAR(255),
+	image		LONGBLOB,
+	amount		INT,
+	category	VARCHAR(255)
+);
 
 -- #############
 -- # Test Data #

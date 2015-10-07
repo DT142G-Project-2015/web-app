@@ -249,31 +249,12 @@ public class MenuResource {
     @DELETE @Path("{id: [0-9]+}")
     public Response deleteMenu(@PathParam("id") int id) throws SQLException {
 
-        Connection conn = null;
-        try {
-            conn = Database.getConnection();
-
-            conn.setAutoCommit(false);  // Begin Transaction
-
-            // Instead of removing stuff ourselves, we should maybe use ON DELETE CASCADE in SQL
-            throw new RuntimeException("NOT IMPLEMENTED");
-
-            /*PreparedStatement st = conn.prepareStatement("DELETE FROM menu_group_item WHERE id = (?)");
-
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement("DELETE FROM menu WHERE id = (?)")) {
             st.setInt(1, id);
 
             st.executeUpdate();
-            conn.commit();
-            */
-
-        } catch (SQLException e) {
-            if (conn != null)
-                conn.rollback();
-            throw e;
-
-        } finally {
-            if (conn != null)
-                conn.close();
+            return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
         }
     }
 
