@@ -18,19 +18,20 @@ import java.util.Map;
 public class ItemResource {
 
     @GET
-    public String getItems(@QueryParam("excludeMenuId") String excludeMenuId) throws SQLException {
+    public String getItems(@QueryParam("excludeGroupId") String excludeGroupId) throws SQLException {
 
-        String query = excludeMenuId == null
+        String query = excludeGroupId == null
                 ? "SELECT * FROM item"
                 : "SELECT * FROM item " +
-                  "WHERE NOT EXISTS (SELECT * from menu, menu_item WHERE menu.id = menu_id AND item.id = item_id AND menu.id = (?))";
+                  "WHERE NOT EXISTS (SELECT * from menu_group_item mgi " +
+                                    "WHERE item.id = mgi.item_id AND mgi.menu_group_id = (?))";
 
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
 
-            if (excludeMenuId != null)
-                st.setString(1, excludeMenuId);
+            if (excludeGroupId != null)
+                st.setString(1, excludeGroupId);
 
             ResultSet rs = st.executeQuery();
             return Utils.toJson(Database.toList(rs));

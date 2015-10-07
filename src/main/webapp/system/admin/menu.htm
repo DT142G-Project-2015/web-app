@@ -27,18 +27,9 @@
         <h1>Menyer</h1>
 
         <div id="menus"></div>
-
-
-        <!-- <div class="section">
-            <h1 id="menu_name"></h1>
-            <div id="menu_group_list"></div>
-
-            <span id="add_menu_item" class="button">Lägg till</span>
-        </div> -->
     </div>
 
     <div class="section" id="add_item_section">
-
         <h1>Måltider</h1>
 
             <div id="item_list"></div>
@@ -46,17 +37,18 @@
             <form>
                 <label>Namn: <input type="text" name="name"></label>
                 <label>Beskrivning: <input type="text" name="description"></label>
+                <label>Type: <select name="type">
+                    <option value="none">N/A</option>
+                    <option value="meat">Kötträtt</option>
+                    <option value="drink">Dryck</option>
+                </select>r</label>
                 <label>Pris: <input type="number" name="price"> kr</label>
-                <label>Pris: <input type="" name="price"> kr</label>
-                <span id="create_item" class="button">Skapa och lägg till</span>
+                <span id="create_item" class="button">Skapa och lägg till ny</span>
             </form>
-
     </div>
 
 
-
-
-    <!-- mustache.js template used for rendering menu items from JavaScript-->
+    <!-- mustache.js template used for rendering menus from JavaScript-->
     <script id="menus_template" type="x-tmpl-mustache">
         {{ #menus }}
             <div class="menu" data-menu-id="{{ id }}">
@@ -69,27 +61,30 @@
                     <div class="menu-list-menu">Hantera</div>
                 </div>
                 {{ #groups }}
-                    {{ #items }}
-                        <div class="menu-list">
-                            <div class="menu-list-item">{{ name }}.</div>
-                            <div class="menu-list-item">{{ description }}</div>
-                            <div class="menu-list-item">{{ price }}</div>
-                            <div class="menu-list-item">{{ type }}</div>
-                            <div class="menu-list-item">
-                            <span class="button">Radera</span>
-                        </div>
-                    {{ /items }}
+                    <div class="menu-group" data-group-id="{{ id }}">
+                        <h5> {{ name }} <span class="button add_item">Lägg till</span> </h5>
+                        {{ #items }}
+                            <div class="menu-row" data-item-id="{{ id }}"">
+                                <div class="menu-list-item">{{ name }}.</div>
+                                <div class="menu-list-item">{{ description }}</div>
+                                <div class="menu-list-item">{{ price }}</div>
+                                <div class="menu-list-item">{{ type }}</div>
+                                <div class="menu-list-item"><span class="button">Radera</span></div>
+                            </div>
+                        {{ /items }}
+                    </div>
                 {{ /groups }}
             </div>
         {{ /menus }}
     </script>
 
 
-    <!-- mustache.js template used for rendering menu items from JavaScript-->
+    <!-- mustache.js template used for rendering items from JavaScript-->
     <script id="item_template" type="x-tmpl-mustache">
         <div class="menu_item" data-id="{{ id }}">
             <b>{{ name }}</b> <i>{{ description }}</i> {{ price }} kr
-            <span class="button">Radera</span>
+            <span class="delete_btn button">Radera</span>
+            <span class="add_btn button">Lägg till</span>
         </div>
     </script>
 

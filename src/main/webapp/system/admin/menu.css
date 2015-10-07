@@ -1,38 +1,11 @@
 
 
-
-/*
-
-.section {
-    float: left;
-    background-color: #397;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
+.menu_item {
+    margin: 10px 10px;
 }
 
-input {
-    margin: 10px 0px;
-}
-
-img {
-    vertical-align: middle;
-    margin: 0px 10px;
-    cursor: pointer;
-}
-
-
-#item_list b {
-    cursor: pointer;
-}
-
-#item_list {
-    margin-bottom: 30px;
-}
-*/
 form input {
     font-size: 8px;
-    /*display: block*/;
 }
 
 #add_item_section {
@@ -47,9 +20,16 @@ form input {
 }
 
 
-
 .menu h4 {
 	padding: 10px;
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.menu h5 {
+	padding: 10px;
+	margin-left: 10px;
 	background: #def;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
