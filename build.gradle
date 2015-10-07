@@ -21,7 +21,8 @@ dependencies {
 
 httpPort = 8080
 
-jettyRun {
-		scanIntervalSeconds = 2
+[jettyRun, jettyRunWar]*.with {
+    scanIntervalSeconds = 2
+    webDefaultXml = file("${project.webAppDir}/WEB-INF/jetty-webdefault.xml")
 }
 
