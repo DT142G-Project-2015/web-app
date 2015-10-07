@@ -190,7 +190,7 @@ CREATE TABLE article
 INSERT INTO account (username, userhash, role) VALUES 
 ('root', 'toor', 0);
 INSERT INTO account (username, userhash, role) VALUES 
-('boss', 'password', 1);
+('cook', 'password', 1);
 INSERT INTO account (username, userhash, role) VALUES 
 ('waitress', 'tipme', 2);
 
@@ -207,7 +207,6 @@ INSERT INTO menu (name, start_date, stop_date) VALUES ('lunch', NOW(), NOW());
 
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
 INSERT INTO menu_group (name, menu_id) VALUES ('Dryck', 1);
-
 
 INSERT INTO item (name, description, type, price) VALUES
 ('Beef Stew', 'mouth watering description', 0, 79.99);
