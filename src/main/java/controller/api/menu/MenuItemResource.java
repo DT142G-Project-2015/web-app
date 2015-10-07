@@ -29,14 +29,14 @@ public class MenuItemResource {
     @GET
     public String getMenuItems() throws SQLException {
 
-        String query = "SELECT I.id, I.name, I.description, I.price, I.type " +
-                       "FROM item I, menu, menu_group, menu_group_item " +
-                       "WHERE menu.id = menu_id AND I.id = item_id AND menu.id = (?)";
+        String query = "SELECT i.id, i.name, i.description, i.price, i.type " +
+                       "FROM menu_group mg, menu_group_item mgi, item i " +
+                       "WHERE mg.id = (?) AND mg.id = mgi.menu_group_id AND mgi.item_id = i.id";
 
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
-            st.setInt(1, menuId);
+            st.setInt(1, groupId);
 
             ResultSet rs = st.executeQuery();
             return Utils.toJson(Database.toList(rs));
