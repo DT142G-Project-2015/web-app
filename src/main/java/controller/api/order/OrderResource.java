@@ -100,9 +100,9 @@ public class OrderResource {
 /*  // Saved for Nick
 
     try (Connection conn = Database.getConnection()) {
-        for (Map<String, Object> order : singleTableQuery(conn, "SELECT * FROM receipt", null)) {
-            for (Map<String, Object> group : singleTableQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
-                for (Map<String, Object> gItem : singleTableQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
+        for (Map<String, Object> order : simpleQuery(conn, "SELECT * FROM receipt", null)) {
+            for (Map<String, Object> group : simpleQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
+                for (Map<String, Object> gItem : simpleQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
 
                 }
             }

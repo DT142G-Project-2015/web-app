@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -33,14 +32,7 @@ public class MenuItemResource {
                        "FROM menu_group mg, menu_group_item mgi, item i " +
                        "WHERE mg.id = (?) AND mg.id = mgi.menu_group_id AND mgi.item_id = i.id";
 
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(query)) {
-            st.setInt(1, groupId);
-
-            ResultSet rs = st.executeQuery();
-            return Utils.toJson(Database.toList(rs));
-        }
+        return Utils.toJson(Database.simpleQuery(query, groupId));
     }
 
     @DELETE @Path("{id: [0-9]+}")

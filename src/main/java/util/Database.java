@@ -102,7 +102,7 @@ public class Database {
         return rs.getInt(1);
     }
 
-    public static List<Map<String, Object>> singleTableQuery(Connection conn, String q, Integer parameter) throws SQLException {
+    public static List<Map<String, Object>> simpleQuery(Connection conn, String q, Integer parameter) throws SQLException {
 
         try (PreparedStatement st = conn.prepareStatement(q)) {
 
@@ -114,10 +114,10 @@ public class Database {
         }
     }
 
-    public static List<Map<String, Object>> singleTableQuery(String q, Integer parameter) throws SQLException {
+    public static List<Map<String, Object>> simpleQuery(String q, Integer parameter) throws SQLException {
 
         try (Connection conn = getConnection()) {
-            return singleTableQuery(conn, q, parameter);
+            return simpleQuery(conn, q, parameter);
         }
     }
 }
