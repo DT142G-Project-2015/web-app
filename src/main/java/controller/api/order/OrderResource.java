@@ -2,6 +2,7 @@ package controller.api.order;
 
 import com.google.gson.Gson;
 import model.Order;
+import model.UpdateMessage;
 import util.Database;
 import util.Utils;
 
@@ -96,17 +97,6 @@ public class OrderResource {
     }
 
 /*  // Saved for Nick
-    List<Map<String, Object>> singleTableQuery(Connection conn, String q, Object parameter) throws SQLException {
-
-        try (PreparedStatement st = conn.prepareStatement(q)) {
-
-            if (parameter != null)
-                st.setInt(1, (Integer)parameter);
-
-            ResultSet rs = st.executeQuery();
-            return Database.toList(rs);
-        }
-    }
 
     try (Connection conn = Database.getConnection()) {
         for (Map<String, Object> order : singleTableQuery(conn, "SELECT * FROM receipt", null)) {
@@ -198,19 +188,13 @@ public class OrderResource {
     }
 
 
-    int getAutoIncrementID(Statement st) throws SQLException {
-        ResultSet rs = st.getGeneratedKeys();
-        rs.next();
-        return rs.getInt(1);
-    }
-
     int insertNote(Connection conn, String text) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO note (text) VALUES (?)",
                 Statement.RETURN_GENERATED_KEYS);
         st.setString(1, text);
         st.executeUpdate();
 
-        return getAutoIncrementID(st);
+        return Database.getAutoIncrementID(st);
     }
 
     int insertGroup(Connection conn, String status, int orderId) throws SQLException {
@@ -220,7 +204,7 @@ public class OrderResource {
         st.setInt(2, orderId);
         st.executeUpdate();
 
-        return getAutoIncrementID(st);
+        return Database.getAutoIncrementID(st);
     }
 
     int insertOrder(Connection conn) throws SQLException {
@@ -228,7 +212,7 @@ public class OrderResource {
                 Statement.RETURN_GENERATED_KEYS);
         st.executeUpdate();
 
-        return getAutoIncrementID(st);
+        return Database.getAutoIncrementID(st);
     }
 
     int insertItem(Connection conn, int itemId)
@@ -241,7 +225,7 @@ public class OrderResource {
 
         st.executeUpdate();
 
-        return getAutoIncrementID(st);
+        return Database.getAutoIncrementID(st);
     }
 
     void insertGroupItem(Connection conn, int orderItemId, int groupId)
@@ -289,9 +273,9 @@ public class OrderResource {
 
                 conn.commit();  // Commit Transaction
 
-                model.Response response = new model.Response("created", order.id);
+                UpdateMessage msg = new UpdateMessage("created", order.id);
 
-                return Response.ok(Utils.toJson(response)).build();
+                return Response.ok(Utils.toJson(msg)).build();
 
             } else {
                 return Response.status(Response.Status.BAD_REQUEST).build();

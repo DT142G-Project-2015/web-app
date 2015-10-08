@@ -7,7 +7,7 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
-    <script src="jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="menu.css">
 </head>
 
 <body>
@@ -24,67 +24,72 @@
 
 <div id="content">
     <div class="section">
-        <h1>Meny</h1>
-        <div class="inventory-list">
-            <h4>> A la carté</h4>
-            <div class="inventory-list-menu">Meny ID</div>
-            <div class="inventory-list-menu">Meny namn</div>
-            <div class="inventory-list-menu">Pris</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">0</div>
-            <div class="inventory-list-item">Fläskfilepasta a la Anders.</div>
-            <div class="inventory-list-item">129 :-</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
+        <h1>Menyer</h1>
 
-        <div class="inventory-list">
-            <h4>> Lunch meny 1</h4>
-            <div class="inventory-list-menu">Meny ID</div>
-            <div class="inventory-list-menu">Meny namn</div>
-            <div class="inventory-list-menu">Pris</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">1</div>
-            <div class="inventory-list-item">Potatisgratäng med skinka</div>
-            <div class="inventory-list-item">79 :-</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
-
-        <div class="inventory-list">
-            <h4>> Lunch meny 2</h4>
-            <div class="inventory-list-menu">Meny ID</div>
-            <div class="inventory-list-menu">Meny namn</div>
-            <div class="inventory-list-menu">Pris</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">2</div>
-            <div class="inventory-list-item">Schnitzel med ungsbakad potatis</div>
-            <div class="inventory-list-item">79 :-</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
-
-
+        <div id="menus"></div>
     </div>
 
-</div>
+    <div class="section" id="add_item_section">
+        <h1>Måltider</h1>
+
+            <div id="item_list"></div>
+
+            <form>
+                <label>Namn: <input type="text" name="name"></label>
+                <label>Beskrivning: <input type="text" name="description"></label>
+                <label>Type: <select name="type">
+                    <option value="none">N/A</option>
+                    <option value="meat">Kötträtt</option>
+                    <option value="drink">Dryck</option>
+                </select>r</label>
+                <label>Pris: <input type="number" name="price"> kr</label>
+                <span id="create_item" class="button">Skapa och lägg till ny</span>
+            </form>
+    </div>
+
+
+    <!-- mustache.js template used for rendering menus from JavaScript-->
+    <script id="menus_template" type="x-tmpl-mustache">
+        {{ #menus }}
+            <div class="menu" data-menu-id="{{ id }}">
+                <div class="menu-header">
+                    <h4>{{ name }}</h4>
+                    <div class="menu-list-menu">Namn</div>
+                    <div class="menu-list-menu">Beskrivning</div>
+                    <div class="menu-list-menu">Pris</div>
+                    <div class="menu-list-menu">Typ</div>
+                    <div class="menu-list-menu">Hantera</div>
+                </div>
+                {{ #groups }}
+                    <div class="menu-group" data-group-id="{{ id }}">
+                        <h5> {{ name }} <span class="button add_item">Lägg till</span> </h5>
+                        {{ #items }}
+                            <div class="menu-row" data-item-id="{{ id }}"">
+                                <div class="menu-list-item">{{ name }}.</div>
+                                <div class="menu-list-item">{{ description }}</div>
+                                <div class="menu-list-item">{{ price }}</div>
+                                <div class="menu-list-item">{{ type }}</div>
+                                <div class="menu-list-item"><span class="button">Radera</span></div>
+                            </div>
+                        {{ /items }}
+                    </div>
+                {{ /groups }}
+            </div>
+        {{ /menus }}
+    </script>
+
+
+    <!-- mustache.js template used for rendering items from JavaScript-->
+    <script id="item_template" type="x-tmpl-mustache">
+        <div class="menu_item" data-id="{{ id }}">
+            <b>{{ name }}</b> <i>{{ description }}</i> {{ price }} kr
+            <span class="delete_btn button">Radera</span>
+            <span class="add_btn button">Lägg till</span>
+        </div>
+    </script>
+
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src="../mustache.min.js"></script>
+    <script src="js/menu.js"></script>
 
 </body>

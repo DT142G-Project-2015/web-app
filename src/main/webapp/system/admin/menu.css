@@ -1,0 +1,49 @@
+
+
+.menu_item {
+    margin: 10px 10px;
+}
+
+form input {
+    font-size: 8px;
+}
+
+#add_item_section {
+    padding: 20px;
+    /*height: 300px;*/
+    position: absolute;
+    top: 60px;
+    margin-left: 0px;
+    width: 70%;
+    left: 15%;
+    display: none;
+}
+
+
+.menu h4 {
+	padding: 10px;
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.menu h5 {
+	padding: 10px;
+	margin-left: 10px;
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.menu-header div {
+	display: inline-block;
+	font-weight: bold;
+	width: 18%;
+	padding: 10px;
+}
+
+.menu-list-item {
+	display: inline-block;
+	width: 18%;
+	padding: 10px;
+}

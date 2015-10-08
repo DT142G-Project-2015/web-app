@@ -37,15 +37,15 @@ CREATE TABLE menu
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name		VARCHAR(255) NOT NULL,
-	startdate	DATE NOT NULL,
-	stopdate	DATE NOT NULL
+	start_date	TIMESTAMP,
+	stop_date	TIMESTAMP
 );
 
 CREATE TABLE menu_group
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	menu_id		INT NOT NULL,
-	name		VARCHAR(255) NOT NULL
+	name		VARCHAR(255)
 );
 
 CREATE TABLE menu_group_item
@@ -55,11 +55,15 @@ CREATE TABLE menu_group_item
 	PRIMARY KEY (item_id, menu_group_id)
 );
 
--- ALTER TABLE menu_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE menu_group ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
-
+--ALTER TABLE menu_group ADD FOREIGN KEY (menu_id) REFERENCES menu(id);
 ALTER TABLE menu_group_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
-ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_group_id) REFERENCES menu_group(id);
+-- ALTER TABLE menu_group_item ADD FOREIGN KEY (menu_group_id) REFERENCES menu_group(id);
+
+-- CASCADE DELETE (override)
+ALTER TABLE menu_group ADD CONSTRAINT menu_group_cascade
+	FOREIGN KEY (menu_id) REFERENCES menu(id) ON DELETE CASCADE;
+ALTER TABLE menu_group_item ADD CONSTRAINT menu_group_item_cascade
+	FOREIGN KEY (menu_group_id) REFERENCES menu_group(id) ON DELETE CASCADE;
 
 -- ############
 -- # Ordering #
@@ -151,8 +155,8 @@ CREATE TABLE shift
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	minimum		INT NOT NULL,
 	maximum		INT NOT NULL,
-	startdate	DATE NOT NULL,
-	stopdate	DATE NOT NULL
+	start_date	TIMESTAMP NOT NULL,
+	stop_date	TIMESTAMP NOT NULL
 );
 
 CREATE TABLE schedule
@@ -165,6 +169,19 @@ CREATE TABLE schedule
 ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
+
+-- ###########
+-- # Storage #
+-- ###########
+
+CREATE TABLE article
+(
+	id			INT PRIMARY KEY,
+	name		VARCHAR(255),
+	image		LONGBLOB,
+	amount		INT,
+	category	VARCHAR(255)
+);
 
 -- #############
 -- # Test Data #
@@ -184,11 +201,12 @@ INSERT INTO employee (account_id, first_name, last_name) VALUES
 INSERT INTO employee (account_id, first_name, last_name) VALUES
 (3, 'Viktor', 'Spindler');
 
-INSERT INTO menu (name, startdate, stopdate) VALUES ('lunch', NOW(), NOW());
+INSERT INTO menu (name, start_date, stop_date) VALUES ('lunch', NOW(), NOW());
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
 
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
+INSERT INTO menu_group (name, menu_id) VALUES ('Dryck', 1);
 
 
 INSERT INTO item (name, description, type, price) VALUES
@@ -202,11 +220,14 @@ INSERT INTO item (name, description, type, price) VALUES
 INSERT INTO item (name, description, type, price) VALUES
 ('Kanelbulle', 'bäst', 0, 35);
 
+INSERT INTO item_item VALUES (2, 4);
+
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 1);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 3);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 
 INSERT INTO receipt () VALUES ();
 INSERT INTO receipt () VALUES ();
