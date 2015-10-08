@@ -201,7 +201,7 @@ INSERT INTO employee (account_id, first_name, last_name) VALUES
 INSERT INTO employee (account_id, first_name, last_name) VALUES
 (3, 'Viktor', 'Spindler');
 
-INSERT INTO menu (name, start_date, stop_date) VALUES ('lunch', NOW(), NOW());
+INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07 UTC');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
 
