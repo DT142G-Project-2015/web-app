@@ -109,18 +109,18 @@ public class OrderResource {
     }
 */
 
-    private static String getOrdersQuery = "SELECT * " +
-            "FROM item I, " +
-            "receipt_group RG, receipt_group_item RGI, receipt R, receipt_item RI  " +
-
+    private static String getOrdersQuery =
+            "SELECT * " +
+            "FROM item I, receipt_group RG, receipt_group_item RGI, " +
+                 "receipt R, receipt_item RI  " +
             "LEFT JOIN " +
-            "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
-            "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
-            "I2.id AS sub_id " +
-            "FROM item I2, receipt_item RI2, receipt_item_item RII " +
-            "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) AS D " +
+                "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
+                        "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
+                        "I2.id AS sub_id " +
+                  "FROM item I2, receipt_item RI2, receipt_item_item RII " +
+                  "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) " +
+                  "AS D " +
             "ON D.dom_receipt_item_id = RI.id " +
-
             "WHERE I.id = RI.item_id " +
             "AND RG.id = RGI.receipt_group_id " +
             "AND RG.receipt_id = R.id " +
