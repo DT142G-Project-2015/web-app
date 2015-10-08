@@ -1,46 +1,5 @@
 <!DOCTYPE html>
-
-
 <html>
-
-
-<!--CREATE TABLE account
-(
-id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-username	VARCHAR(255) NOT NULL,
-userhash	VARCHAR(255) NOT NULL,
-role		INT NOT NULL
-);
-
-CREATE TABLE employee
-(
-account_id	INT NOT NULL PRIMARY KEY NOT NULL,
-first_name	VARCHAR(255) NOT NULL,
-last_name	VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE shift
-(
-id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-minimum		INT NOT NULL,
-maximum		INT NOT NULL,
-startdate	DATE NOT NULL,
-stopdate	DATE NOT NULL
-);
-
-CREATE TABLE schedule
-(
-shift_id	INT NOT NULL,
-account_id	INT NOT NULL,
-PRIMARY KEY	(account_id, shift_id)
-);
-
-ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
-ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
-ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
-
-
-
 <head>
 	<meta charset="UTF-8">
 	<title>Antons Skafferi - inloggad</title>
@@ -48,9 +7,7 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 	<link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
 	<script src="jquery-1.11.3.min.js"></script>
 </head>
-
 <body>
-
 	<div id="header">
 		<div id="nav">
 			<a class="nav-item" href="index.htm">Överblick</a>
@@ -60,9 +17,7 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 			<a class="nav-item" href="login.htm">Logga ut</a>
 		</div>
 	</div>
-
 	<div id="content">
-
 		<div class="section">
 			<div id="schedule-holder">
 					<div>
@@ -74,48 +29,39 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 						<div class="day-label">Lördag</div>
 						<div class="day-label">Söndag</div>
 					</div>
-
 					<div class="day" id="mon">
-
 						<div class="time-interval" title="Boka passet">
 							<div>11.00-13.00</div>
 							<div>0 (2)</div>
 							<div>Lunch</div>
 						</div>
-
 					</div>
 					<div class="day" id="tue">
-
 					</div>
 					<div class="day" id="wed">
-
 					</div>
 					<div class="day" id="thu">
-
 					</div>
 					<div class="day" id="fri">
-
 					</div>
 					<div class="day" id="sat">
-
 					</div>
 					<div class="day" id="sun">
-
 					</div>
-
 			</div>
 		</div>
-
 		<div class="section">
 			<h1>Hantera personal</h1>
 			<div id="staff-sidebar">
 				<div id="add-staff">
-					Användarnamn:<br>
-					<input id="username" type="text"><br>
-					Lösenord:<br>
-					<input id="password" type="password"><br>
-					Repetera lösenord:<br>
-					<input id="password-repeat" type="password"><br>
+					<form>
+						Användarnamn:<br>
+						<input id="username" type="text"><br>
+						Lösenord:<br>
+						<input id="password" type="password"><br>
+						Roll:<br>
+						<input id="role" type="text"><br>
+					</form>
 					<span id="add-staff-btn" style="float: right" class="button">Lägg till</span>
 				</div>
 			</div><div id="staff-content">
@@ -128,7 +74,6 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);-->
 			</div>
 		</div>
 		</div>
-
 	</div>
 	<script src="../jquery-1.11.3.min.js"></script>
 	<script src="js/staff.js"></script>

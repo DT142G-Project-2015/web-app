@@ -1,0 +1,280 @@
+[33mcommit 3dbcff67f878cf7f7e6c612a8448588f171be30f[m
+Merge: ddaa7a5 896f990
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Thu Oct 8 13:37:34 2015 +0200
+
+    Merge branch 'master' of https://github.com/DT142G-Project-2015/web-app
+
+[33mcommit ddaa7a5911d3b4f4e5f6df0569bc15b6f86bfef3[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Thu Oct 8 13:36:49 2015 +0200
+
+    Updated staff
+
+[33mcommit 896f9907c3aa34332b8eb7405ce62fba2cec5aab[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 15:47:26 2015 +0200
+
+    Fix duplicate items inserted (hopefully)
+    
+    By replacing the click handler, instead of just adding one
+
+[33mcommit 6866dcbb067fc8c42e08fc20518fcb8aae53e6c6[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 15:00:17 2015 +0200
+
+    Continued work on Menu Editor
+
+[33mcommit ecb5306119e82c3cf10c64f1f388d1d9260fe60c[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 13:08:34 2015 +0200
+
+    Started working on Menu Editor
+
+[33mcommit d39bd07d2fbd6477dca8c14de9107395c9124f69[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 12:04:58 2015 +0200
+
+    Fix duplicate menu items
+
+[33mcommit dac1373bd915c61f4dee12116e9e973eae8b8f3a[m
+Merge: 99bc5e3 fda6ee3
+Author: blightcarrier <nick.hagstrom@tele2.se>
+Date:   Wed Oct 7 11:31:27 2015 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 99bc5e31c69bacbc710fb2f33590e983d776d8f4[m
+Author: blightcarrier <nick.hagstrom@tele2.se>
+Date:   Wed Oct 7 11:30:47 2015 +0200
+
+    Fix #7
+
+[33mcommit fda6ee37775c7c72a681d83a55134dfb0ac2fc4f[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 09:12:38 2015 +0200
+
+    Add /api/menu/X/group POST
+
+[33mcommit 8e2cf2fb8b45dbf3db4d51e3d34ad208c37ee196[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 07:58:53 2015 +0200
+
+    Attempt to solve windows filelocking issue
+
+[33mcommit 2848d184bd69d788b4a299f203bbf8a350956c25[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 02:18:49 2015 +0200
+
+    Better query for expanded menus
+
+[33mcommit 724346dbb5ce154afcb7a9b2c9aa8b8a2539820b[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Wed Oct 7 01:30:28 2015 +0200
+
+    Cleanup/Fixes + more work on new Menu API
+
+[33mcommit d3b10105fd4bbe09ada26d7d51a67d6695f36187[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Tue Oct 6 23:45:58 2015 +0200
+
+    Add SubItemResource + cleanup
+
+[33mcommit 130d74214d012550181a468d877e1e9033e0b9a3[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 15:09:10 2015 +0200
+
+    updated staff
+
+[33mcommit c64fd2c9330be18f90342c50bcab1000db6036ea[m
+Merge: c3cd4c9 0ff43c5
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 15:06:19 2015 +0200
+
+    Merge branch 'master' of https://github.com/DT142G-Project-2015/web-app
+
+[33mcommit c3cd4c957cfc7280b672c5812196d4946622f83c[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 15:05:49 2015 +0200
+
+    uppdated staff
+
+[33mcommit 0ff43c555aaf6682d2ee0ef74426e4073c8c276a[m
+Merge: 5c59af1 97e715e
+Author: sepe1300 <sepe1300@student.miun.se>
+Date:   Tue Oct 6 15:02:54 2015 +0200
+
+    Updating inventory, menu and login page
+
+[33mcommit 5c59af1b9ce789bb1e2a4c35d7e03ce68d906241[m
+Author: sepe1300 <sepe1300@student.miun.se>
+Date:   Tue Oct 6 15:01:33 2015 +0200
+
+    Updating inventory, menu and login page
+
+[33mcommit 97e715e7243fa54d689bd39de0cfa6a1fcfd6fc2[m
+Merge: 9ae478e 783442d
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 15:00:07 2015 +0200
+
+    Merge branch 'master' of https://github.com/DT142G-Project-2015/web-app
+
+[33mcommit 9ae478e12ecf9f040e072f4d4411e880e3c52aff[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 14:58:57 2015 +0200
+
+    updated staff managing system
+
+[33mcommit 783442dc54ebdc9d8233abf0cd739fe9bd85afda[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Tue Oct 6 12:38:00 2015 +0200
+
+    Fix /api/order/X/group/Y PUT
+
+[33mcommit eadf8471688c1350c636ee17f014d39a84313983[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:35:42 2015 +0200
+
+    updated staff.js
+
+[33mcommit 00a63bc6ecb57c02302cb88afe9d73de1bd7fe99[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:29:14 2015 +0200
+
+    updated staff.js
+
+[33mcommit 1c45362c7e317e0abe21753e2d23d8fffc7289f1[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:23:52 2015 +0200
+
+    updated staff.js
+
+[33mcommit 31bac462367a391ca5bc2d977f5cae4b11665d0e[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:20:53 2015 +0200
+
+    Updated staff.js
+
+[33mcommit ea76c30abb7386a79af21487ea31941743c05630[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:18:42 2015 +0200
+
+    updated staff.js
+
+[33mcommit 1dfbd455aa70b1ec99693d14726e3adc6b75500a[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:16:29 2015 +0200
+
+    updated staff.js
+
+[33mcommit c6afaae0d849b9e090405bf3066291f02ea178c0[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:14:39 2015 +0200
+
+    updated staff.js
+
+[33mcommit 30cdb7c79685e69d7f64869eec5f748020eecf56[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:11:21 2015 +0200
+
+    updated staff.js
+
+[33mcommit 78462b44304f14b47ca944979c0d9a62e1cd4ee2[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:09:22 2015 +0200
+
+    updated staff.js
+
+[33mcommit 41a97f8fec001d95ead4ea52c8dd6ff29eba87f4[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:07:14 2015 +0200
+
+    updated staff.js
+
+[33mcommit fb42ee60ed5e455681a0de2db9b531ff48565fb4[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 10:04:03 2015 +0200
+
+    updated staff.js
+
+[33mcommit 5841d642739acbb64911b321b0cd29c65e22bc61[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 09:59:55 2015 +0200
+
+    updated staff.js
+
+[33mcommit de82d016e17d0e3e3cc719132f9299f8b5807a50[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 09:57:30 2015 +0200
+
+    updated staff.js
+
+[33mcommit bce50a950fa880ab665153306df678caa36cda98[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Tue Oct 6 09:51:12 2015 +0200
+
+    updated staff.js
+
+[33mcommit 401944723f269fbb22f340ecfa73b6fc57f611dc[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 21:08:17 2015 +0200
+
+    Fix adding multiple items with the same item_id
+
+[33mcommit 6ab324188f672f1a3b4e30ec6dc64e2347896176[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 20:19:14 2015 +0200
+
+    Update README.md
+
+[33mcommit af089525b940fab8da39bc1d87036140a55a9884[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 18:50:03 2015 +0200
+
+    MySQL Fix #1
+
+[33mcommit 4a92d968339a394695076b8f77285220a37aeb92[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 18:47:10 2015 +0200
+
+    MySQL Fix
+
+[33mcommit d0754a6acc61eafe884f2be5b7e579185c390a40[m
+Merge: e3987fd 0daa03c
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 18:42:05 2015 +0200
+
+    Merge branch 'master' of https://github.com/DT142G-Project-2015/web-app
+
+[33mcommit e3987fdded31b2004e819a890ccd70044ad5fbc8[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 18:41:33 2015 +0200
+
+    Menu Resources updates
+
+[33mcommit 92eb37d78f3b972247cb1fc5f9fec6f5f9347c74[m
+Author: Joel Edström <joel.edstrom@gmail.com>
+Date:   Mon Oct 5 18:39:09 2015 +0200
+
+    Fix relative URL
+
+[33mcommit 0daa03c29090c98f0d1b613bc67ea96f1dd49823[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Mon Oct 5 17:23:54 2015 +0200
+
+    update
+
+[33mcommit 4c2d8846d3054b34860c5d9b7f3563ff15c594c7[m
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Mon Oct 5 17:21:18 2015 +0200
+
+    updated xml for staff url
+
+[33mcommit 83cbdbfb39caee8da4277d60bc43fccf838c1fe4[m
+Merge: 04a8f11 d68387c
+Author: gustavastrom <gustav.j.astrom@gmail.com>
+Date:   Mon Oct 5 17:16:24 2015 +0200
+
+    Merge branch 'master' of https://github.com/DT142G-Project-2015/web-app
+
+[33mcommit 
