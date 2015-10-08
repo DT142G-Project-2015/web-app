@@ -2,6 +2,7 @@ package controller.api.order;
 
 import com.google.gson.Gson;
 import model.Order;
+import model.Order.Group.Status;
 import model.UpdateMessage;
 import util.Database;
 import util.Utils;
@@ -34,10 +35,10 @@ public class OrderResource {
             List<Map<String, Object>> groupRows = byGroup.get(group);
 
             Order.Group g = new Order.Group();
-            g.status = (String) groupRows.get(0).get("status");
+            g.status = Status.fromText((String)groupRows.get(0).get("status"));
             g.id = (Integer) groupRows.get(0).get("receipt_group_id");
 
-            g.items = new ArrayList<Order.Item>();
+            g.items = new ArrayList<>();
 
             Map<Object, List<Map<String, Object>>> byGroupItem = groupRows.stream().
                     collect(Collectors.groupingBy(row -> row.get("receipt_item_id") + ":" + row.get("receipt_group_id")));
@@ -56,7 +57,7 @@ public class OrderResource {
                 i.id = (Integer) row.get("item_id");
                 i.type = (Integer) row.get("type");
 
-                i.subItems = new ArrayList<Order.SubItem>();
+                i.subItems = new ArrayList<>();
 
                 for (Map<String, Object> r : itemRows) {
 
@@ -200,7 +201,7 @@ public class OrderResource {
     int insertGroup(Connection conn, String status, int orderId) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_group (status, receipt_id) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
-        st.setString(1, status);
+        st.setString(1, Status.sanitize(status));
         st.setInt(2, orderId);
         st.executeUpdate();
 
@@ -258,7 +259,7 @@ public class OrderResource {
                 
                 for (Order.Group g : order.groups) {
 
-                    int groupId = insertGroup(conn, g.status, order.id);
+                    int groupId = insertGroup(conn, Status.getText(g.status), order.id);
                     for (Order.Item i : g.items) {
                         
                         /*
