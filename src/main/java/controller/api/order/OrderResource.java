@@ -207,9 +207,10 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    int insertOrder(Connection conn) throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt () VALUES ()",
+    int insertOrder(Connection conn, int booth) throws SQLException {
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth) VALUES ((?))",
                 Statement.RETURN_GENERATED_KEYS);
+        st.setInt(1, booth);
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
@@ -253,7 +254,7 @@ public class OrderResource {
 
             if (order.isValidPost()) {
 
-                order.id = insertOrder(conn);
+                order.id = insertOrder(conn, order.booth);
                 
                 for (Order.Group g : order.groups) {
 

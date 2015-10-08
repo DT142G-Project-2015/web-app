@@ -26,6 +26,7 @@ public class Order {
     }
 
     public int id;
+    public int booth;
     public List<Group> groups;
 
 
