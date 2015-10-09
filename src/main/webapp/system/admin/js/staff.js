@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     getStaff();
 
     function getStaff(){
@@ -22,25 +23,28 @@ $(document).ready(function(){
         });
     }
 
-    $('#add-staff-btn').click(function() {
-        addStaff();
-    });
-
-
     function addStaff(){
-       var staff = {}
-        $('#add-staff form :input').each(function(index, element) {
+
+        var staff = {}
+        $('#add-staff form :input').each(function(index, element){
             staff[element.id] = element.value;
         });
+
         alert(JSON.stringify(staff));
+
         $.ajax({
             url: '../../api/staff',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(staff)
         }).done(function(addedStaff){
-            getStaff();
+            alert("works");
         });
+
     }
+
+    $("#add-staff-btn").click(function(){
+        addStaff();
+    });
 
 });

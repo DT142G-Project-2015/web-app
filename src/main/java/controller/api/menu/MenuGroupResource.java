@@ -2,7 +2,6 @@ package controller.api.menu;
 
 
 import com.google.gson.Gson;
-import model.IdHolder;
 import model.Menu;
 import model.UpdateMessage;
 import util.Database;
@@ -25,14 +24,8 @@ public class MenuGroupResource  {
 
     @GET
     public String getGroups() throws SQLException {
-
-        try (Connection conn = Database.getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement("SELECT id, name FROM menu_group WHERE menu_id = (?)")) {
-                st.setInt(1, menuId);
-                ResultSet rs = st.executeQuery();
-                return Utils.toJson(Database.toList(rs));
-            }
-        }
+        String query = "SELECT id, name FROM menu_group WHERE menu_id = (?)";
+        return Utils.toJson(Database.simpleQuery(query, menuId));
     }
 
     @Path("{group_id: [0-9]+}/item")

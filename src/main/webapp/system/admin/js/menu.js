@@ -60,7 +60,7 @@ $(document).ready(function() {
         $('#add_item_section').fadeIn(200);
         refreshItems(menu_id, group_id);
 
-        $('#create_item').click(function() {
+        $('#create_item').off('click').click(function() {
 
             var item = {}
             $('#add_item_section form :input').each(function(index, element) {

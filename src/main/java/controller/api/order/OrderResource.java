@@ -2,6 +2,7 @@ package controller.api.order;
 
 import com.google.gson.Gson;
 import model.Order;
+import model.Order.Group.Status;
 import model.UpdateMessage;
 import util.Database;
 import util.Utils;
@@ -34,10 +35,10 @@ public class OrderResource {
             List<Map<String, Object>> groupRows = byGroup.get(group);
 
             Order.Group g = new Order.Group();
-            g.status = (String) groupRows.get(0).get("status");
+            g.status = Status.fromText((String)groupRows.get(0).get("status"));
             g.id = (Integer) groupRows.get(0).get("receipt_group_id");
 
-            g.items = new ArrayList<Order.Item>();
+            g.items = new ArrayList<>();
 
             Map<Object, List<Map<String, Object>>> byGroupItem = groupRows.stream().
                     collect(Collectors.groupingBy(row -> row.get("receipt_item_id") + ":" + row.get("receipt_group_id")));
@@ -56,7 +57,7 @@ public class OrderResource {
                 i.id = (Integer) row.get("item_id");
                 i.type = (Integer) row.get("type");
 
-                i.subItems = new ArrayList<Order.SubItem>();
+                i.subItems = new ArrayList<>();
 
                 for (Map<String, Object> r : itemRows) {
 
@@ -99,9 +100,9 @@ public class OrderResource {
 /*  // Saved for Nick
 
     try (Connection conn = Database.getConnection()) {
-        for (Map<String, Object> order : singleTableQuery(conn, "SELECT * FROM receipt", null)) {
-            for (Map<String, Object> group : singleTableQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
-                for (Map<String, Object> gItem : singleTableQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
+        for (Map<String, Object> order : simpleQuery(conn, "SELECT * FROM receipt", null)) {
+            for (Map<String, Object> group : simpleQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
+                for (Map<String, Object> gItem : simpleQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
 
                 }
             }
@@ -109,18 +110,18 @@ public class OrderResource {
     }
 */
 
-    private static String getOrdersQuery = "SELECT * " +
-            "FROM item I, " +
-            "receipt_group RG, receipt_group_item RGI, receipt R, receipt_item RI  " +
-
+    private static String getOrdersQuery =
+            "SELECT * " +
+            "FROM item I, receipt_group RG, receipt_group_item RGI, " +
+                 "receipt R, receipt_item RI  " +
             "LEFT JOIN " +
-            "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
-            "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
-            "I2.id AS sub_id " +
-            "FROM item I2, receipt_item RI2, receipt_item_item RII " +
-            "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) AS D " +
+                "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
+                        "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
+                        "I2.id AS sub_id " +
+                  "FROM item I2, receipt_item RI2, receipt_item_item RII " +
+                  "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) " +
+                  "AS D " +
             "ON D.dom_receipt_item_id = RI.id " +
-
             "WHERE I.id = RI.item_id " +
             "AND RG.id = RGI.receipt_group_id " +
             "AND RG.receipt_id = R.id " +
@@ -200,16 +201,17 @@ public class OrderResource {
     int insertGroup(Connection conn, String status, int orderId) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_group (status, receipt_id) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
-        st.setString(1, status);
+        st.setString(1, Status.sanitize(status));
         st.setInt(2, orderId);
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
     }
 
-    int insertOrder(Connection conn) throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt () VALUES ()",
+    int insertOrder(Connection conn, int booth) throws SQLException {
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth) VALUES ((?))",
                 Statement.RETURN_GENERATED_KEYS);
+        st.setInt(1, booth);
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
@@ -253,11 +255,11 @@ public class OrderResource {
 
             if (order.isValidPost()) {
 
-                order.id = insertOrder(conn);
+                order.id = insertOrder(conn, order.booth);
                 
                 for (Order.Group g : order.groups) {
 
-                    int groupId = insertGroup(conn, g.status, order.id);
+                    int groupId = insertGroup(conn, Status.getText(g.status), order.id);
                     for (Order.Item i : g.items) {
                         
                         /*

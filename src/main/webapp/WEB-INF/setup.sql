@@ -71,7 +71,8 @@ ALTER TABLE menu_group_item ADD CONSTRAINT menu_group_item_cascade
 
 CREATE TABLE receipt
 (
-	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT
+	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	booth		INT NOT NULL
 );
 
 CREATE TABLE receipt_item
@@ -179,13 +180,23 @@ CREATE TABLE article
 	id			INT PRIMARY KEY,
 	name		VARCHAR(255),
 	image		LONGBLOB,
-	amount		INT,
-	category	VARCHAR(255)
+	category	VARCHAR(255),
+	amount		REAL,
+	unit		VARCHAR(255),
+	exp_date 	DATE
 );
 
 -- #############
 -- # Test Data #
 -- #############
+
+INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
+('1', 'Citron', 'Grönsak', '650', 'gram', '2015-08-28');
+INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
+('2', 'Kyckling', 'Kött', '0.5', 'kg', '2015-09-15');
+INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
+('3', 'Potatis', 'Tillbehör', '7', 'kg', '2015-11-13');
+
 
 INSERT INTO account (username, userhash, role) VALUES 
 ('root', 'toor', 0);
@@ -201,7 +212,7 @@ INSERT INTO employee (account_id, first_name, last_name) VALUES
 INSERT INTO employee (account_id, first_name, last_name) VALUES
 (3, 'Viktor', 'Spindler');
 
-INSERT INTO menu (name, start_date, stop_date) VALUES ('lunch', NOW(), NOW());
+INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
 
@@ -228,9 +239,9 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 
-INSERT INTO receipt () VALUES ();
-INSERT INTO receipt () VALUES ();
-INSERT INTO receipt () VALUES ();
+INSERT INTO receipt (booth) VALUES (1);
+INSERT INTO receipt (booth) VALUES (2);
+INSERT INTO receipt (booth) VALUES (3);
 
 INSERT INTO receipt_group (status, receipt_id) VALUES ('initial', 1);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 2);
