@@ -191,7 +191,7 @@ public class OrderResource {
     }
 
 
-    int insertNote(Connection conn, String text) throws SQLException {
+    static int insertNote(Connection conn, String text) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO note (text) VALUES (?)",
                 Statement.RETURN_GENERATED_KEYS);
         st.setString(1, text);
@@ -200,7 +200,7 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    int insertGroup(Connection conn, String status, int orderId) throws SQLException {
+    static int insertGroup(Connection conn, String status, int orderId) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_group (status, receipt_id) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
         st.setString(1, Status.sanitize(status));
@@ -210,7 +210,7 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    int insertOrder(Connection conn, int booth) throws SQLException {
+    static int insertOrder(Connection conn, int booth) throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth) VALUES ((?))",
                 Statement.RETURN_GENERATED_KEYS);
         st.setInt(1, booth);
@@ -219,7 +219,7 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    int insertItem(Connection conn, int itemId)
+    static int insertItem(Connection conn, int itemId)
             throws SQLException {
         PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_item (item_id) VALUES ((?))",
                 Statement.RETURN_GENERATED_KEYS);
@@ -232,7 +232,7 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    void insertGroupItem(Connection conn, int orderItemId, int groupId)
+    static void insertGroupItem(Connection conn, int orderItemId, int groupId)
             throws SQLException {
         PreparedStatement st = conn.prepareStatement(
                 "INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) " +

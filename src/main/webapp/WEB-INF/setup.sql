@@ -95,15 +95,15 @@ CREATE TABLE receipt_group_item
 	PRIMARY KEY (receipt_item_id, receipt_group_id)
 );
 
-ALTER TABLE receipt_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
+ALTER TABLE receipt_item ADD FOREIGN KEY (item_id) REFERENCES item(id) ON DELETE CASCADE;
 
-ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_dom) REFERENCES receipt_item(id);
-ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_sub) REFERENCES receipt_item(id);
+ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_dom) REFERENCES receipt_item(id) ON DELETE CASCADE;
+ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_sub) REFERENCES receipt_item(id) ON DELETE CASCADE;
 
-ALTER TABLE receipt_group ADD FOREIGN KEY (receipt_id) REFERENCES receipt(id);
+ALTER TABLE receipt_group ADD FOREIGN KEY (receipt_id) REFERENCES receipt(id) ON DELETE CASCADE;
 
-ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_item_id) REFERENCES receipt_item(id);
-ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_group_id) REFERENCES receipt_group(id);
+ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_item_id) REFERENCES receipt_item(id) ON DELETE CASCADE;
+ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_group_id) REFERENCES receipt_group(id) ON DELETE CASCADE;
 
 -- #########
 -- # Notes #

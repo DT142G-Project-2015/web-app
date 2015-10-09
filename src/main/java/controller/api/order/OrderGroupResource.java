@@ -60,4 +60,24 @@ public class OrderGroupResource {
 
         }
     }
+
+    @Path("{group_id: [0-9]+}/item")
+    public OrderItemResource getOrderItem(@PathParam("group_id") int groupId) {
+        return new OrderItemResource(orderId, groupId);
+    }
+
+    @DELETE @Path("{id: [0-9]+}")
+    public Response deleteOrderGroup(@PathParam("id") int id) throws SQLException {
+        try
+        (
+             Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement("DELETE FROM receipt_group WHERE id = (?)")
+        )
+        {
+            st.setInt(1, id);
+            st.executeUpdate();
+
+            return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
+        }
+    }
 }

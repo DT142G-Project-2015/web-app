@@ -101,6 +101,21 @@ public class Database {
         return rs.getInt(1);
     }
 
+    public static List<Map<String, Object>> simpleQuery(Connection conn, String q, Integer p, Integer p2) throws SQLException {
+
+        try (PreparedStatement st = conn.prepareStatement(q)) {
+
+            if (p != null)
+                st.setInt(1, p);
+
+            if (p2 != null)
+                st.setInt(2, p2);
+
+            ResultSet rs = st.executeQuery();
+            return Database.toList(rs);
+        }
+    }
+
     public static List<Map<String, Object>> simpleQuery(Connection conn, String q, Integer parameter) throws SQLException {
 
         try (PreparedStatement st = conn.prepareStatement(q)) {
