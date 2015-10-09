@@ -134,14 +134,9 @@ CREATE TABLE account
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
 	username	VARCHAR(255) NOT NULL,
 	userhash	VARCHAR(255) NOT NULL,
-	role		INT NOT NULL
-);
-
-CREATE TABLE employee 
-(
-	account_id	INT NOT NULL PRIMARY KEY NOT NULL,
+	role		INT NOT NULL,
 	first_name	VARCHAR(255) NOT NULL,
-	last_name	VARCHAR(255) NOT NULL
+    last_name	VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE shift
@@ -160,7 +155,6 @@ CREATE TABLE schedule
 	PRIMARY KEY	(account_id, shift_id)
 );
 
-ALTER TABLE employee ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (account_id) REFERENCES account(id);
 ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
 
@@ -191,19 +185,13 @@ INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
 ('3', 'Potatis', 'Tillbehör', '7', 'kg', '2015-11-13');
 
 
-INSERT INTO account (username, userhash, role) VALUES 
-('root', 'toor', 0);
-INSERT INTO account (username, userhash, role) VALUES 
-('cook', 'password', 1);
-INSERT INTO account (username, userhash, role) VALUES 
-('waitress', 'tipme', 2);
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('root', 'toor', 1, 'Gustav', 'Åström');
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('cook', 'password', 1, 'Sebastian', 'Persson');
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('waitress', 'tipme', 2, 'Viktor', 'Spindler');
 
-INSERT INTO employee (account_id, first_name, last_name) VALUES
-(1, 'Gustav', 'Åström');
-INSERT INTO employee (account_id, first_name, last_name) VALUES
-(2, 'Sebastian', 'Persson');
-INSERT INTO employee (account_id, first_name, last_name) VALUES
-(3, 'Viktor', 'Spindler');
 
 INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');

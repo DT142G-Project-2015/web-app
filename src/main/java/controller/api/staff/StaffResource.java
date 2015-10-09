@@ -26,7 +26,7 @@ public class StaffResource {
     @GET
     public String getStaff() throws SQLException {
 
-        String query = "SELECT * FROM account LEFT JOIN employee ON account.id = employee.account_id";
+        String query = "SELECT * FROM account";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
