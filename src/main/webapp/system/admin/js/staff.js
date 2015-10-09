@@ -25,8 +25,6 @@ $(document).ready(function(){
             staff[element.id] = element.value;
         });
 
-        alert(JSON.stringify(staff));
-
         $.ajax({
             url: '../../api/staff',
             type: 'POST',
