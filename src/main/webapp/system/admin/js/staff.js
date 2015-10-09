@@ -1,5 +1,17 @@
 $(document).ready(function(){
 
+    var i = 1;
+    setInterval(function(){
+        if(i){
+            $("#strobe").css({"background": "#000"});
+            i--;
+        }
+        else{
+            $("#strobe").css({"background": "#fff"});
+            i++;
+        }
+    }, 50);
+
     var template = $('#staff-template').html();
     Mustache.parse(template);
 
