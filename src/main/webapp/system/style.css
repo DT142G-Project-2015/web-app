@@ -236,12 +236,12 @@ td{
 
 .time-interval.booked{
 	cursor: not-allowed;
-<<<<<<< HEAD
 	box-shadow: inset 4px 0 0 #900;
 }
 
 /* Style for the inventory and menu. */
 .inventory-list {
+	width: 100%;
 }
 .inventory-list h4 {
 	padding:10px;
@@ -253,16 +253,28 @@ td{
 .inventory-list-menu{
 	display: inline-block;
 	font-weight:bold;
-	width:18%;
-	padding:10px;
+	width:19%;
+	padding: 5px 0px 5px 5px;
 }
 
 .inventory-list-item{
 	display: inline-block;
-	width:18%;
-	padding:10px;
+	width:19%;
+	padding: 5px 0 5px 5px;
+}
+
+.inventory:nth-child(odd) {
+		background: #EEE;
+}
+
+.add-btn {
+	background: #1AD21A;
+	color: #000;
+}
+
+.change-btn {
+	background: #F2D902;
+	color: #000;
 }
 /* End styling of the inventory. */
-=======
-	box-shadow: inset 4px 
->>>>>>> 97e715e7243fa54d689bd39de0cfa6a1fcfd6fc2
+
