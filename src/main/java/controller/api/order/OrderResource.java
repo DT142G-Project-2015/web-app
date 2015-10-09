@@ -27,12 +27,14 @@ public class OrderResource {
 
         Order order = new Order();
         order.id = (Integer)rows.get(0).get("receipt_id");
+        order.booth = (Integer) rows.get(0).get("booth");
+
 
         Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
                 collect(Collectors.groupingBy(row -> row.get("receipt_group_id")));
 
-        Stream<Order.Group> groups = byGroup.keySet().stream().map(group -> {
-            List<Map<String, Object>> groupRows = byGroup.get(group);
+        Stream<Order.Group> groups = byGroup.entrySet().stream().map(e -> {
+            List<Map<String, Object>> groupRows = e.getValue();
 
             Order.Group g = new Order.Group();
             g.status = Status.fromText((String)groupRows.get(0).get("status"));
