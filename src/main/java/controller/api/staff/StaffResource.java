@@ -53,7 +53,8 @@ public class StaffResource {
                 st.setInt(3, staff.role);
                 st.executeUpdate();
                 return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
-            } else {
+            }
+            else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
         }
