@@ -61,21 +61,35 @@
 						<input id="password" type="password"><br>
 						Roll:<br>
 						<input id="role" type="text"><br>
-						<span id="add-staff-btn" style="float: right" class="button">Lägg till</span>
+						<span id="add-staff-btn" style="float: right" class="button add-btn">Lägg till</span>
 					</form>
 				</div>
 			</div><div id="staff-content">
 			<div id="staff-list">
 				<table>
-					<tr>
-						<td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td>
-					</tr>
+
 				</table>
 			</div>
 		</div>
 		</div>
 	</div>
+
 	<script src="../jquery-1.11.3.min.js"></script>
+	<script src="../mustache.min.js"></script>
 	<script src="js/staff.js"></script>
+	<script id="staff-template" type="x-tmpl-mustache">
+		{{ #articles }}
+			<tr>
+				<td>{{ id }}</td>
+				<td>{{ username }}</td>
+				<td>{{ first_name}} {{ last_name }}</td>
+				<td>{{ role }}</td>
+				<td>
+					<span id="delete-staff-btn" class="button delete-btn">Radera</span>
+					<span id="adjust-staff-btn" class="button change-btn">Ändra</span>
+				</td>
+			</tr>
+		{{ /articles }}
+	</script>
 </body>
 </html>

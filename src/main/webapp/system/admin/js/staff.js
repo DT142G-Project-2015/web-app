@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    var template = $('#staff-template').html();
+    Mustache.parse(template);
+
     getStaff();
 
     function getStaff(){
@@ -9,17 +12,9 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json'
         }).done(function(data){
-            var htmlString;
-            $.each(data, function(i, staff){
-                htmlString = '<tr><td>Id</td><td>';
-                htmlString += staff.username;
-                htmlString += '</td><td>';
-                htmlString += staff.first_name + " " + staff.last_name;
-                htmlString += '</td><td>';
-                htmlString += staff.role;
-                htmlString += '</td><td><span id="delete-staff-btn" class="button">Radera</span><span id="adjust-staff-btn" class="button">Ändra</span></td></tr>';
-                $("#staff-list table").append(htmlString);
-            });
+            $('#staff-list table').html("<tr><td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td></tr>");
+            var rendered = Mustache.render(template, {articles: data})
+            $('#staff-list table').append(rendered);
         });
     }
 
@@ -38,7 +33,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: JSON.stringify(staff)
         }).done(function(addedStaff){
-            alert("works");
+            getStaff();
         });
 
     }
