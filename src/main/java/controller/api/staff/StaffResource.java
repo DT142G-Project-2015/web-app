@@ -31,6 +31,46 @@ public class StaffResource {
         }
     }
 
+
+
+
+    @POST
+    public Response addMenu(String postData) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = Database.getConnection();
+            Staff staff = new Gson().fromJson(postData, Staff.class);
+            conn.setAutoCommit(false);  // Begin Transaction
+            if (staff.isValid()) {
+                staff.id = insertMenu(conn, staff.username, staff.userhash, staff.role);
+                conn.commit();  // Commit Transaction
+                return Response.ok(Utils.toJson(staff)).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+        } catch (SQLException e) {
+            if (conn != null)
+                conn.rollback();
+            throw e;
+
+        } finally {
+            if (conn != null)
+                conn.close();
+        }
+    }
+
+    int insertMenu(Connection c, String username, String userhash, int role) throws SQLException {
+        String db_query = "INSERT INTO account (username, userhash, role) VALUES ((?), (?), (?))";
+        try (PreparedStatement st = c.prepareStatement(db_query, Statement.RETURN_GENERATED_KEYS)) {
+            st.setString(1, username);
+            st.setString(2, userhash);
+            st.setInt(3, role);
+            st.executeUpdate();
+            System.out.println("updated");
+            return Database.getAutoIncrementID(st);
+        }
+    }
+/*
     @POST
     public Response addStaff(String postData) throws SQLException {
        try (Connection conn = Database.getConnection();
@@ -38,9 +78,9 @@ public class StaffResource {
                 "INSERT INTO account (username, userhash, role) VALUES ((?), (?), (?))",
                 Statement.RETURN_GENERATED_KEYS)) {
 
-            Gson gson = new Gson();
+           Gson gson = new Gson();
 
-            Staff staff = gson.fromJson(postData, Staff.class);
+           Staff staff = gson.fromJson(postData, Staff.class);
 
             if (staff.isValid()) {
                 st.setString(1, staff.username);
@@ -57,6 +97,6 @@ public class StaffResource {
             } else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
-        }
-    }
+
+       }*/
 }
