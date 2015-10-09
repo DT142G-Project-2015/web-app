@@ -2,7 +2,6 @@ package controller.api.staff;
 
 
 import com.google.gson.Gson;
-import model.IdHolder;
 import model.Staff;
 import model.UpdateMessage;
 import util.Database;
@@ -17,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 
 @Path("staff")
@@ -48,12 +48,10 @@ public class StaffResource {
             Staff staff = gson.fromJson(postData, Staff.class);
 
             if (staff.isValid()) {
-
                 st.setString(1, staff.username);
                 st.setString(2, staff.password);
                 st.setInt(3, staff.role);
                 st.executeUpdate();
-
                 return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
             }
             else {
@@ -61,5 +59,4 @@ public class StaffResource {
             }
         }
     }
-
 }
