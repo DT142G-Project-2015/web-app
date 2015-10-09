@@ -1,11 +1,4 @@
 
--- ###########
--- # Charset #
--- ###########
-
--- DEFAULT CHARACTER SET utf8;
--- DEFAULT COLLATE utf8_general_ci;
-
 -- #########
 -- # Items #
 -- #########
@@ -260,3 +253,5 @@ INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (1, 1)
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (2, 2);
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (3, 3);
 INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (5, 2);
+
+SET NAMES "UTF-8";

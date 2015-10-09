@@ -9,5 +9,6 @@ public class Staff {
     public int role;
     public boolean isValid() {
         return username.length() > 0 && password.length() > 6 && (role == 1 || role == 2);
+
     }
 }
