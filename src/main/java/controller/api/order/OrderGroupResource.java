@@ -61,6 +61,11 @@ public class OrderGroupResource {
         }
     }
 
+    @Path("{group_id: [0-9]+}/item")
+    public OrderItemResource getOrderItem(@PathParam("group_id") int groupId) {
+        return new OrderItemResource(orderId, groupId);
+    }
+
     @DELETE @Path("{id: [0-9]+}")
     public Response deleteOrderGroup(@PathParam("id") int id) throws SQLException {
         try
