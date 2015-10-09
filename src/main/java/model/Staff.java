@@ -8,6 +8,6 @@ public class Staff {
     public String password;
     public int role;
     public boolean isValid() {
-        return username.length() > 0 && userhash.length() > 6 && (role == 1 || role == 2);
+        return username.length() > 0 && password.length() > 6 && (role == 1 || role == 2);
     }
 }
