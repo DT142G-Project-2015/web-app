@@ -7,7 +7,6 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
-    <script src="jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -25,62 +24,34 @@
 <div id="content">
     <div class="section">
         <h1>Lager</h1>
-        <div class="inventory-list">
-            <h4>> Råvara</h4>
-            <div class="inventory-list-menu">Varu ID</div>
-            <div class="inventory-list-menu">Varu namn</div>
-            <div class="inventory-list-menu">Antal</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">4564654</div>
-            <div class="inventory-list-item">Svensk fläskfilé</div>
-            <div class="inventory-list-item">Antal</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
-        <div class="inventory-list">
-            <h4>> Färskvara</h4>
-            <div class="inventory-list-menu">Varu ID</div>
-            <div class="inventory-list-menu">Varu namn</div>
-            <div class="inventory-list-menu">Antal</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">4564654</div>
-            <div class="inventory-list-item">Svensk fläskfilé</div>
-            <div class="inventory-list-item">Antal</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
-        <div class="inventory-list">
-            <h4>> Övrigt</h4>
-            <div class="inventory-list-menu">Varu ID</div>
-            <div class="inventory-list-menu">Varu namn</div>
-            <div class="inventory-list-menu">Antal</div>
-            <div class="inventory-list-menu">Utseende (Bild)</div>
-            <div class="inventory-list-menu">Hantera</div>
-        </div>
-        <div class="inventory-list">
-            <div class="inventory-list-item">4564654</div>
-            <div class="inventory-list-item">Svensk fläskfilé</div>
-            <div class="inventory-list-item">Antal</div>
-            <div class="inventory-list-item">Utseende</div>
-            <div class="inventory-list-item">
-                <span id="delete-staff-btn" class="button">Radera</span>
-                <span id="adjust-staff-btn" class="button">Ändra</span>
-            </div>
-        </div>
     </div>
 
 </div>
+
+<script id="storage_template" type="x-tmpl-mustache">
+    {{ #articles }}
+            <h1>Lager</h1>
+            <div class="inventory-list">
+                <h4>> Råvara</h4>
+                <div class="inventory-list-menu">Varu ID</div>
+                <div class="inventory-list-menu">Varu namn</div>
+                <div class="inventory-list-menu">Antal</div>
+                <div class="inventory-list-menu">Enhet</div>
+            </div>
+            <div class="inventory-list">
+                <div class="inventory-list-item">{{ id }}</div>
+                <div class="inventory-list-item">{{ name }}</div>
+                <div class="inventory-list-item">{{ amount }}</div>
+                <div class="inventory-list-item">{{ unit }}</div>
+                <div class="inventory-list-item">
+                    <span class="adjust-storage-btn" class="button">Ändra</span>
+                </div>
+            </div>
+    {{ /articles }}
+</script>
+
+<script src="../jquery-1.11.3.min.js"></script>
+<script src="../mustache.min.js"></script>
+<script src="js/storage.js"></script>
 
 </body>
