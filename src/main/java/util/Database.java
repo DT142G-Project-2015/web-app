@@ -54,7 +54,6 @@ public class Database {
                 System.err.println("Failed to connect to the H2 database");
                 throw new RuntimeException(e2);
             }
-
         }
 
         return conn;

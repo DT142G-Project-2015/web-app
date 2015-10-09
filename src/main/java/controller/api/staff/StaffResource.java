@@ -30,5 +30,4 @@ public class StaffResource {
             return new Gson().toJson(Database.toList(rs));
         }
     }
-
 }
