@@ -15,6 +15,7 @@ $(document).ready(function(){
             $('#staff-list table').html("<tr><td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td></tr>");
             var rendered = Mustache.render(template, {articles: data})
             $('#staff-list table').append(rendered);
+            initVisuals();
         });
     }
 
@@ -24,8 +25,6 @@ $(document).ready(function(){
         $('#add-staff form :input').each(function(index, element){
             staff[element.id] = element.value;
         });
-
-        alert(JSON.stringify(staff));
 
         $.ajax({
             url: '../../api/staff',
@@ -41,5 +40,17 @@ $(document).ready(function(){
     $("#add-staff-btn").click(function(){
         addStaff();
     });
+
+    $("#overlay").hide();
+    $("#alter-staff-popup").hide();
+
+    function initVisuals() {
+
+        $("#alter-staff-btn").click(function(){
+            $("#overlay").fadeIn(2000);
+            $("#alter-staff-popup").fadeIn(200);
+        });
+
+    }
 
 });

@@ -41,7 +41,7 @@ public class StaffResource {
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO account(username, userhash, role) VALUES((?), (?), (?))")) {
+                     "INSERT INTO account(username, userhash, role, first_name, last_name) VALUES((?), (?), (?), (?), (?))")) {
 
             Gson gson = new Gson();
 
@@ -51,6 +51,8 @@ public class StaffResource {
                 st.setString(1, staff.username);
                 st.setString(2, staff.password);
                 st.setInt(3, staff.role);
+                st.setString(4, staff.first_name);
+                st.setString(5, staff.last_name);
                 st.executeUpdate();
                 return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
             }
