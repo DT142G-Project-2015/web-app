@@ -277,13 +277,13 @@ td{
 .inventory-list-menu{
 	display: inline-block;
 	font-weight:bold;
-	width:19%;
+	width:15.5%;
 	padding: 5px 0px 5px 5px;
 }
 
 .inventory-list-item{
 	display: inline-block;
-	width:19%;
+	width:15.5%;
 	padding: 5px 0 5px 5px;
 }
 

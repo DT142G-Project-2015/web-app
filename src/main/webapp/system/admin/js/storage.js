@@ -32,7 +32,6 @@ $(document).ready(function(){
             dataType: 'json',
             data: JSON.stringify(storage)
         }).done(function(addedStorage){
-            alert("works");
         });
 
     }

@@ -7,6 +7,9 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
+
+</script>
+
 </head>
 
 <body>
@@ -39,7 +42,11 @@
         <div class="inventory-list-menu">Hantera</div>
     </div>
     {{ #articles }}
-    <h1>> {{ category }}</h1>
+
+
+    <h1>>
+            {{ category }}
+    </h1>
 
         <div class="inventory">
             <div class="inventory-list">
@@ -49,7 +56,9 @@
                 <div class="inventory-list-item">{{ unit }}</div>
                 <div class="inventory-list-item">{{ exp_date }}</div>
                 <div class="inventory-list-item">
-                    <span class="change-btn button">Ändra</span>
+                    <span class="change-btn button" id="change-btn">Ändra</span>
+
+
                 </div>
             </div>
         </div>
@@ -57,7 +66,8 @@
 
 </script>
 <div class="section">
-        <div id="add-item">
+        <h1>Lägg till vara</h1>
+        <div id="add-storage">
             <form>
                 <table><tr><td>
                  Varunamn:</td><td>
@@ -75,10 +85,9 @@
                   Utgångsdatum:</td><td>
                   <input id="exp_date" type="date"><br><br>
                 </tr><tr><td>
-                    <span class="button add-btn">+ Lägg till</span><br>
+                    <span class="button add-btn" id="add-storage-btn">+ Lägg till</span><br>
                 </td></tr></table>
             </form>
-
         </div>
 </div>
 

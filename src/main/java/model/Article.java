@@ -9,6 +9,9 @@ public class Article {
     public String exp_date;
 
     public boolean isValid() {
-        return (name != null); // TO-DO: more
+
+        return (name != null) && (category != null)
+                && (amount != 0.0) && (unit != null)
+                && (exp_date != null);
     }
 }

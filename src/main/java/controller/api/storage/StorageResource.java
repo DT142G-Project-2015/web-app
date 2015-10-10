@@ -94,14 +94,41 @@ public class StorageResource
         }
     }
 
+
+    @POST
+    public Response insertStaff(String postData) throws SQLException {
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(
+                     "INSERT INTO article (name, category, amount, unit, exp_date) VALUES((?), (?), (?), (?), (?))")) {
+
+            Gson gson = new Gson();
+
+            Article article = gson.fromJson(postData, Article.class);
+
+            if (article.isValid()) {
+                st.setString(1, article.name);
+                st.setString(2, article.category);
+                st.setDouble(3, article.amount);
+                st.setString(4, article.unit);
+                st.setString(5, article.exp_date);
+                st.executeUpdate();
+                return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
+            }
+            else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+        }
+    }
+
+/*
     @POST
     public Response addArticle(String postData) throws SQLException
     {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
                      "INSERT INTO article (name, category, amount, unit, exp_date) VALUES ((?), (?), (?), (?), (?))",
-                     Statement.RETURN_GENERATED_KEYS))
-        {
+                     Statement.RETURN_GENERATED_KEYS)){
             Gson gson = new Gson();
 
             Article article  = gson.fromJson(postData, Article.class);
@@ -127,6 +154,7 @@ public class StorageResource
             }
         }
     }
+    */
 
     @DELETE @Path("{id: [0-9]+}")
     public Response deleteArticle(@PathParam("id") int id) throws SQLException {
