@@ -104,22 +104,22 @@ public class StorageResource
         {
             Gson gson = new Gson();
 
-            Article item  = gson.fromJson(postData, Article.class);
+            Article article  = gson.fromJson(postData, Article.class);
 
-            if (item.isValid())
+            if (article.isValid())
             {
-                st.setString(1, item.name);
-                st.setString(2, item.category);
-                st.setDouble(3, item.amount);
-                st.setString(4, item.unit);
-                st.setString(5, item.exp_date);
+                st.setString(1, article.name);
+                st.setString(2, article.category);
+                st.setDouble(3, article.amount);
+                st.setString(4, article.unit);
+                st.setString(5, article.exp_date);
                 st.executeUpdate();
 
                 ResultSet rs = st.getGeneratedKeys();
                 rs.next();
-                item.id = rs.getInt(1);
+                article.id = rs.getInt(1);
 
-                return Response.ok(Utils.toJson(item)).build();
+                return Response.ok(Utils.toJson(article)).build();
             }
             else
             {

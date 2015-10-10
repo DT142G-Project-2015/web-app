@@ -31,30 +31,56 @@
 
 <script id="storage_template" type="x-tmpl-mustache">
     <div class="inventory-list">
-        <h4>> Råvara</h4>
         <div class="inventory-list-menu">Varu ID</div>
         <div class="inventory-list-menu">Varu namn</div>
         <div class="inventory-list-menu">Antal</div>
         <div class="inventory-list-menu">Enhet</div>
+        <div class="inventory-list-menu">Utgångsdatum</div>
         <div class="inventory-list-menu">Hantera</div>
     </div>
     {{ #articles }}
+    <h1>> {{ category }}</h1>
+
         <div class="inventory">
             <div class="inventory-list">
                 <div class="inventory-list-item">{{ id }}</div>
                 <div class="inventory-list-item">{{ name }}</div>
                 <div class="inventory-list-item">{{ amount }}</div>
                 <div class="inventory-list-item">{{ unit }}</div>
+                <div class="inventory-list-item">{{ exp_date }}</div>
                 <div class="inventory-list-item">
                     <span class="change-btn button">Ändra</span>
                 </div>
             </div>
         </div>
     {{ /articles }}
-    <div class="inventory-list-item">
-        <h4><span class="button add-btn">+ Lägg till</span> </h4>
-    </div>
+
 </script>
+<div class="section">
+        <div id="add-item">
+            <form>
+                <table><tr><td>
+                 Varunamn:</td><td>
+                    <input id="name" type="text"><br></td>
+                </tr><tr><td>
+                    Kategori:</td><td>
+                    <input id="category" type="text"><br>
+                </tr><tr><td>
+                 Antal:</td><td>
+                  <input id="amount" type="text"><br>
+                </tr><tr><td>
+                  Enhet:</td><td>
+                  <input id="unit" type="text"><br>
+                </tr><tr><td>
+                  Utgångsdatum:</td><td>
+                  <input id="exp_date" type="date"><br><br>
+                </tr><tr><td>
+                    <span class="button add-btn">+ Lägg till</span><br>
+                </td></tr></table>
+            </form>
+
+        </div>
+</div>
 
 <script src="../jquery-1.11.3.min.js"></script>
 <script src="../mustache.min.js"></script>
