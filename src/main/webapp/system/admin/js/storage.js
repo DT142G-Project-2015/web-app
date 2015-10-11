@@ -40,7 +40,7 @@ $(document).ready(function(){
         });
 
     }
-
+/*
     function deleteStorage(){
 
         var storage = {}
@@ -49,27 +49,35 @@ $(document).ready(function(){
         });
 
         alert(JSON.stringify(storage));
+        $('#item_list .delete_btn').click(function() {
+                var item_id = $(this).closest('.menu_item').data('id');
+                $.ajax({
+                    url: '../../api/storage',
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: JSON.stringify(storage)
+                }).done(function(addedStorage){
+                    alert('Borttagen..');
+                });
+
+
+    }*/
+
+    $('.inventory-list .delete_btn').click(function() {
+       var storage_id = $(this).closest('.inventory-list-item').data('id');
 
         $.ajax({
-            url: '../../api/storage',
+            url: '../../api/storage/' + storage_id,
             type: 'DELETE',
-            dataType: 'json',
-            data: JSON.stringify(storage)
-        }).done(function(addedStorage){
-            alert('Borttagen..');
+            dataType: 'text'
+        }).done(function() {
+            alert('removed');
         });
-
-    }
+    });
 
     $("#add-storage-btn").click(function(){
         addStorage();
     });
-
-    $("#change-btn").click(function(){
-        alert('clicked..');
-        deleteStorage();
-    });
-
 
 
 });

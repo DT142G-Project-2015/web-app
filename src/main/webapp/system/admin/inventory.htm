@@ -50,14 +50,15 @@
 
         <div class="inventory">
             <form>
-                <div class="inventory-list" data-id="{{ id }}">
-                    <div class="inventory-list-item">{{ id }}</div>
+                <div class="inventory-list">
+                    <div class="inventory-list-item" data-id="{{ id }}">{{ id }}</div>
                     <div class="inventory-list-item"><input type="text" value="{{ name }}"></div>
                     <div class="inventory-list-item"><input type="text" value="{{ amount }}"></div>
                     <div class="inventory-list-item"><input type="text" value="{{ unit }}"></div>
                     <div class="inventory-list-item">{{ exp_date }}</div>
                     <div class="inventory-list-item">
                         <span class="change-btn button" data-id="{{ id }}" id="change-btn">Ändra</span>
+                        <span class="delete-btn button" data-id="{{ id }}" id="delete-btn">Remove</span>
                     </div>
                 </div>
             </form>
