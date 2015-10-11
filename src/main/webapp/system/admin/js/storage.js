@@ -1,9 +1,14 @@
 $(document).ready(function(){
 
+   $("#change-item-box").hide();
+
+
+
     var template = $('#storage_template').html();
     Mustache.parse(template);
 
     getStorage();
+
 
     function getStorage(){
 
@@ -36,8 +41,35 @@ $(document).ready(function(){
 
     }
 
+    function deleteStorage(){
+
+        var storage = {}
+        $('#add-storage form :input').each(function(index, element){
+            storage[element.id] = element.value;
+        });
+
+        alert(JSON.stringify(storage));
+
+        $.ajax({
+            url: '../../api/storage',
+            type: 'DELETE',
+            dataType: 'json',
+            data: JSON.stringify(storage)
+        }).done(function(addedStorage){
+            alert('Borttagen..');
+        });
+
+    }
+
     $("#add-storage-btn").click(function(){
         addStorage();
     });
+
+    $("#change-btn").click(function(){
+        alert('clicked..');
+        deleteStorage();
+    });
+
+
 
 });

@@ -300,5 +300,20 @@ td{
 	background: #F2D902;
 	color: #000;
 }
+
+/* Styling for change state box*/
+
+#change-item-box {
+	width: 800px;
+	height:300px;
+	z-index: 10;
+	background: #fff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* END styling for change state box*/
+
+
 /* End styling of the inventory. */
 

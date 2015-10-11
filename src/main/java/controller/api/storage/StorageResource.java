@@ -121,41 +121,6 @@ public class StorageResource
         }
     }
 
-/*
-    @POST
-    public Response addArticle(String postData) throws SQLException
-    {
-        try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO article (name, category, amount, unit, exp_date) VALUES ((?), (?), (?), (?), (?))",
-                     Statement.RETURN_GENERATED_KEYS)){
-            Gson gson = new Gson();
-
-            Article article  = gson.fromJson(postData, Article.class);
-
-            if (article.isValid())
-            {
-                st.setString(1, article.name);
-                st.setString(2, article.category);
-                st.setDouble(3, article.amount);
-                st.setString(4, article.unit);
-                st.setString(5, article.exp_date);
-                st.executeUpdate();
-
-                ResultSet rs = st.getGeneratedKeys();
-                rs.next();
-                article.id = rs.getInt(1);
-
-                return Response.ok(Utils.toJson(article)).build();
-            }
-            else
-            {
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
-        }
-    }
-    */
-
     @DELETE @Path("{id: [0-9]+}")
     public Response deleteArticle(@PathParam("id") int id) throws SQLException {
         try (Connection conn = Database.getConnection();
