@@ -80,11 +80,10 @@ public class OrderResource {
         g.status = Status.fromText((String)groupRows.get(0).get("status"));
         g.id = (Integer) groupRows.get(0).get("receipt_group_id");
 
-        Map<Object, List<Map<String, Object>>> byGroupItem = groupRows.stream().
-                collect(Collectors.groupingBy(row -> row.get("receipt_group_item_id")));
-
-        g.items = byGroupItem.values().stream()
-                .map(itemRows -> parseItem(itemRows))
+        g.items = groupRows.stream()
+                .filter(r -> r.get("receipt_group_item_id") != null)
+                .collect(Collectors.groupingBy(r -> r.get("receipt_group_item_id")))
+                .values().stream().map(itemRows -> parseItem(itemRows))
                 .collect(Collectors.toList());
 
         return g;
@@ -134,12 +133,10 @@ public class OrderResource {
                            "LEFT JOIN note n2 ON s_n.note_id = n2.id " +
                            "LEFT JOIN item i1 ON rgi.item_id = i1.id " +
                            "LEFT JOIN item i2 ON rgsi.item_id = i2.id ";
-    
+
 
     @GET
     public String getOrders(@QueryParam("status") String status) throws SQLException {
-
-        // TODO: IMPORTANT: Fix Notes!
 
         String query = getOrdersQuery;
 
