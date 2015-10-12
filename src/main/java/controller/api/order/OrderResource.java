@@ -37,6 +37,7 @@ public class OrderResource {
                 .values().stream().map(noteRows -> {
                     Order.Note note = new Order.Note();
 
+                    note.id = (int)noteRows.get(0).get("sub_note_id");
                     note.text = (String)noteRows.get(0).get("sub_note");
 
                     return note;
@@ -66,6 +67,7 @@ public class OrderResource {
                 .values().stream().map(noteRows -> {
                     Order.Note note = new Order.Note();
 
+                    note.id = (int)noteRows.get(0).get("item_note_id");
                     note.text = (String)noteRows.get(0).get("item_note");
 
                     return note;
