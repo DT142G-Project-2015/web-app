@@ -37,16 +37,20 @@ $(document).ready(function(){
             //Is used to update an article and fetching the new menu.
             $('.change-btn').click(function() {
                 var storage_id = $(this).closest('.inventory-list-item').data('id');
+                var exp_date = $(this).closest('.inventory-list-item').data('date');
 
-                alert(JSON.stringify(storage_id));
+                //alert(JSON.stringify(storage_id) + JSON.stringify(exp_date));
 
                 var storage = {}
-                $('.inventory-list .change-btn form :input').each(function(index, element){
-                    storage[element.id] = element.value;
+                storage.id = storage_id;
+                $('#inventory-list'+storage.id+' form :input').each(function(index, element){
+                    storage[element.name] = element.value;
                 });
+                storage.exp_date = exp_date;
 
+                alert(JSON.stringify(storage));
                 $.ajax({
-                    url: '../../api/storage/' + storage_id,
+                    url: '../../api/storage/',
                     type: 'PUT',
                     dataType: JSON.stringify(storage)
                 }).done(function() {
