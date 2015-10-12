@@ -171,7 +171,6 @@ public class OrderResource {
 
         String query = getOrdersQuery + " WHERE r.id = (?)";
 
-        // TODO: IMPORTANT: Fix Notes!
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
 
@@ -219,29 +218,19 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    static int insertItem(Connection conn, int itemId)
+    static int insertGroupItem(Connection conn, int itemId, int groupId)
             throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_item (item_id) VALUES ((?))",
+        PreparedStatement st = conn.prepareStatement(
+                "INSERT INTO receipt_group_item (item_id, receipt_group_id) " +
+                "VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
 
-
         st.setInt(1, itemId);
+        st.setInt(2, groupId);
 
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
-    }
-
-    static void insertGroupItem(Connection conn, int orderItemId, int groupId)
-            throws SQLException {
-        PreparedStatement st = conn.prepareStatement(
-                "INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) " +
-                "VALUES ((?), (?))");
-
-        st.setInt(1, orderItemId);
-        st.setInt(2, groupId);
-
-        st.executeUpdate();
     }
 
     @POST
@@ -263,15 +252,18 @@ public class OrderResource {
 
                     int groupId = insertGroup(conn, Status.getText(g.status), order.id);
                     for (Order.Item i : g.items) {
-                        
+
+                        int groupItemId = insertGroupItem(conn, i.id, groupId);
+
+
+
+
                         /*
                         Integer noteId = null;
                         if (i.note != null) {
                             noteId = insertNote(conn, i.note.text);
                         }*/
-                        int orderItemId = insertItem(conn, i.id);
-                        
-                        insertGroupItem(conn, orderItemId, groupId);
+
                     }
                 }
 
