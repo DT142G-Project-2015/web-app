@@ -58,39 +58,25 @@ public class StorageResource
 
     @PUT @Path("{id: [0-9]+}")
     public Response updateArticle(@PathParam("id") int id, String postData) throws SQLException {
-        Connection conn = null;
-        try {
-            conn = Database.getConnection();
-
-            conn.setAutoCommit(false);  // Begin Transaction
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(
+                     "UPDATE article SET name = (?), amount = (?), unit = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
-            Article item = gson.fromJson(postData, Article.class);
 
-            try (PreparedStatement st = conn
-                    .prepareStatement("UPDATE article SET amount = (?) WHERE id = (?)")) {
+            Article article = gson.fromJson(postData, Article.class);
 
-                st.setDouble(1, item.amount);
-                st.setInt(2, id);
+            if (article.isValid()) {
+                st.setString(1, article.name);
+                st.setDouble(2, article.amount);
+                st.setString(3, article.unit);
+                st.setInt(4, id);
                 st.executeUpdate();
+                return Response.ok(new UpdateMessage("updated", Database.getAutoIncrementID(st)).toJson()).build();
             }
-
-            // add more if you want
-
-            conn.commit();
-
-            UpdateMessage msg = new UpdateMessage("updated", id);
-
-            return Response.ok(msg.toJson()).build();
-
-        } catch (SQLException e) {
-            if (conn != null)
-                conn.rollback();
-            throw e;
-
-        } finally {
-            if (conn != null)
-                conn.close();
+            else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
         }
     }
 

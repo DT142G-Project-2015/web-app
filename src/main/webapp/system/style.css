@@ -288,7 +288,7 @@ td{
 	padding: 5px 0 5px 5px;
 }
 
-.inventory:nth-child(odd) {
+.inventory:nth-child(even) {
 		background: #EEE;
 }
 
