@@ -69,8 +69,8 @@ public class OrderItemResource {
     }
 
 
-    @Path("{group_id: [0-9]+}/subitem")
-    public OrderItemResource getOrderSubItem(@PathParam("group_id") int groupId) {
-        return new OrderItemResource(orderId, groupId);
+    @Path("{id: [0-9]+}/subitem")
+    public OrderSubItemResource getOrderSubItem(@PathParam("id") int groupItemId) {
+        return new OrderSubItemResource(groupItemId);
     }
 }

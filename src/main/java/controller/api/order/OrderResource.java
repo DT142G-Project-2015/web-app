@@ -235,6 +235,21 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
+    static int insertGroupSubItem(Connection conn, int itemId, int parentGroupItemId)
+            throws SQLException {
+        PreparedStatement st = conn.prepareStatement(
+                "INSERT INTO receipt_group_sub_item (item_id, receipt_group_item_id) " +
+                        "VALUES ((?), (?))",
+                Statement.RETURN_GENERATED_KEYS);
+
+        st.setInt(1, itemId);
+        st.setInt(2, parentGroupItemId);
+
+        st.executeUpdate();
+
+        return Database.getAutoIncrementID(st);
+    }
+
     @POST
     public Response addOrder(String postData) throws SQLException {
 
