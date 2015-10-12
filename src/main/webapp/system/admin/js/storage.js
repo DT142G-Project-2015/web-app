@@ -17,6 +17,7 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json'
         }).done(function(data){
+            var cat = {}
             var rendered = Mustache.render(template, {articles: data})
            $('#content .section').empty();
            $('#content .section').append(rendered);
@@ -38,11 +39,13 @@ $(document).ready(function(){
             $('.change-btn').click(function() {
                 var storage_id = $(this).closest('.inventory-list-item').data('id');
                 var exp_date = $(this).closest('.inventory-list-item').data('date');
+//                var category = $(this).closest('.inventory-list-item').data('cat');
 
                 //alert(JSON.stringify(storage_id) + JSON.stringify(exp_date));
 
                 var storage = {}
                 storage.id = storage_id;
+                //storage.category = category;
                 $('#inventory-list'+storage.id+' form :input').each(function(index, element){
                     storage[element.name] = element.value;
                 });
@@ -50,9 +53,10 @@ $(document).ready(function(){
 
                 alert(JSON.stringify(storage));
                 $.ajax({
-                    url: '../../api/storage/',
+                    url: '../../api/storage/'+storage_id,
                     type: 'PUT',
-                    dataType: JSON.stringify(storage)
+                    dataType: 'json',
+                    data: JSON.stringify(storage)
                 }).done(function() {
                     alert('Uptaded menu');
                     getStorage(); //Used to fetch the new menu.
@@ -78,6 +82,7 @@ $(document).ready(function(){
             dataType: 'json',
             data: JSON.stringify(storage)
         }).done(function(addedStorage){
+                getStorage(); //Used to fetch the new menu.
         });
     }
 

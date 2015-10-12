@@ -60,20 +60,26 @@ public class StorageResource
     public Response updateArticle(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "UPDATE article SET name = (?), amount = (?), unit = (?), exp_date = (?) WHERE id = (?)")) {
+                     "UPDATE article SET name = (?), category = (?), amount = (?), unit = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
 
+
+            System.out.println(postData);
             Article article = gson.fromJson(postData, Article.class);
 
-            st.setString(1, article.name);
-            st.setDouble(2, article.amount);
-            st.setString(3, article.unit);
-            st.setString(4, article.exp_date);
-            st.setInt(5, id);
-            st.executeUpdate();
-
-            return Response.ok(new UpdateMessage("updated", Database.getAutoIncrementID(st)).toJson()).build();
+            if (article.isValid()) {
+                st.setString(1, article.name);
+                st.setString(2, article.category);
+                st.setDouble(3, article.amount);
+                st.setString(4, article.unit);
+                st.setInt(5, id);
+                st.executeUpdate();
+                return Response.ok(new UpdateMessage("update", Database.getAutoIncrementID(st)).toJson()).build();
+            }
+            else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
         }
     }
 
@@ -108,8 +114,8 @@ public class StorageResource
     public Response deleteArticle(@PathParam("id") int id) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement("DELETE FROM article WHERE id = (?)")) {
-            st.setInt(1, id);
 
+            st.setInt(1, id);
             st.executeUpdate();
             return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
         }
