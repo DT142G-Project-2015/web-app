@@ -249,12 +249,12 @@ public class OrderResource {
             if (order.isValidPost()) {
 
                 order.id = insertOrder(conn, order.booth);
-                if (order.groups != null) order.groups = new ArrayList<>();
+                if (order.groups == null) order.groups = new ArrayList<>();
                 
                 for (Order.Group g : order.groups) {
 
                     int groupId = insertGroup(conn, Status.getText(g.status), order.id);
-                    if (g.items != null) g.items = new ArrayList<>();
+                    if (g.items == null) g.items = new ArrayList<>();
 
                     for (Order.Item i : g.items) {
 

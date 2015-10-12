@@ -67,4 +67,10 @@ public class OrderItemResource {
             return Response.ok(Utils.toJson(msg)).build();
         }
     }
+
+
+    @Path("{group_id: [0-9]+}/subitem")
+    public OrderItemResource getOrderSubItem(@PathParam("group_id") int groupId) {
+        return new OrderItemResource(orderId, groupId);
+    }
 }
