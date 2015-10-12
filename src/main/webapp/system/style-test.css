@@ -71,8 +71,8 @@ td{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: #000;
-	opacity: 0.25;
+	background: #444;
+	opacity: 0.5;
 }
 .popup{
 	position: fixed;
@@ -85,7 +85,7 @@ td{
 	box-shadow: 0 2px 4px #000;
 	border-top: 8px solid #111;
 	border-radius: 4px;
-	background: #fff;
+	background: #222;
 }
 
 .button{

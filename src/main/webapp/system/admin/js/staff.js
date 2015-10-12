@@ -47,8 +47,8 @@ $(document).ready(function(){
     function initVisuals() {
 
         $("#alter-staff-btn").click(function(){
-            $("#overlay").fadeIn(2000);
-            $("#alter-staff-popup").fadeIn(200);
+            $("#overlay").fadeIn(1000);
+            $("#alter-staff-popup").fadeIn(100);
         });
 
     }
