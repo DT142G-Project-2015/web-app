@@ -86,7 +86,7 @@ CREATE TABLE receipt_group_sub_item
 (
 	id									INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	receipt_group_item_id				INT NOT NULL,
-	item_id								INT NOT NULL,
+	item_id								INT NOT NULL
 );
 
 
