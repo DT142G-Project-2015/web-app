@@ -227,11 +227,12 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 INSERT INTO receipt (booth) VALUES (1);
 INSERT INTO receipt (booth) VALUES (2);
 INSERT INTO receipt (booth) VALUES (3);
+INSERT INTO receipt (booth) VALUES (4);
 
 INSERT INTO receipt_group (status, receipt_id) VALUES ('initial', 1);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 2);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('done', 3);
-
+INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 4);
 
 INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (1, 2);
 INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (2, 2);
