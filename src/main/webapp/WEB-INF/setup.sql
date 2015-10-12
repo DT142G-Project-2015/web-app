@@ -164,11 +164,11 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
 
 CREATE TABLE article
 (
-	id			INT PRIMARY KEY,
+	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name		VARCHAR(255),
 	image		LONGBLOB,
 	category	VARCHAR(255),
-	amount		REAL,
+	amount		DOUBLE,
 	unit		VARCHAR(255),
 	exp_date 	DATE
 );
@@ -177,12 +177,12 @@ CREATE TABLE article
 -- # Test Data #
 -- #############
 
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('1', 'Citron', 'Grönsak', '650', 'gram', '2015-08-28');
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('2', 'Kyckling', 'Kött', '0.5', 'kg', '2015-09-15');
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('3', 'Potatis', 'Tillbehör', '7', 'kg', '2015-11-13');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Citron', 'Grönsak', 650, 'gram', '2015-08-28');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Kyckling', 'Kött', 0.5, 'kg', '2015-09-15');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Potatis', 'Tillbehör', 7, 'kg', '2015-11-13');
 
 
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES

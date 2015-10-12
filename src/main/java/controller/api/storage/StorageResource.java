@@ -94,35 +94,28 @@ public class StorageResource
         }
     }
 
+
     @POST
-    public Response addArticle(String postData) throws SQLException
-    {
+    public Response insertStaff(String postData) throws SQLException {
+
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO article (name, category, amount, unit, exp_date) VALUES ((?), (?), (?), (?), (?))",
-                     Statement.RETURN_GENERATED_KEYS))
-        {
+                     "INSERT INTO article (name, category, amount, unit, exp_date) VALUES((?), (?), (?), (?), (?))")) {
+
             Gson gson = new Gson();
 
-            Article item  = gson.fromJson(postData, Article.class);
+            Article article = gson.fromJson(postData, Article.class);
 
-            if (item.isValid())
-            {
-                st.setString(1, item.name);
-                st.setString(2, item.category);
-                st.setDouble(3, item.amount);
-                st.setString(4, item.unit);
-                st.setString(5, item.exp_date);
+            if (article.isValid()) {
+                st.setString(1, article.name);
+                st.setString(2, article.category);
+                st.setDouble(3, article.amount);
+                st.setString(4, article.unit);
+                st.setString(5, article.exp_date);
                 st.executeUpdate();
-
-                ResultSet rs = st.getGeneratedKeys();
-                rs.next();
-                item.id = rs.getInt(1);
-
-                return Response.ok(Utils.toJson(item)).build();
+                return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
             }
-            else
-            {
+            else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
         }
