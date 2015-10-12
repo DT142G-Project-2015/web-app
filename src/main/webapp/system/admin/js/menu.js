@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    var menu_id = $('body').data('id');
-
     var template = $('#item_template').html();
 
     var menusTemplate = $('#menus_template').html();
@@ -75,16 +73,13 @@ $(document).ready(function() {
                 dataType: 'json',
                 data: JSON.stringify(item)
             }).done(function(addedItem) {
-                addGroupItem(menu_id, group_id, addedItem.id).done(function() {
-                    $('#add_item_section').fadeOut(200);
-                    refreshMenus();
-                });
+                addGroupItem(menu_id, group_id, addedItem.id);
             });
         });
     }
 
     function addGroupItem(menu_id, group_id, item_id) {
-        return $.ajax({
+        $.ajax({
             url: '../../api/menu/' + menu_id + '/group/' + group_id + '/item',
             type: 'POST',
             dataType: 'text',
@@ -115,10 +110,7 @@ $(document).ready(function() {
             $('#item_list .add_btn').click(function() {
                 var item_id = $(this).closest('.menu_item').data('id');
 
-                addGroupItem(menu_id, group_id, item_id).done(function() {
-                    $('#add_item_section').fadeOut(200);
-                    refreshMenus();
-                });
+                addGroupItem(menu_id, group_id, item_id);
             });
 
             $('#item_list .delete_btn').click(function() {

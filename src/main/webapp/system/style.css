@@ -93,7 +93,8 @@ td{
 }
 
 .button:hover{
-	background: #555;
+	background: #ccc;
+	color: #000;
 	cursor: pointer;
 }
 
@@ -277,13 +278,13 @@ td{
 .inventory-list-menu{
 	display: inline-block;
 	font-weight:bold;
-	width:19%;
+	width:15.5%;
 	padding: 5px 0px 5px 5px;
 }
 
 .inventory-list-item{
 	display: inline-block;
-	width:19%;
+	width:15.5%;
 	padding: 5px 0 5px 5px;
 }
 
@@ -300,5 +301,83 @@ td{
 	background: #F2D902;
 	color: #000;
 }
+
+.delete-btn {
+	background: #F02E2E;
+	color: #000;
+}
+
+.add-btn:hover .change-btn:hover .delete-btn:hover {
+	color: #fff;
+	background: #333;
+}
+
+/* Styling for change state box*/
+
+#change-item-box {
+	width: 800px;
+	height:300px;
+	z-index: 10;
+	background: #fff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* END styling for change state box*/
+
+
 /* End styling of the inventory. */
 
+
+
+/* Start styling of the menu page */
+
+.menu_item {
+    margin: 10px 10px;
+}
+
+form input {
+    font-size: 12px;
+}
+
+#add_item_section {
+    padding: 20px;
+    /*height: 300px;*/
+    position: absolute;
+    top: 60px;
+    margin-left: 0px;
+    width: 70%;
+    left: 15%;
+    display: none;
+}
+
+
+.menu h4 {
+	padding: 10px;
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.menu h5 {
+	padding: 10px;
+	/*margin-left: 10px;*/
+	background: #def;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.menu-header div {
+	display: inline-block;
+	font-weight: bold;
+	width: 18%;
+	padding: 10px;
+}
+
+.menu-list-item {
+	display: inline-block;
+	width: 18%;
+	padding: 10px;
+}
+
+/* END styling of the menu page. */

@@ -68,19 +68,6 @@ CREATE TABLE receipt
 	booth		INT NOT NULL
 );
 
-CREATE TABLE receipt_item
-(
-	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	item_id		INT NOT NULL
-);
-
-CREATE TABLE receipt_item_item
-(
-	receipt_item_id_dom	INT NOT NULL,
-	receipt_item_id_sub	INT NOT NULL,
-	PRIMARY KEY (receipt_item_id_dom, receipt_item_id_sub)
-);
-
 CREATE TABLE receipt_group
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -90,20 +77,26 @@ CREATE TABLE receipt_group
 
 CREATE TABLE receipt_group_item
 (
-	receipt_item_id		INT NOT NULL,
+	id					INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	receipt_group_id	INT NOT NULL,
-	PRIMARY KEY (receipt_item_id, receipt_group_id)
+	item_id				INT NOT NULL
 );
 
-ALTER TABLE receipt_item ADD FOREIGN KEY (item_id) REFERENCES item(id) ON DELETE CASCADE;
+CREATE TABLE receipt_group_sub_item
+(
+	id									INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	receipt_group_item_id				INT NOT NULL,
+	item_id								INT NOT NULL
+);
 
-ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_dom) REFERENCES receipt_item(id) ON DELETE CASCADE;
-ALTER TABLE receipt_item_item ADD FOREIGN KEY (receipt_item_id_sub) REFERENCES receipt_item(id) ON DELETE CASCADE;
 
 ALTER TABLE receipt_group ADD FOREIGN KEY (receipt_id) REFERENCES receipt(id) ON DELETE CASCADE;
 
-ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_item_id) REFERENCES receipt_item(id) ON DELETE CASCADE;
+ALTER TABLE receipt_group_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
 ALTER TABLE receipt_group_item ADD FOREIGN KEY (receipt_group_id) REFERENCES receipt_group(id) ON DELETE CASCADE;
+
+ALTER TABLE receipt_group_sub_item ADD FOREIGN KEY (item_id) REFERENCES item(id);
+ALTER TABLE receipt_group_sub_item ADD FOREIGN KEY (receipt_group_item_id) REFERENCES receipt_group_item(id) ON DELETE CASCADE;
 
 -- #########
 -- # Notes #
@@ -115,15 +108,26 @@ CREATE TABLE note
 	text		VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE receipt_item_note
+CREATE TABLE receipt_group_item_note
 (
-	note_id			INT NOT NULL,
-	receipt_item_id	INT NOT NULL,
-	PRIMARY KEY (note_id, receipt_item_id)
+	note_id					INT NOT NULL,
+	receipt_group_item_id	INT NOT NULL,
+	PRIMARY KEY (note_id, receipt_group_item_id)
 );
 
-ALTER TABLE receipt_item_note ADD FOREIGN KEY (note_id) REFERENCES note(id);
-ALTER TABLE receipt_item_note ADD FOREIGN KEY (receipt_item_id) REFERENCES receipt_item(id);
+CREATE TABLE receipt_group_sub_item_note
+(
+	note_id						INT NOT NULL,
+	receipt_group_sub_item_id	INT NOT NULL,
+	PRIMARY KEY (note_id, receipt_group_sub_item_id)
+);
+
+
+ALTER TABLE receipt_group_item_note ADD FOREIGN KEY (note_id) REFERENCES note(id);
+ALTER TABLE receipt_group_item_note ADD FOREIGN KEY (receipt_group_item_id) REFERENCES receipt_group_item(id);
+
+ALTER TABLE receipt_group_sub_item_note ADD FOREIGN KEY (note_id) REFERENCES note(id);
+ALTER TABLE receipt_group_sub_item_note ADD FOREIGN KEY (receipt_group_sub_item_id) REFERENCES receipt_group_sub_item(id);
 
 -- ###########
 -- # Account #
@@ -164,11 +168,11 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
 
 CREATE TABLE article
 (
-	id			INT PRIMARY KEY,
+	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name		VARCHAR(255),
 	image		LONGBLOB,
 	category	VARCHAR(255),
-	amount		REAL,
+	amount		DOUBLE,
 	unit		VARCHAR(255),
 	exp_date 	DATE
 );
@@ -177,12 +181,12 @@ CREATE TABLE article
 -- # Test Data #
 -- #############
 
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('1', 'Citron', 'Grönsak', '650', 'gram', '2015-08-28');
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('2', 'Kyckling', 'Kött', '0.5', 'kg', '2015-09-15');
-INSERT INTO article (id, name, category, amount, unit, exp_date) VALUES
-('3', 'Potatis', 'Tillbehör', '7', 'kg', '2015-11-13');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Citron', 'Grönsak', 650, 'gram', '2015-08-28');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Kyckling', 'Kött', 0.5, 'kg', '2015-09-15');
+INSERT INTO article (name, category, amount, unit, exp_date) VALUES
+('Potatis', 'Tillbehör', 7, 'kg', '2015-11-13');
 
 
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
@@ -228,18 +232,22 @@ INSERT INTO receipt_group (status, receipt_id) VALUES ('initial', 1);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 2);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('done', 3);
 
-INSERT INTO receipt_item (item_id) VALUES (1);
-INSERT INTO receipt_item (item_id) VALUES (2);
-INSERT INTO receipt_item (item_id) VALUES (2);
-INSERT INTO receipt_item (item_id) VALUES (4);
-INSERT INTO receipt_item (item_id) VALUES (1);
+
+INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (1, 2);
+INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (2, 2);
+INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (3, 2);
+INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (5, 2);
+
+INSERT INTO receipt_group_sub_item (item_id, receipt_group_item_id) VALUES (4, 2);
 
 
-INSERT INTO receipt_item_item VALUES (2, 4);
+INSERT INTO note (text) VALUES ('rare');
+INSERT INTO note (text) VALUES ('extra mkt');
+INSERT INTO note (text) VALUES ('dubbel');
 
-INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (1, 1);
-INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (2, 2);
-INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (3, 3);
-INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) VALUES (5, 2);
+INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (1, 2);
+INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (2, 1);
+INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (3, 1);
+
 
 SET NAMES "UTF-8";

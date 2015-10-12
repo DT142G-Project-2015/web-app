@@ -13,12 +13,12 @@ public class Order {
     }
 
     public static class Item extends model.Item {
-        public Note note;
+        public List<Note> notes;
         public List<SubItem> subItems;
     }
 
     public static class SubItem extends model.Item {
-        public Note note;
+        public List<Note> notes;
     }
 
     public static class Group {

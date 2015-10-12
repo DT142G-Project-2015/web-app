@@ -7,7 +7,7 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
-    <link rel="stylesheet" type="text/css" href="menu.css">
+   <!-- <link rel="stylesheet" type="text/css" href="menu.css"> -->
 </head>
 
 <body>
@@ -42,7 +42,7 @@
                     <option value="meat">Kötträtt</option>
                     <option value="drink">Dryck</option>
                 </select>r</label>
-                <label>Pris: <input type="number" name="price"> kr</label>
+                <label>Pris: <input type="number" name="price"> kr</label><br><br>
                 <span id="create_item" class="button">Skapa och lägg till ny</span>
             </form>
     </div>
@@ -62,14 +62,14 @@
                 </div>
                 {{ #groups }}
                     <div class="menu-group" data-group-id="{{ id }}">
-                        <h5> {{ name }} <span class="button add_item">Lägg till</span> </h5>
+                        <h5> {{ name }} <span class="button add_item add-btn" id="add-btn">Lägg till</span> </h5>
                         {{ #items }}
                             <div class="menu-row" data-item-id="{{ id }}"">
-                                <div class="menu-list-item">{{ name }}.</div>
+                                <div class="menu-list-item">{{ name }}</div>
                                 <div class="menu-list-item">{{ description }}</div>
                                 <div class="menu-list-item">{{ price }}</div>
                                 <div class="menu-list-item">{{ type }}</div>
-                                <div class="menu-list-item"><span class="button">Radera</span></div>
+                                <div class="menu-list-item"><span class="button delete-btn" id="delete-btn">Radera</span></div>
                             </div>
                         {{ /items }}
                     </div>
@@ -83,8 +83,8 @@
     <script id="item_template" type="x-tmpl-mustache">
         <div class="menu_item" data-id="{{ id }}">
             <b>{{ name }}</b> <i>{{ description }}</i> {{ price }} kr
-            <span class="delete_btn button">Radera</span>
-            <span class="add_btn button">Lägg till</span>
+            <span class="delete_btn button delete-btn" id="delete-btn">Radera</span>
+            <span class="add_btn button add-btn" id="add-btn">Lägg till</span>
         </div>
     </script>
 

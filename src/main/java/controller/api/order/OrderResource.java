@@ -22,122 +22,126 @@ import java.util.stream.Stream;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderResource {
 
+
+    private static Order.SubItem parseSubItem(List<Map<String, Object>> subItemRows) {
+        Order.SubItem subItem = new Order.SubItem();
+        subItem.id = (Integer) subItemRows.get(0).get("receipt_group_sub_item_id");
+        subItem.name = (String) subItemRows.get(0).get("sub_name");
+        subItem.description = (String) subItemRows.get(0).get("sub_description");
+        subItem.price = (BigDecimal) subItemRows.get(0).get("sub_price");
+        subItem.type = (Integer) subItemRows.get(0).get("sub_type");
+
+        subItem.notes = subItemRows.stream()
+                .filter(r -> r.get("sub_note_id") != null)
+                .collect(Collectors.groupingBy(r -> r.get("sub_note_id")))
+                .values().stream().map(noteRows -> {
+                    Order.Note note = new Order.Note();
+
+                    note.text = (String)noteRows.get(0).get("sub_note");
+
+                    return note;
+                }).collect(Collectors.toList());
+
+        return subItem;
+    }
+
+    private static Order.Item parseItem(List<Map<String, Object>> itemRows) {
+        Order.Item i = new Order.Item();
+
+        i.id = (Integer) itemRows.get(0).get("receipt_group_item_id");
+        i.name = (String) itemRows.get(0).get("item_name");
+        i.description = (String) itemRows.get(0).get("item_description");
+        i.price = (BigDecimal) itemRows.get(0).get("item_price");
+        i.type = (Integer) itemRows.get(0).get("item_type");
+
+        i.subItems = itemRows.stream()
+                .filter(r -> r.get("receipt_group_sub_item_id") != null)
+                .collect(Collectors.groupingBy(r -> r.get("receipt_group_sub_item_id")))
+                .values().stream().map(subItemRows -> parseSubItem(subItemRows))
+                .collect(Collectors.toList());
+
+        i.notes = itemRows.stream()
+                .filter(r -> r.get("item_note_id") != null)
+                .collect(Collectors.groupingBy(r -> r.get("item_note_id")))
+                .values().stream().map(noteRows -> {
+                    Order.Note note = new Order.Note();
+
+                    note.text = (String)noteRows.get(0).get("item_note");
+
+                    return note;
+                }).collect(Collectors.toList());
+
+        return i;
+    }
+
+
+    private static Order.Group parseGroup(List<Map<String, Object>> groupRows) {
+        Order.Group g = new Order.Group();
+        g.status = Status.fromText((String)groupRows.get(0).get("status"));
+        g.id = (Integer) groupRows.get(0).get("receipt_group_id");
+
+        g.items = groupRows.stream()
+                .filter(r -> r.get("receipt_group_item_id") != null)
+                .collect(Collectors.groupingBy(r -> r.get("receipt_group_item_id")))
+                .values().stream().map(itemRows -> parseItem(itemRows))
+                .collect(Collectors.toList());
+
+        return g;
+    }
+
     // Converts a group of rows into an Order object
-    private static Order parseRows(List<Map<String, Object>> rows)  {
+    private static Order parseOrder(List<Map<String, Object>> rows)  {
 
         Order order = new Order();
         order.id = (Integer)rows.get(0).get("receipt_id");
         order.booth = (Integer) rows.get(0).get("booth");
 
-
         Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
                 collect(Collectors.groupingBy(row -> row.get("receipt_group_id")));
 
-        Stream<Order.Group> groups = byGroup.entrySet().stream().map(e -> {
-            List<Map<String, Object>> groupRows = e.getValue();
-
-            Order.Group g = new Order.Group();
-            g.status = Status.fromText((String)groupRows.get(0).get("status"));
-            g.id = (Integer) groupRows.get(0).get("receipt_group_id");
-
-            g.items = new ArrayList<>();
-
-            Map<Object, List<Map<String, Object>>> byGroupItem = groupRows.stream().
-                    collect(Collectors.groupingBy(row -> row.get("receipt_item_id") + ":" + row.get("receipt_group_id")));
-
-            Stream<Order.Item> items = byGroupItem.keySet().stream().map(item -> {
-                List<Map<String, Object>> itemRows = byGroupItem.get(item);
-
-                Order.Item i = new Order.Item();
-
-
-                Map<String, Object> row = itemRows.get(0);
-
-                i.name = (String) row.get("name");
-                i.description = (String) row.get("description");
-                i.price = (BigDecimal) row.get("price");
-                i.id = (Integer) row.get("item_id");
-                i.type = (Integer) row.get("type");
-
-                i.subItems = new ArrayList<>();
-
-                for (Map<String, Object> r : itemRows) {
-
-
-                    if (r.get("sub_id") != null) {
-
-                        Order.SubItem sub = new Order.SubItem();
-                        /*if (row.containsKey("text")) {
-                        i.note = new Order.Note();
-                        i.note.text = (String) row.get("text");
-                         }*/
-                        sub.name = (String) r.get("sub_name");
-                        sub.description = (String) r.get("sub_description");
-                        sub.price = (BigDecimal) r.get("sub_price");
-                        sub.id = (Integer) r.get("sub_id");
-                        sub.type = (Integer) r.get("sub_type");
-
-                        i.subItems.add(sub);
-                    }
-                }
-                /*if (row.containsKey("text")) {
-                    i.note = new Order.Note();
-                    i.note.text = (String) row.get("text");
-                }*/
-                g.items.add(i);
-
-                return i;
-            });
-
-            g.items = items.collect(Collectors.toList());
-
-            return g;
-        });
-
-        order.groups = groups.collect(Collectors.toList());
+        order.groups = byGroup.values().stream()
+                .map(groupRows -> parseGroup(groupRows))
+                .collect(Collectors.toList());
 
         return order;
     }
 
-/*  // Saved for Nick
-
-    try (Connection conn = Database.getConnection()) {
-        for (Map<String, Object> order : simpleQuery(conn, "SELECT * FROM receipt", null)) {
-            for (Map<String, Object> group : simpleQuery(conn, "SELECT * FROM receipt_group WHERE receipt_id = (?)", order.get("id"))) {
-                for (Map<String, Object> gItem : simpleQuery(conn, "SELECT * FROM group_item WHERE receipt_group_id = (?)", group.get("id"))) {
-
-                }
-            }
-        }
-    }
-*/
 
     private static String getOrdersQuery =
-            "SELECT * " +
-            "FROM item I, receipt_group RG, receipt_group_item RGI, " +
-                 "receipt R, receipt_item RI  " +
-            "LEFT JOIN " +
-                "(SELECT RII.receipt_item_id_dom AS dom_receipt_item_id, I2.name AS sub_name, " +
-                        "I2.description AS sub_description, I2.price AS sub_price, I2.type AS sub_type, " +
-                        "I2.id AS sub_id " +
-                  "FROM item I2, receipt_item RI2, receipt_item_item RII " +
-                  "WHERE I2.id = RI2.item_id AND RI2.id = RII.receipt_item_id_sub) " +
-                  "AS D " +
-            "ON D.dom_receipt_item_id = RI.id " +
-            "WHERE I.id = RI.item_id " +
-            "AND RG.id = RGI.receipt_group_id " +
-            "AND RG.receipt_id = R.id " +
-            "AND RGI.receipt_item_id = RI.id ";
+            "SELECT r.id AS receipt_id, r.booth AS booth, " +
+                   "rg.id AS receipt_group_id, rg.status AS status, " +
+                   "rgi.id AS receipt_group_item_id, " +
+                   "rgsi.id AS receipt_group_sub_item_id, " +
+                   "n1.id AS item_note_id, n1.text AS item_note, " +
+                   "n2.id AS sub_note_id, n2.text AS sub_note, " +
+                   "i1.id AS item_id, " +
+                   "i1.name AS item_name, " +
+                   "i1.description AS item_description, " +
+                   "i1.price AS item_price, " +
+                   "i1.type AS item_type, " +
+                   "i2.id AS sub_id, " +
+                   "i2.name AS sub_name, " +
+                   "i2.description AS sub_description, " +
+                   "i2.price AS sub_price, " +
+                   "i2.type AS sub_type " +
+            "FROM receipt r LEFT JOIN receipt_group rg ON r.id = rg.receipt_id " +
+                           "LEFT JOIN receipt_group_item rgi ON rg.id = rgi.receipt_group_id " +
+                           "LEFT JOIN receipt_group_sub_item rgsi ON rgi.id = rgsi.receipt_group_item_id " +
+                           "LEFT JOIN receipt_group_item_note i_n ON rgi.id = i_n.receipt_group_item_id " +
+                           "LEFT JOIN receipt_group_sub_item_note s_n ON rgsi.id = s_n.receipt_group_sub_item_id " +
+                           "LEFT JOIN note n1 ON i_n.note_id = n1.id " +
+                           "LEFT JOIN note n2 ON s_n.note_id = n2.id " +
+                           "LEFT JOIN item i1 ON rgi.item_id = i1.id " +
+                           "LEFT JOIN item i2 ON rgsi.item_id = i2.id ";
+
 
     @GET
     public String getOrders(@QueryParam("status") String status) throws SQLException {
 
-        // TODO: IMPORTANT: Fix Notes!
-
         String query = getOrdersQuery;
 
         if (status != null)
-            query += " AND RG.status = (?)";
+            query += " WHERE rg.status = (?)";
 
 
         try (Connection conn = Database.getConnection();
@@ -150,18 +154,14 @@ public class OrderResource {
             ResultSet rs = st.executeQuery();
             List<Map<String, Object>> rows = Database.toList(rs);
 
-            // group rows by order id
-            Map<Object, List<Map<String, Object>>> byId = rows.stream()
-                    .collect(Collectors.groupingBy(row -> row.get("receipt_id")));
 
-            // convert each group of rows into an Order object
-            Stream<Order> orders = byId.keySet().stream().map(id -> {
-                List<Map<String, Object>> rowsForId = byId.get(id);
+            // group rows by order id, and convert each group of rows into an Order object
+            List<Order> orders = rows.stream()
+                    .collect(Collectors.groupingBy(row -> row.get("receipt_id")))
+                    .values().stream().map(rowsForId -> parseOrder(rowsForId))
+                    .collect(Collectors.toList());
 
-                return parseRows(rowsForId);
-            });
-
-            return Utils.toJson(orders.collect(Collectors.toList()));
+            return Utils.toJson(orders);
         }
 
     }
@@ -169,9 +169,8 @@ public class OrderResource {
     @GET @Path("{id: [0-9]+}")
     public Response getOrder(@PathParam("id") int id) throws SQLException {
 
-        String query = getOrdersQuery + " AND R.id = (?)";
+        String query = getOrdersQuery + " WHERE r.id = (?)";
 
-        // TODO: IMPORTANT: Fix Notes!
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
 
@@ -182,7 +181,7 @@ public class OrderResource {
 
             if (rows.size() > 0) {
 
-                Order order = parseRows(rows);
+                Order order = parseOrder(rows);
 
                 return Response.ok(Utils.toJson(order)).build();
             } else
@@ -219,29 +218,19 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
-    static int insertItem(Connection conn, int itemId)
+    static int insertGroupItem(Connection conn, int itemId, int groupId)
             throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt_item (item_id) VALUES ((?))",
+        PreparedStatement st = conn.prepareStatement(
+                "INSERT INTO receipt_group_item (item_id, receipt_group_id) " +
+                "VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
 
-
         st.setInt(1, itemId);
+        st.setInt(2, groupId);
 
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
-    }
-
-    static void insertGroupItem(Connection conn, int orderItemId, int groupId)
-            throws SQLException {
-        PreparedStatement st = conn.prepareStatement(
-                "INSERT INTO receipt_group_item (receipt_item_id, receipt_group_id) " +
-                "VALUES ((?), (?))");
-
-        st.setInt(1, orderItemId);
-        st.setInt(2, groupId);
-
-        st.executeUpdate();
     }
 
     @POST
@@ -263,15 +252,18 @@ public class OrderResource {
 
                     int groupId = insertGroup(conn, Status.getText(g.status), order.id);
                     for (Order.Item i : g.items) {
-                        
+
+                        int groupItemId = insertGroupItem(conn, i.id, groupId);
+
+
+
+
                         /*
                         Integer noteId = null;
                         if (i.note != null) {
                             noteId = insertNote(conn, i.note.text);
                         }*/
-                        int orderItemId = insertItem(conn, i.id);
-                        
-                        insertGroupItem(conn, orderItemId, groupId);
+
                     }
                 }
 
