@@ -65,6 +65,7 @@ td{
 }
 
 #overlay{
+	display: none;
 	position: fixed;
 	z-index: 9;
 	top: 0;
@@ -75,6 +76,7 @@ td{
 	opacity: 0.5;
 }
 .popup{
+	display: none;
 	position: fixed;
 	z-index: 10;
 	top: 10%;

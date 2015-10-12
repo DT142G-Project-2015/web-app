@@ -12,7 +12,7 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json'
         }).done(function(data){
-            $('#staff-list table').html("<tr><td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td></tr>");
+            $('#staff-list table').empty();
             var rendered = Mustache.render(template, {articles: data})
             $('#staff-list table').append(rendered);
             initVisuals();

@@ -26,13 +26,13 @@
 
 <div id="content">
     <div class="section">
-        <h1>Lager</h1>
 
     </div>
 
 </div>
 
 <script id="storage_template" type="x-tmpl-mustache">
+    <h1>Lager</h1>
     <div class="inventory-list">
         <div class="inventory-list-menu">Varu ID</div>
         <div class="inventory-list-menu">Varunamn</div>
@@ -49,19 +49,19 @@
     </h1>
 
         <div class="inventory">
-            <form>
-                <div class="inventory-list">
-                    <div class="inventory-list-item">{{ id }}</div>
-                    <div class="inventory-list-item"><input type="text" value="{{ name }}"></div>
-                    <div class="inventory-list-item"><input type="text" value="{{ amount }}"></div>
-                    <div class="inventory-list-item"><input type="text" value="{{ unit }}"></div>
-                    <div class="inventory-list-item">{{ exp_date }}</div>
-                    <div class="inventory-list-item" data-id="{{ id }}">
-                        <span class="change-btn button" id="change-btn">Ändra</span>
-                        <span class="delete-btn button" id="delete-btn">Remove</span>
-                    </div>
+                <div class="inventory-list" id="inventory-list{{ id }}">
+                    <form>
+                        <div class="inventory-list-item">{{ id }}</div>
+                        <div class="inventory-list-item"><input type="text" name="name" value="{{ name }}"></div>
+                        <div class="inventory-list-item"><input type="text" name="amount" value="{{ amount }}"></div>
+                        <div class="inventory-list-item"><input type="text" name="unit" value="{{ unit }}"></div>
+                        <div class="inventory-list-item ">{{ exp_date }}</div>
+                        <div class="inventory-list-item" data-id="{{ id }}" data-date="{{ exp_date }}">
+                            <span class="change-btn button" id="change-btn">Ändra</span>
+                            <span class="delete-btn button" id="delete-btn">Radera</span>
+                        </div>
+                    </form>
                 </div>
-            </form>
         </div>
     {{ /articles }}
 
