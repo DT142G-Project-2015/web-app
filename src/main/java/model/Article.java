@@ -14,8 +14,8 @@ public class Article {
 
     public boolean isValid() {
 
-        return (name != null) && (category != null)
+        return ((name != null) && (category != null)
                 && (amount != 0.0) && (unit != null)
-                && (exp_date != null);
+                && (exp_date != null));
     }
 }
