@@ -62,4 +62,9 @@ public class OrderSubItemResource {
             return Response.ok(Utils.toJson(msg)).build();
         }
     }
+
+    @Path("{id: [0-9]+}/note")
+    public OrderNoteResource getOrderNote(@PathParam("id") int itemId) {
+        return new OrderNoteResource(itemId, true);
+    }
 }

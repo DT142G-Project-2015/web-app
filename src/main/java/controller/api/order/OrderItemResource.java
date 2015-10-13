@@ -73,4 +73,9 @@ public class OrderItemResource {
     public OrderSubItemResource getOrderSubItem(@PathParam("id") int groupItemId) {
         return new OrderSubItemResource(groupItemId);
     }
+
+    @Path("{id: [0-9]+}/note")
+    public OrderNoteResource getOrderNote(@PathParam("id") int itemId) {
+        return new OrderNoteResource(itemId, false);
+    }
 }
