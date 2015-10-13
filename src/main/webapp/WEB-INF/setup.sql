@@ -174,7 +174,7 @@ CREATE TABLE article
 	category	VARCHAR(255),
 	amount		DOUBLE,
 	unit		VARCHAR(255),
-	exp_date 	DATE
+	exp_date 	VARCHAR(255)
 );
 
 -- #############
