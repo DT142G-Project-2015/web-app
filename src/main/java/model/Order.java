@@ -9,7 +9,7 @@ import java.util.List;
 public class Order {
 
     public static class Note {
-        public int id;
+        public Integer id;
         public String text;
     }
 
