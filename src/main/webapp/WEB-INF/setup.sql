@@ -187,14 +187,12 @@ INSERT INTO article (name, category, amount, unit, exp_date) VALUES
 INSERT INTO article (name, category, amount, unit, exp_date) VALUES
 ('Potatis', 'Tillbehör', 7, 'kg', '2015-11-13');
 
-
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('root', 'toor', 1, 'Gustav', 'Åström');
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('cook', 'password', 1, 'Sebastian', 'Persson');
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('waitress', 'tipme', 2, 'Viktor', 'Spindler');
-
 
 INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
