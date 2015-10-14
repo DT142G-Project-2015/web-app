@@ -26,8 +26,7 @@ public class AuthFilter implements Filter {
 
 
                 // Allow everyone access to login page
-                if (request.getRequestURI().contains("/system/admin/login") ||
-                    request.getRequestURI().contains("/system/style.css")) {
+                if (request.getRequestURI().contains("/system/admin/login")) {
                     chain.doFilter(request, response);
                     return;
                 }
@@ -61,7 +60,6 @@ public class AuthFilter implements Filter {
 
                         if (LoginManager.isLoggedIn(username, password)) {
                             response.setHeader("X-Username", username);
-                            response.addCookie(loginCookie.get());
                             chain.doFilter(request, response);
                         } else {
                             response.sendError(HttpServletResponse.SC_FORBIDDEN);
