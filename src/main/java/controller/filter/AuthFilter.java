@@ -67,8 +67,8 @@ public class AuthFilter implements Filter {
                     }
                 } else {
                     // TODO: Change to sendError: forbidden
-                    chain.doFilter(req, resp);
-                    //response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    //chain.doFilter(req, resp);
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
 
             } catch (SQLException e) {
