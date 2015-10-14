@@ -96,6 +96,7 @@ public class OrderResource {
         Order order = new Order();
         order.id = (Integer)rows.get(0).get("receipt_id");
         order.booth = (Integer) rows.get(0).get("booth");
+        order.payed = (boolean) rows.get(0).get("payed");
 
         Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
                 collect(Collectors.groupingBy(row -> row.get("receipt_group_id")));
@@ -109,7 +110,7 @@ public class OrderResource {
 
 
     private static String getOrdersQuery =
-            "SELECT r.id AS receipt_id, r.booth AS booth, " +
+            "SELECT r.id AS receipt_id, r.booth AS booth, r.payed AS payed, " +
                    "rg.id AS receipt_group_id, rg.status AS status, " +
                    "rgi.id AS receipt_group_item_id, " +
                    "rgsi.id AS receipt_group_sub_item_id, " +
@@ -211,9 +212,10 @@ public class OrderResource {
     }
 
     static int insertOrder(Connection conn, int booth) throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth) VALUES ((?))",
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth, payed) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
         st.setInt(1, booth);
+        st.setBoolean(2, false);
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
@@ -307,6 +309,27 @@ public class OrderResource {
         }
     }
 
+    @PUT @Path("{id: [0-9]+}")
+    public String updateOrderPayed(@PathParam("id") int id, String postData) throws SQLException {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(
+                     "UPDATE receipt SET payed = (?) WHERE id = (?)")) {
+
+            Gson gson = new Gson();
+            Order o = gson.fromJson(postData, Order.class);
+
+
+            st.setBoolean(1, o.payed);
+            st.setInt(2, id);
+
+            if (st.executeUpdate() != 0) {
+                return new UpdateMessage("updated", id).toJson();
+            } else {
+                throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            }
+
+        }
+    }
 
     @Path("{id}/group")
     public OrderGroupResource getGroup(@PathParam("id") int id) {

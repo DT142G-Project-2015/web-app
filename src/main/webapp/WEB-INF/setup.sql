@@ -65,7 +65,8 @@ ALTER TABLE menu_group_item ADD CONSTRAINT menu_group_item_cascade
 CREATE TABLE receipt
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	booth		INT NOT NULL
+	booth		INT NOT NULL,
+	payed		BOOL NOT NULL
 );
 
 CREATE TABLE receipt_group
@@ -221,10 +222,10 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 
-INSERT INTO receipt (booth) VALUES (1);
-INSERT INTO receipt (booth) VALUES (2);
-INSERT INTO receipt (booth) VALUES (3);
-INSERT INTO receipt (booth) VALUES (4);
+INSERT INTO receipt (booth, payed) VALUES (1, false);
+INSERT INTO receipt (booth, payed) VALUES (2, false);
+INSERT INTO receipt (booth, payed) VALUES (3, false);
+INSERT INTO receipt (booth, payed) VALUES (4, false);
 
 INSERT INTO receipt_group (status, receipt_id) VALUES ('initial', 1);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 2);

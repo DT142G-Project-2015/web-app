@@ -30,9 +30,9 @@ public class LoginServlet extends HttpServlet {
                     Stream.of(cookies)
                             .filter(c -> c.getName().equals("login"))
                             .forEach(cookie -> {
-                        cookie.setMaxAge(0);
-                        resp.addCookie(cookie);
-                    });
+                                cookie.setMaxAge(0);
+                                resp.addCookie(cookie);
+                            });
                 }
 
                 // TODO: Cookies need to be randomly generated tokens saved to to the database (currently not secure)

@@ -60,6 +60,7 @@ public class Order {
 
     public int id;
     public int booth;
+    public Boolean payed;
     public List<Group> groups;
 
 
