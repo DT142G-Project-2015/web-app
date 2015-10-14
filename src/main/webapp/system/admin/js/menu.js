@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+    $.ajaxSetup({
+        xhrFields: {
+            withCredentials: true
+        }
+    });
     var template = $('#item_template').html();
 
     var menusTemplate = $('#menus_template').html();
