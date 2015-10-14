@@ -204,13 +204,13 @@ INSERT INTO menu_group (name, menu_id) VALUES ('Dryck', 1);
 INSERT INTO item (name, description, type, price) VALUES
 ('Beef Stew', 'mouth watering description', 0, 79.99);
 INSERT INTO item (name, description, type, price) VALUES
-('Smoked Rabbit', 'mouth watering description', 0, 59.99);
+('Smoked Rabbit', 'mouth watering description', 2, 59.99);
 INSERT INTO item (name, description, type, price) VALUES
 ('Tartar Sauce', 'mouth watering description', 0, 4.99);
 INSERT INTO item (name, description, type, price) VALUES
 ('Vitlökssås', 'gott', 0, 4.99);
 INSERT INTO item (name, description, type, price) VALUES
-('Kanelbulle', 'bäst', 0, 35);
+('Kanelbulle', 'bäst', 2, 35);
 
 INSERT INTO item_item VALUES (2, 4);
 
@@ -244,6 +244,10 @@ INSERT INTO note (text) VALUES ('extra mkt');
 INSERT INTO note (text) VALUES ('dubbel');
 
 INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (1, 2);
+INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (1, 1);
+
+INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (2, 3);
+
 INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (2, 1);
 INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (3, 1);
 
