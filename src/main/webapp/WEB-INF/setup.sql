@@ -176,6 +176,8 @@ CREATE TABLE article
 	unit		VARCHAR(255),
 	exp_date 	VARCHAR(255)
 );
+-- Skapa en ny kategoriserad article med värdena, Dryck, grönsaker, råvaror, färskvaror, tillbehör.
+
 
 -- #############
 -- # Test Data #

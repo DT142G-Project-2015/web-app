@@ -62,19 +62,20 @@ public class StorageResource
     public Response updateArticle(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "UPDATE article SET name = (?), category = (?), amount = (?), unit = (?) WHERE id = (?)")) {
+                     "UPDATE article SET name = (?), category = (?), amount = (?), unit = (?), exp_date = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
 
             System.out.println(postData);
             Article article = gson.fromJson(postData, Article.class);
 
-            if (article.isValid()) {
+           if (article.isValid()) {
                 st.setString(1, article.name);
                 st.setString(2, article.category);
                 st.setDouble(3, article.amount);
                 st.setString(4, article.unit);
-                st.setInt(5, id);
+                st.setString(5, article.exp_date);
+                st.setInt(6, id);
                 st.executeUpdate();
                 return Response.ok(new UpdateMessage("update", id).toJson()).build();
             }
