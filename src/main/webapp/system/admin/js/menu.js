@@ -21,6 +21,9 @@ $(document).ready(function() {
             dataType: 'json'
         }).done(function(menus) {
 
+            menus.forEach(function(m) {
+                m.name = m.type == 1 ? 'Middag' : 'Lunch';
+            });
 
             var rendered = Mustache.render(menusTemplate, {menus: menus});
             $('#menus').empty();
@@ -46,24 +49,35 @@ $(document).ready(function() {
                 openAddItemDialog(menu_id, group_id);
             });
 
-            $('#create_menu').click(function(){
-                addMenu();
+            $('#add_menu').click(function(){
+                openAddMenu();
             });
 
         });
     }
 
-    function addMenu(){
-        var menu;
-        $('#add_menu_section form input').each(function(index, element){
-            menu = element.value;
-        });
-        console.log(menu);
-        $.ajax({
-            url: '../../api/menu',
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify({ name: menu })
+    function openAddMenu(){
+        $('#add_menu_section').fadeIn(200);
+        $( "#start_picker" ).datepicker();
+        $( "#stop_picker" ).datepicker();
+        $( "#start_picker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+        $( "#stop_picker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+
+        var menu = {}
+        $('#create_menu').off('click').click(function() {
+            $('#add_menu_section form :input').each(function(index, element){
+                menu[element.name] = element.value;
+            });
+            console.log(menu);
+            $.ajax({
+                url: '../../api/menu',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(menu)
+            }).done(function(addedItem) {
+                refreshMenus();
+                $('#add_menu_section').fadeOut(200);
+            });
         });
     }
 
@@ -87,6 +101,8 @@ $(document).ready(function() {
                 data: JSON.stringify(item)
             }).done(function(addedItem) {
                 addGroupItem(menu_id, group_id, addedItem.id);
+                $('#add_item_section').fadeOut(200);
+
             });
         });
     }

@@ -1,6 +1,7 @@
 package controller.api.menu;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Menu;
 import model.UpdateMessage;
 import util.Database;
@@ -177,8 +178,10 @@ public class MenuResource {
         Connection conn = null;
         try {
             conn = Database.getConnection();
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-mm-dd").create();
 
-            Menu menu = new Gson().fromJson(postData, Menu.class);
+            Menu menu = gson.fromJson(postData, Menu.class);
 
             conn.setAutoCommit(false);  // Begin Transaction
 

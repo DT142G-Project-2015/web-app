@@ -7,6 +7,13 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
+    <!--DATEPICKER-->
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src="../mustache.min.js"></script>
+    <link rel="stylesheet" href="../jquery-ui-1.11.4.custom//jquery-ui.css">
+    <script src="../jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
+    <!--END-->
    <!-- <link rel="stylesheet" type="text/css" href="menu.css"> -->
 </head>
 
@@ -25,14 +32,16 @@
 <div id="content">
     <div class="section">
         <h1>Menyer</h1>
-        <h4 class="add">+ Lägg till ny meny</h4>
+        <h4 id="add_menu" class="add">+ Lägg till ny meny</h4>
         <div id="menus"></div>
     </div>
 
     <div class="section" id="add_menu_section">
         <h1>Meny</h1>
         <form>
-            <label>Namn: <input type="text" name="name"></label>
+            <label>Namn: <input type="text" name="type"></label>
+            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label>
+            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label>
             <span id="create_menu" class="button">Skapa och lägg till ny</span>
         </form>
     </div>
@@ -61,7 +70,7 @@
         {{ #menus }}
             <div class="menu" data-menu-id="{{ id }}">
                 <div class="menu-header">
-                    <h4>{{ name }}</h4>
+                    <h4>{{ name }} <span style="font-size: 0.5em">{{ start_date }} -  {{ stop_date }}</span></h4>
                     <div class="menu-list-menu">Namn</div>
                     <div class="menu-list-menu">Beskrivning</div>
                     <div class="menu-list-menu">Pris</div>
@@ -97,8 +106,6 @@
         </div>
     </script>
 
-    <script src="../jquery-1.11.3.min.js"></script>
-    <script src="../mustache.min.js"></script>
-    <script src="js/menu.js"></script>
+
 
 </body>
