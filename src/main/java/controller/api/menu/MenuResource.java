@@ -23,6 +23,49 @@ import static java.util.stream.Collectors.groupingBy;
 @Produces(MediaType.APPLICATION_JSON)
 public class MenuResource {
 
+
+    public static Menu.Group parseGroup(List<Map<String, Object>> rows) {
+        Menu.Group g = new Menu.Group();
+        g.id = (Integer) rows.get(0).get("group_id");
+        g.name = (String) rows.get(0).get("group_name");
+        g.items = new ArrayList<Menu.Item>();
+
+        for (Map<String, Object> row : rows) {
+            if (row.get("item_id") != null) {
+                Menu.Item i = new Menu.Item();
+
+                i.id = (Integer) row.get("item_id");
+                i.name = (String) row.get("item_name");
+                i.description = (String) row.get("item_description");
+                i.price = (BigDecimal) row.get("item_price");
+                i.type = (Integer) row.get("item_type");
+
+                g.items.add(i);
+            }
+        }
+
+        return g;
+    }
+
+    public static Menu parseMenu(List<Map<String, Object>> rows) {
+
+        Menu m = new Menu();
+
+        m.id = (int)rows.get(0).get("menu_id");
+        m.name = (String) rows.get(0).get("menu_name");
+        m.start_date = (Timestamp) rows.get(0).get("start_date");
+        m.stop_date = (Timestamp) rows.get(0).get("stop_date");
+
+        Stream<Menu.Group> groups = rows.stream()
+                .collect(groupingBy(row -> row.get("group_id")))
+                .values().stream().map(groupRows -> parseGroup(groupRows));
+
+        m.groups = groups.collect(Collectors.toList());
+
+        return m;
+    }
+
+
     @GET
     public String getMenus() throws SQLException {
 
@@ -35,64 +78,35 @@ public class MenuResource {
 
     }
 
+    public static final String expandedMenuQuery =
+            "SELECT m.id AS menu_id, " +
+                    "m.name AS menu_name, " +
+                    "mg.id AS group_id, " +
+                    "mg.name AS group_name, " +
+                    "i.id AS item_id, " +
+                    "i.name AS item_name, " +
+                    "i.description AS item_description, " +
+                    "i.price AS item_price, " +
+                    "i.type AS item_type " +
+                    "FROM menu m LEFT JOIN menu_group mg ON m.id = mg.menu_id " +
+                    "LEFT JOIN menu_group_item mgi ON mg.id = mgi.menu_group_id " +
+                    "LEFT JOIN item i ON mgi.item_id = i.id " +
+                    "WHERE m.id = (?)";
+
     private Response getExpandedMenu(int id) throws SQLException {
 
 
-        String q =
-                "SELECT m.id AS menu_id, " +
-                       "m.name AS menu_name, " +
-                       "mg.id AS group_id, " +
-                       "mg.name AS group_name, " +
-                       "i.id AS item_id, " +
-                       "i.name AS item_name, " +
-                       "i.description AS item_description, " +
-                       "i.price AS item_price, " +
-                       "i.type AS item_type " +
-                "FROM menu m LEFT JOIN menu_group mg ON m.id = mg.menu_id " +
-                            "LEFT JOIN menu_group_item mgi ON mg.id = mgi.menu_group_id " +
-                            "LEFT JOIN item i ON mgi.item_id = i.id " +
-                "WHERE m.id = (?)";
-
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(q)) {
+             PreparedStatement st = conn.prepareStatement(expandedMenuQuery)) {
 
             st.setInt(1, id);
             List<Map<String, Object>> rows = Database.toList(st.executeQuery());
 
-            Menu m = new Menu();
+
 
             if (rows.size() > 0) {
-                m.id = id;
-                m.name = (String) rows.get(0).get("menu_name");
 
-
-                Stream<Menu.Group> groups = rows.stream().collect(groupingBy(row -> row.get("group_id")))
-                        .values().stream().map(groupRows -> {
-
-                    Menu.Group g = new Menu.Group();
-                    g.id = (Integer) groupRows.get(0).get("group_id");
-                    g.name = (String) groupRows.get(0).get("group_name");
-                    g.items = new ArrayList<Menu.Item>();
-
-                    for (Map<String, Object> row : groupRows) {
-                        if (row.get("item_id") != null) {
-                            Menu.Item i = new Menu.Item();
-
-                            i.id = (Integer) row.get("item_id");
-                            i.name = (String) row.get("item_name");
-                            i.description = (String) row.get("item_description");
-                            i.price = (BigDecimal) row.get("item_price");
-                            i.type = (Integer) row.get("item_type");
-
-                            g.items.add(i);
-                        }
-                    }
-
-
-                    return g;
-                });
-
-                m.groups = groups.collect(Collectors.toList());
+                Menu m = parseMenu(rows);
 
                 return Response.ok(Utils.toJson(m)).build();
             } else {
