@@ -30,6 +30,20 @@
 
 
 	<servlet>
+		<servlet-name>main</servlet-name>
+		<servlet-class>controller.web.MainServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>main</servlet-name>
+		<url-pattern>/meny</url-pattern>
+		<url-pattern>/hitta-hit</url-pattern>
+		<url-pattern>/om-oss</url-pattern>
+		<url-pattern>/boka-bord</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
 		<servlet-name>menu</servlet-name>
 		<servlet-class>controller.web.MenuServlet</servlet-class>
 	</servlet>
@@ -74,7 +88,7 @@
 
 
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>main</welcome-file>
 	</welcome-file-list>
 
 </web-app>
