@@ -15,6 +15,11 @@
 	<div id="overlay"></div>
 	<div id="alter-staff-popup" class="popup">
 		<h1>Ändra användare</h1>
+		<span id="delete-staff-btn" class="button red">Radera användaren</span>
+		<div class="popup-dialog-holder">
+			<span class="button r apply-btn green">Verkställ</span>
+			<span class="button r cancel-btn yellow">Avbryt</span>
+		</div>
 	</div>
 
 	<div id="header">
@@ -49,7 +54,7 @@
 						<input id="first_name" type="text"><br>
 						Efternamn:<br>
 						<input id="last_name" type="text"><br>
-						<span id="add-staff-btn" style="float: right" class="button add-btn">Lägg till</span>
+						<span id="add-staff-btn" class="button green">Lägg till</span>
 					</form>
 				</div>
 			</div><div id="staff-content">
@@ -75,8 +80,7 @@
 				<td>{{ first_name}} {{ last_name }}</td>
 				<td>{{ role }}</td>
 				<td>
-					<span id="delete-staff-btn" class="button delete-btn">Radera</span>
-					<span id="alter-staff-btn" class="button change-btn">Ändra</span>
+					<span id="alter-staff-btn{{ id }}" class="button yellow">Ändra</span>
 				</td>
 			</tr>
 		{{ /articles }}
