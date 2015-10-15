@@ -25,8 +25,16 @@
 <div id="content">
     <div class="section">
         <h1>Menyer</h1>
-
+        <h4 class="add">+ Lägg till ny meny</h4>
         <div id="menus"></div>
+    </div>
+
+    <div class="section" id="add_menu_section">
+        <h1>Meny</h1>
+        <form>
+            <label>Namn: <input type="text" name="name"></label>
+            <span id="create_menu" class="button">Skapa och lägg till ny</span>
+        </form>
     </div>
 
     <div class="section" id="add_item_section">
@@ -74,6 +82,7 @@
                         {{ /items }}
                     </div>
                 {{ /groups }}
+                <h4 class="add">+ Lägg till kategori</h4>
             </div>
         {{ /menus }}
     </script>

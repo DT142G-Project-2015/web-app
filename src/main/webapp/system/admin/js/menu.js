@@ -19,43 +19,51 @@ $(document).ready(function() {
             url: '../../api/menu',
             type: 'GET',
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function(menus) {
 
-            menuFetches = data.map(function(menu) {
-                return $.ajax({
-                    url: '../../api/menu/' + menu.id + '?expand=true',
-                    type: 'GET',
-                    dataType: 'json'
+
+            var rendered = Mustache.render(menusTemplate, {menus: menus});
+            $('#menus').empty();
+            $('#menus').append(rendered);
+
+            $('#menus .menu-row .button').click(function() {
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                var item_id = $(this).closest('.menu-row').data('item-id');
+
+                $.ajax({
+                    url: '../../api/menu/' + menu_id + '/group/' + group_id + '/item/' + item_id,
+                    type: 'DELETE',
+                    dataType: 'text'
+                }).done(function() {
+                    refreshMenus();
                 });
             });
 
-            $.when.apply($, menuFetches).done(function() {
-                var menus = Array.prototype.slice.call(arguments).slice(0, -2);
-
-                var rendered = Mustache.render(menusTemplate, {menus: menus});
-                $('#menus').empty();
-                $('#menus').append(rendered);
-
-                $('#menus .menu-row .button').click(function() {
-                    var menu_id = $(this).closest('.menu').data('menu-id');
-                    var group_id = $(this).closest('.menu-group').data('group-id');
-                    var item_id = $(this).closest('.menu-row').data('item-id');
-
-                    $.ajax({
-                        url: '../../api/menu/' + menu_id + '/group/' + group_id + '/item/' + item_id,
-                        type: 'DELETE',
-                        dataType: 'text'
-                    }).done(function() {
-                        refreshMenus();
-                    });
-                });
-
-                $('#menus .add_item').click(function() {
-                    var menu_id = $(this).closest('.menu').data('menu-id');
-                    var group_id = $(this).closest('.menu-group').data('group-id');
-                    openAddItemDialog(menu_id, group_id);
-                });
+            $('#menus .add_item').click(function() {
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                openAddItemDialog(menu_id, group_id);
             });
+
+            $('#create_menu').click(function(){
+                addMenu();
+            });
+
+        });
+    }
+
+    function addMenu(){
+        var menu;
+        $('#add_menu_section form input').each(function(index, element){
+            menu = element.value;
+        });
+        console.log(menu);
+        $.ajax({
+            url: '../../api/menu',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify({ name: menu })
         });
     }
 

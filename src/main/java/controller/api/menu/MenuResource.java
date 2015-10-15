@@ -9,6 +9,7 @@ import util.Utils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class MenuResource {
         m.stop_date = (Timestamp) rows.get(0).get("stop_date");
 
         Stream<Menu.Group> groups = rows.stream()
+                .filter(r -> r.get("group_id") != null)
                 .collect(groupingBy(row -> row.get("group_id")))
                 .values().stream().map(groupRows -> parseGroup(groupRows));
 
@@ -71,8 +73,13 @@ public class MenuResource {
 
         try (Connection conn = Database.getConnection()) {
             try (Statement st = conn.createStatement()) {
-                ResultSet rs = st.executeQuery("SELECT * FROM menu");
-                return Utils.toJson(Database.toList(rs));
+                ResultSet rs = st.executeQuery(expandedMenuQuery);
+
+                Stream<Menu> menus = Database.toList(rs).stream()
+                        .collect(Collectors.groupingBy(row -> row.get("menu_id")))
+                        .values().stream().map(rows -> parseMenu(rows));
+
+                return Utils.toJson(menus.collect(Collectors.toList()));
             }
         }
 
@@ -90,14 +97,14 @@ public class MenuResource {
                     "i.type AS item_type " +
                     "FROM menu m LEFT JOIN menu_group mg ON m.id = mg.menu_id " +
                     "LEFT JOIN menu_group_item mgi ON mg.id = mgi.menu_group_id " +
-                    "LEFT JOIN item i ON mgi.item_id = i.id " +
-                    "WHERE m.id = (?)";
+                    "LEFT JOIN item i ON mgi.item_id = i.id ";
+
 
     private Response getExpandedMenu(int id) throws SQLException {
 
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(expandedMenuQuery)) {
+             PreparedStatement st = conn.prepareStatement(expandedMenuQuery + "WHERE m.id = (?)")) {
 
             st.setInt(1, id);
             List<Map<String, Object>> rows = Database.toList(st.executeQuery());
@@ -181,13 +188,13 @@ public class MenuResource {
                 menu.id = insertMenu(conn, menu.name, menu.start_date, menu.stop_date);
 
                 Menu.Group g = new Menu.Group();
-
+/*
                 // Dirty hack: insert NULL GROUP, items in this group are 'ungrouped'
                 g.id = insertGroup(conn, null, menu.id);
 
                 menu.groups = new ArrayList<>();
                 menu.groups.add(g);
-
+*/
                 conn.commit();  // Commit Transaction
 
                 return Response.ok(Utils.toJson(menu)).build();
