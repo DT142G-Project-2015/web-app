@@ -24,7 +24,10 @@ public class MainServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String page = Stream.of(req.getRequestURI().split("/")).reduce((prev, cur) -> cur).get();
+
+
+        String page = req.getRequestURI().equals("/") ? "meny" :
+                Stream.of(req.getRequestURI().split("/")).reduce((prev, cur) -> cur).get();
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(MenuResource.expandedMenuQuery + "WHERE m.id = (?)")) {

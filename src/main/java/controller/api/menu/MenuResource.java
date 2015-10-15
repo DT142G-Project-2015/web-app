@@ -54,8 +54,8 @@ public class MenuResource {
 
         m.id = (int)rows.get(0).get("menu_id");
         m.name = (String) rows.get(0).get("menu_name");
-        m.start_date = (Timestamp) rows.get(0).get("start_date");
-        m.stop_date = (Timestamp) rows.get(0).get("stop_date");
+        m.start_date = (Timestamp) rows.get(0).get("menu_start_date");
+        m.stop_date = (Timestamp) rows.get(0).get("menu_stop_date");
 
         Stream<Menu.Group> groups = rows.stream()
                 .filter(r -> r.get("group_id") != null)
@@ -88,6 +88,8 @@ public class MenuResource {
     public static final String expandedMenuQuery =
             "SELECT m.id AS menu_id, " +
                     "m.name AS menu_name, " +
+                    "m.start_date AS menu_start_date, " +
+                    "m.stop_date AS menu_stop_date, " +
                     "mg.id AS group_id, " +
                     "mg.name AS group_name, " +
                     "i.id AS item_id, " +
@@ -108,8 +110,6 @@ public class MenuResource {
 
             st.setInt(1, id);
             List<Map<String, Object>> rows = Database.toList(st.executeQuery());
-
-
 
             if (rows.size() > 0) {
 
