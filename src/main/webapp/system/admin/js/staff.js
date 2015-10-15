@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+    $('#css-black').click(function (){
+       $('link[href="../style-white.css"]').attr('href','../style-test.css');
+    });
+    $('#css-white').click(function (){
+       $('link[href="../style-test.css"]').attr('href','../style-white.css');
+    });
+
     var template = $('#staff-template').html();
     Mustache.parse(template);
 
