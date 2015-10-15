@@ -65,7 +65,8 @@ ALTER TABLE menu_group_item ADD CONSTRAINT menu_group_item_cascade
 CREATE TABLE receipt
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	booth		INT NOT NULL
+	booth		INT NOT NULL,
+	payed		BOOL NOT NULL
 );
 
 CREATE TABLE receipt_group
@@ -122,12 +123,11 @@ CREATE TABLE receipt_group_sub_item_note
 	PRIMARY KEY (note_id, receipt_group_sub_item_id)
 );
 
-
 ALTER TABLE receipt_group_item_note ADD FOREIGN KEY (note_id) REFERENCES note(id);
-ALTER TABLE receipt_group_item_note ADD FOREIGN KEY (receipt_group_item_id) REFERENCES receipt_group_item(id);
+ALTER TABLE receipt_group_item_note ADD FOREIGN KEY (receipt_group_item_id) REFERENCES receipt_group_item(id) ON DELETE CASCADE;
 
 ALTER TABLE receipt_group_sub_item_note ADD FOREIGN KEY (note_id) REFERENCES note(id);
-ALTER TABLE receipt_group_sub_item_note ADD FOREIGN KEY (receipt_group_sub_item_id) REFERENCES receipt_group_sub_item(id);
+ALTER TABLE receipt_group_sub_item_note ADD FOREIGN KEY (receipt_group_sub_item_id) REFERENCES receipt_group_sub_item(id) ON DELETE CASCADE;
 
 -- ###########
 -- # Account #
@@ -174,7 +174,7 @@ CREATE TABLE article
 	category	VARCHAR(255),
 	amount		DOUBLE,
 	unit		VARCHAR(255),
-	exp_date 	DATE
+	exp_date 	VARCHAR(255)
 );
 
 -- #############
@@ -188,14 +188,12 @@ INSERT INTO article (name, category, amount, unit, exp_date) VALUES
 INSERT INTO article (name, category, amount, unit, exp_date) VALUES
 ('Potatis', 'Tillbehör', 7, 'kg', '2015-11-13');
 
-
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('root', 'toor', 1, 'Gustav', 'Åström');
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('cook', 'password', 1, 'Sebastian', 'Persson');
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('waitress', 'tipme', 2, 'Viktor', 'Spindler');
-
 
 INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
@@ -207,13 +205,13 @@ INSERT INTO menu_group (name, menu_id) VALUES ('Dryck', 1);
 INSERT INTO item (name, description, type, price) VALUES
 ('Beef Stew', 'mouth watering description', 0, 79.99);
 INSERT INTO item (name, description, type, price) VALUES
-('Smoked Rabbit', 'mouth watering description', 0, 59.99);
+('Smoked Rabbit', 'mouth watering description', 2, 59.99);
 INSERT INTO item (name, description, type, price) VALUES
 ('Tartar Sauce', 'mouth watering description', 0, 4.99);
 INSERT INTO item (name, description, type, price) VALUES
 ('Vitlökssås', 'gott', 0, 4.99);
 INSERT INTO item (name, description, type, price) VALUES
-('Kanelbulle', 'bäst', 0, 35);
+('Kanelbulle', 'bäst', 2, 35);
 
 INSERT INTO item_item VALUES (2, 4);
 
@@ -224,14 +222,15 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 4);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 5);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (2, 4);
 
-INSERT INTO receipt (booth) VALUES (1);
-INSERT INTO receipt (booth) VALUES (2);
-INSERT INTO receipt (booth) VALUES (3);
+INSERT INTO receipt (booth, payed) VALUES (1, false);
+INSERT INTO receipt (booth, payed) VALUES (2, false);
+INSERT INTO receipt (booth, payed) VALUES (3, false);
+INSERT INTO receipt (booth, payed) VALUES (4, false);
 
 INSERT INTO receipt_group (status, receipt_id) VALUES ('initial', 1);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 2);
 INSERT INTO receipt_group (status, receipt_id) VALUES ('done', 3);
-
+INSERT INTO receipt_group (status, receipt_id) VALUES ('readyForKitchen', 4);
 
 INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (1, 2);
 INSERT INTO receipt_group_item (item_id, receipt_group_id) VALUES (2, 2);
@@ -246,6 +245,10 @@ INSERT INTO note (text) VALUES ('extra mkt');
 INSERT INTO note (text) VALUES ('dubbel');
 
 INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (1, 2);
+INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (1, 1);
+
+INSERT INTO receipt_group_item_note (note_id, receipt_group_item_id) VALUES (2, 3);
+
 INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (2, 1);
 INSERT INTO receipt_group_sub_item_note (note_id, receipt_group_sub_item_id) VALUES (3, 1);
 

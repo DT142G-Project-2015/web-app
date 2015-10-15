@@ -15,11 +15,14 @@
 	<div id="login-holder">
 		<h1>Logga in</h1>
 		<div id="login-content">
-			Användarnamn:<br>
-			<input type="text" placeholder="Användarnamn"><br><br>
-			Lösenord:<br>
-			<input type="password" placeholder="Lösenord"><br><br>
-			<a href="staff.htm">Logga in</a>
+			<form method="post" action="login">
+				Användarnamn:<br>
+				<input name="username" type="text" placeholder="Användarnamn"><br><br>
+				Lösenord:<br>
+				<input name="password" type="password" placeholder="Lösenord"><br><br>
+				<input type="submit" value="Logga in">
+			</form>
+				<!-- <a href="staff.htm">Logga in</a> -->
 		</div>
 	</div>
 

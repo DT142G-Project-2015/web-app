@@ -24,9 +24,9 @@ public class StorageResource
     @GET
     public String getStorage() throws SQLException
     {
-        String query = "SELECT * FROM article";
+        String query = "SELECT DISTINCT * FROM article ORDER BY id";
         try (Connection conn = Database.getConnection();
-        PreparedStatement st = conn.prepareStatement(query))
+             PreparedStatement st = conn.prepareStatement(query))
         {
             ResultSet rs = st.executeQuery();
             return new Gson().toJson(Database.toList(rs));
@@ -56,23 +56,28 @@ public class StorageResource
         }
     }
 
+
+
     @PUT @Path("{id: [0-9]+}")
     public Response updateArticle(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "UPDATE article SET name = (?), amount = (?), unit = (?) WHERE id = (?)")) {
+                     "UPDATE article SET name = (?), category = (?), amount = (?), unit = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
 
+
+            System.out.println(postData);
             Article article = gson.fromJson(postData, Article.class);
 
             if (article.isValid()) {
                 st.setString(1, article.name);
-                st.setDouble(2, article.amount);
-                st.setString(3, article.unit);
-                st.setInt(4, id);
+                st.setString(2, article.category);
+                st.setDouble(3, article.amount);
+                st.setString(4, article.unit);
+                st.setInt(5, id);
                 st.executeUpdate();
-                return Response.ok(new UpdateMessage("updated", Database.getAutoIncrementID(st)).toJson()).build();
+                return Response.ok(new UpdateMessage("update", Database.getAutoIncrementID(st)).toJson()).build();
             }
             else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
@@ -111,11 +116,10 @@ public class StorageResource
     public Response deleteArticle(@PathParam("id") int id) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement("DELETE FROM article WHERE id = (?)")) {
-            st.setInt(1, id);
 
+            st.setInt(1, id);
             st.executeUpdate();
             return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
         }
     }
 }
-

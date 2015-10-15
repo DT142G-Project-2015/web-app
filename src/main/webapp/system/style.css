@@ -288,6 +288,10 @@ td{
 	padding: 5px 0 5px 5px;
 }
 
+#insert-storage {
+	width:600px;
+}
+
 .inventory:nth-child(even) {
 		background: #EEE;
 }

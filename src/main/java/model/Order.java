@@ -9,7 +9,7 @@ import java.util.List;
 public class Order {
 
     public static class Note {
-        public int id;
+        public Integer id;
         public String text;
     }
 
@@ -31,10 +31,11 @@ public class Order {
             @SerializedName("done") Done;
 
             private String getText() {
-                return Arrays.stream(this.getClass().getFields())
-                        .filter(f -> f.getName().equals(name()))
-                        .findAny().get()
-                        .getAnnotation(SerializedName.class).value();
+                try {
+                    return getClass().getField(name()).getAnnotation(SerializedName.class).value();
+                } catch (NoSuchFieldException e) {
+                    throw new RuntimeException(e);  // IMPOSSIBLE
+                }
             }
 
             public static String getText(Status status) {
@@ -42,9 +43,11 @@ public class Order {
             }
 
             public static Status fromText(String text) {
-                return Arrays.stream(values())
-                        .filter(st -> st.getText().equals(text))
-                        .findAny().orElse(Initial);
+                for (Status st : values()) {
+                    if (st.getText().equals(text))
+                        return st;
+                }
+                return Initial;
             }
 
             public static String sanitize(String s) {
@@ -60,6 +63,7 @@ public class Order {
 
     public int id;
     public int booth;
+    public Boolean payed;
     public List<Group> groups;
 
 

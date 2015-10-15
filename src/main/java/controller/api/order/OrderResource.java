@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Path("order")
 @Produces(MediaType.APPLICATION_JSON)
@@ -97,6 +96,7 @@ public class OrderResource {
         Order order = new Order();
         order.id = (Integer)rows.get(0).get("receipt_id");
         order.booth = (Integer) rows.get(0).get("booth");
+        order.payed = (boolean) rows.get(0).get("payed");
 
         Map<Object, List<Map<String, Object>>> byGroup = rows.stream().
                 collect(Collectors.groupingBy(row -> row.get("receipt_group_id")));
@@ -110,7 +110,7 @@ public class OrderResource {
 
 
     private static String getOrdersQuery =
-            "SELECT r.id AS receipt_id, r.booth AS booth, " +
+            "SELECT r.id AS receipt_id, r.booth AS booth, r.payed AS payed, " +
                    "rg.id AS receipt_group_id, rg.status AS status, " +
                    "rgi.id AS receipt_group_item_id, " +
                    "rgsi.id AS receipt_group_sub_item_id, " +
@@ -212,9 +212,10 @@ public class OrderResource {
     }
 
     static int insertOrder(Connection conn, int booth) throws SQLException {
-        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth) VALUES ((?))",
+        PreparedStatement st = conn.prepareStatement("INSERT INTO receipt (booth, payed) VALUES ((?), (?))",
                 Statement.RETURN_GENERATED_KEYS);
         st.setInt(1, booth);
+        st.setBoolean(2, false);
         st.executeUpdate();
 
         return Database.getAutoIncrementID(st);
@@ -235,6 +236,21 @@ public class OrderResource {
         return Database.getAutoIncrementID(st);
     }
 
+    static int insertGroupSubItem(Connection conn, int itemId, int parentGroupItemId)
+            throws SQLException {
+        PreparedStatement st = conn.prepareStatement(
+                "INSERT INTO receipt_group_sub_item (item_id, receipt_group_item_id) " +
+                        "VALUES ((?), (?))",
+                Statement.RETURN_GENERATED_KEYS);
+
+        st.setInt(1, itemId);
+        st.setInt(2, parentGroupItemId);
+
+        st.executeUpdate();
+
+        return Database.getAutoIncrementID(st);
+    }
+
     @POST
     public Response addOrder(String postData) throws SQLException {
 
@@ -249,10 +265,13 @@ public class OrderResource {
             if (order.isValidPost()) {
 
                 order.id = insertOrder(conn, order.booth);
+                if (order.groups == null) order.groups = new ArrayList<>();
                 
                 for (Order.Group g : order.groups) {
 
                     int groupId = insertGroup(conn, Status.getText(g.status), order.id);
+                    if (g.items == null) g.items = new ArrayList<>();
+
                     for (Order.Item i : g.items) {
 
                         int groupItemId = insertGroupItem(conn, i.id, groupId);
@@ -290,6 +309,27 @@ public class OrderResource {
         }
     }
 
+    @PUT @Path("{id: [0-9]+}")
+    public String updateOrderPayed(@PathParam("id") int id, String postData) throws SQLException {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(
+                     "UPDATE receipt SET payed = (?) WHERE id = (?)")) {
+
+            Gson gson = new Gson();
+            Order o = gson.fromJson(postData, Order.class);
+
+
+            st.setBoolean(1, o.payed);
+            st.setInt(2, id);
+
+            if (st.executeUpdate() != 0) {
+                return new UpdateMessage("updated", id).toJson();
+            } else {
+                throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            }
+
+        }
+    }
 
     @Path("{id}/group")
     public OrderGroupResource getGroup(@PathParam("id") int id) {

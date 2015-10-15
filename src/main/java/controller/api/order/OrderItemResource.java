@@ -10,12 +10,9 @@ import util.Utils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderItemResource {
@@ -66,5 +63,16 @@ public class OrderItemResource {
 
             return Response.ok(Utils.toJson(msg)).build();
         }
+    }
+
+
+    @Path("{id: [0-9]+}/subitem")
+    public OrderSubItemResource getOrderSubItem(@PathParam("id") int groupItemId) {
+        return new OrderSubItemResource(groupItemId);
+    }
+
+    @Path("{id: [0-9]+}/note")
+    public OrderNoteResource getOrderNote(@PathParam("id") int itemId) {
+        return new OrderNoteResource(itemId, false);
     }
 }

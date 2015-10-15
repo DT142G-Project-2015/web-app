@@ -17,6 +17,7 @@ $(document).ready(function(){
             type: 'GET',
             dataType: 'json'
         }).done(function(data){
+            var cat = {}
             var rendered = Mustache.render(template, {articles: data})
            $('#content .section').empty();
            $('#content .section').append(rendered);
@@ -37,20 +38,27 @@ $(document).ready(function(){
             //Is used to update an article and fetching the new menu.
             $('.change-btn').click(function() {
                 var storage_id = $(this).closest('.inventory-list-item').data('id');
+                var exp_date = $(this).closest('.inventory-list-item').data('date');
+                var category = $(this).closest('.inventory-list-item').data('cat');
 
-                alert(JSON.stringify(storage_id));
+                //alert(JSON.stringify(storage_id) + JSON.stringify(exp_date));
 
                 var storage = {}
-                $('.inventory-list .change-btn form :input').each(function(index, element){
-                    storage[element.id] = element.value;
+                storage.id = storage_id;
+                //storage.category = category;
+                $('#inventory-list'+storage.id+' form :input').each(function(index, element){
+                    storage[element.name] = element.value;
                 });
+                storage.exp_date = exp_date;
+                storage.category = category;
 
+                //alert(JSON.stringify(storage));
                 $.ajax({
-                    url: '../../api/storage/' + storage_id,
+                    url: '../../api/storage/'+storage_id,
                     type: 'PUT',
-                    dataType: JSON.stringify(storage)
+                    dataType: 'json',
+                    data: JSON.stringify(storage)
                 }).done(function() {
-                    alert('Uptaded menu');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -66,14 +74,20 @@ $(document).ready(function(){
             storage[element.id] = element.value;
         });
 
-        alert(JSON.stringify(storage));
+        /*var todays_date = $.datepicker.formatDate('yyyy-MM-dd', new Date());
 
+        if(Date.parse(todays_date)>=Date.parse(storage.exp_date)){
+            alert("didn't work?");
+        }
+        alert(JSON.stringify(storage));
+        */
         $.ajax({
             url: '../../api/storage',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(storage)
         }).done(function(addedStorage){
+                getStorage(); //Used to fetch the new menu.
         });
     }
 
