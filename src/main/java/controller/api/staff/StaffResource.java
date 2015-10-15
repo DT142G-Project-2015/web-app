@@ -2,14 +2,12 @@ package controller.api.staff;
 
 
 import com.google.gson.Gson;
+import com.sun.jersey.api.NotFoundException;
 import model.Staff;
 import model.UpdateMessage;
 import util.Database;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
@@ -39,9 +37,10 @@ public class StaffResource {
     @POST
     public Response insertStaff(String postData) throws SQLException {
 
+        String q = "INSERT INTO account(username, userhash, role, first_name, last_name) VALUES((?), (?), (?), (?), (?))";
+
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO account(username, userhash, role, first_name, last_name) VALUES((?), (?), (?), (?), (?))")) {
+             PreparedStatement st = conn.prepareStatement(q)) {
 
             Gson gson = new Gson();
 
@@ -59,6 +58,26 @@ public class StaffResource {
             else {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
+        }
+    }
+
+    @DELETE @Path("{id: [0-9]+}")
+    public String deleteStaff(@PathParam("id") int id) throws SQLException {
+
+        String q = "DELETE FROM account WHERE account.id = (?)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(q)) {
+
+            st.setInt(1, id);
+
+            int rowsDeleted = st.executeUpdate();
+
+            if (rowsDeleted == 0)
+                throw new NotFoundException();
+
+            return new UpdateMessage("deleted", id).toJson();
+
         }
     }
 }
