@@ -39,7 +39,7 @@ $(document).ready(function(){
             $('.change-btn').click(function() {
                 var storage_id = $(this).closest('.inventory-list-item').data('id');
                 var exp_date = $(this).closest('.inventory-list-item').data('date');
-//                var category = $(this).closest('.inventory-list-item').data('cat');
+                var category = $(this).closest('.inventory-list-item').data('cat');
 
                 //alert(JSON.stringify(storage_id) + JSON.stringify(exp_date));
 
@@ -50,15 +50,15 @@ $(document).ready(function(){
                     storage[element.name] = element.value;
                 });
                 storage.exp_date = exp_date;
+                storage.category = category;
 
-                alert(JSON.stringify(storage));
+                //alert(JSON.stringify(storage));
                 $.ajax({
                     url: '../../api/storage/'+storage_id,
                     type: 'PUT',
                     dataType: 'json',
                     data: JSON.stringify(storage)
                 }).done(function() {
-                    alert('Uptaded menu');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -74,8 +74,13 @@ $(document).ready(function(){
             storage[element.id] = element.value;
         });
 
-        alert(JSON.stringify(storage));
+        /*var todays_date = $.datepicker.formatDate('yyyy-MM-dd', new Date());
 
+        if(Date.parse(todays_date)>=Date.parse(storage.exp_date)){
+            alert("didn't work?");
+        }
+        alert(JSON.stringify(storage));
+        */
         $.ajax({
             url: '../../api/storage',
             type: 'POST',
