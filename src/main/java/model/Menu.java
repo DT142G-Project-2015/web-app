@@ -8,12 +8,23 @@ public class Menu {
 
     public static class Item extends model.Item {
         //public List<SubItem> subItems;
+        public String getName() {
+            return name;
+        }
     }
 
     public static class Group {
         public int id;
         public String name;
         public List<Item> items;
+
+        public String getName() {
+            return name;
+        }
+
+        public List<Item> getItems() {
+            return items;
+        }
 
         public boolean isValidPost() {
             return name != null && name.length() > 0;

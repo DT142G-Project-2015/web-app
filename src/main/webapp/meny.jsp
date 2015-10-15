@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 
 
@@ -8,64 +9,15 @@
 	<link rel="stylesheet" media="screen and (orientation:portrait)" href="css/mobile.css">
 	<link rel="stylesheet" media="screen and (orientation:landscape)" href="css/style.css">
 	<script src="js/jquery-1.11.3.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js"></script>
 </head>
 
 <body>
-	<div id="sidebar">
-		<div id="logo-holder">
-		</div>
-		<div id="nav">
-			<a class="nav-item" href="meny.htm">Meny</a>
-			<a class="nav-item" href="om-oss.htm">Om oss</a>
-			<a class="nav-item" href="boka-bord.htm">Boka bord</a>
-			<a class="nav-item active" href="hitta-hit.htm">Hitta hit</a>
-		</div>
-		<div id="sidebar-content">
-			<div class="sidebar-content-item">
-				<h3>Öppettider</h3>
-				<strong>Vardagar</strong><br>
-				11.00-13.00 Lunch<br>
-				17.00-21.00 A la carté<br>
-				<strong>Lördagar</strong><br>
-				16.00-00.00 A la carté<br>
-				<strong>Söndagar</strong><br>
-				Stängt
-			</div>
-			<div class="sidebar-content-item">
-				<h3>Dagens lunch</h3>
-				1. Fiskbullar med a lá potatismos<br>
-				2. Ungsbakad pizza med havsfiskade räkor<br>
-			</div>
-		</div>
-	</div>
+	<%@include file="sidebar.jsp" %>
 	<div id="content">
-		<div id="media-holder" style="height: 700px">
-			
+		<div id="media-holder">
+			<img src="img/meny.jpg">
 		</div>
-		<script>
-			$(document).ready(function(){
-				function initialize() {
-			        var mapCanvas = document.getElementById('media-holder');
-			        var mapOptions = {
-			        	center: new google.maps.LatLng(62.394099, 17.283968),
-			        	zoom: 15,
-			        	mapTypeId: google.maps.MapTypeId.ROADMAP
-			        }
-			        var map = new google.maps.Map(mapCanvas, mapOptions);
-			        var styles = [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-80},{"lightness":50},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}];
-
-					map.setOptions({styles: styles});
-		    	}
-		    	google.maps.event.addDomListener(window, 'load', initialize);
-		    	$("#media-holder").hover(function(){
-		    		$("#text-holder").animate({"top": "0px"}, 600);
-		    	}, function(){
-		    		$("#text-holder").animate({"top": "-475px"}, 600);
-		    	});
-			});
-	    </script>
-		<div id="text-holder" style="position: relative; top: -475px; min-height: 475px">
+		<div id="text-holder">
 			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ornare eros in nibh tempus, non semper nibh condimentum. Etiam ultrices sit amet odio cursus tincidunt. Vivamus lobortis vehicula orci, ac elementum est commodo ut. Vivamus ut libero eu massa viverra finibus. Curabitur eu sagittis mi, sed pulvinar ante. Nullam venenatis mauris arcu, ac placerat arcu pulvinar eget. In tellus ante, mattis a blandit ut, consequat ac mauris.
 
 In porta imperdiet libero, sit amet condimentum metus porta vitae. Duis efficitur sit amet lacus at auctor. Etiam scelerisque lobortis vestibulum. Donec fringilla efficitur erat, vel tincidunt sapien ultrices sit amet. Proin risus lectus, convallis id convallis ac, mollis in libero. Maecenas viverra metus et lacinia dignissim. Duis maximus faucibus sagittis. Proin interdum mattis felis porttitor semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent ullamcorper quam non semper elementum. Vestibulum id pulvinar ligula. Ut id erat a risus mattis aliquet. Ut vel tristique turpis. Ut auctor sit amet sapien vel pulvinar.

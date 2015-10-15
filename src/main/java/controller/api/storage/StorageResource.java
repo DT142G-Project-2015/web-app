@@ -66,7 +66,6 @@ public class StorageResource
 
             Gson gson = new Gson();
 
-
             System.out.println(postData);
             Article article = gson.fromJson(postData, Article.class);
 
@@ -77,7 +76,7 @@ public class StorageResource
                 st.setString(4, article.unit);
                 st.setInt(5, id);
                 st.executeUpdate();
-                return Response.ok(new UpdateMessage("update", Database.getAutoIncrementID(st)).toJson()).build();
+                return Response.ok(new UpdateMessage("update", id).toJson()).build();
             }
             else {
                 return Response.status(Response.Status.BAD_REQUEST).build();

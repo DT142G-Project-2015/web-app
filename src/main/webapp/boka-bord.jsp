@@ -11,36 +11,10 @@
 </head>
 
 <body>
-	<div id="sidebar">
-		<div id="logo-holder">
-		</div>
-		<div id="nav">
-			<a class="nav-item" href="meny.htm">Meny</a>
-			<a class="nav-item active" href="om-oss.htm">Om oss</a>
-			<a class="nav-item" href="boka-bord.htm">Boka bord</a>
-			<a class="nav-item" href="hitta-hit.htm">Hitta hit</a>
-		</div>
-		<div id="sidebar-content">
-			<div class="sidebar-content-item">
-				<h3>Öppettider</h3>
-				<strong>Vardagar</strong><br>
-				11.00-13.00 Lunch<br>
-				17.00-21.00 A la carté<br>
-				<strong>Lördagar</strong><br>
-				16.00-00.00 A la carté<br>
-				<strong>Söndagar</strong><br>
-				Stängt
-			</div>
-			<div class="sidebar-content-item">
-				<h3>Dagens lunch</h3>
-				1. Fiskbullar med a lá potatismos<br>
-				2. Ungsbakad pizza med havsfiskade räkor<br>
-			</div>
-		</div>
-	</div>
+	<%@include file="sidebar.jsp" %>
 	<div id="content">
 		<div id="media-holder">
-			<img src="img/om-oss.jpg">
+			<img src="img/boka-bord.jpg">
 		</div>
 		<div id="text-holder">
 			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ornare eros in nibh tempus, non semper nibh condimentum. Etiam ultrices sit amet odio cursus tincidunt. Vivamus lobortis vehicula orci, ac elementum est commodo ut. Vivamus ut libero eu massa viverra finibus. Curabitur eu sagittis mi, sed pulvinar ante. Nullam venenatis mauris arcu, ac placerat arcu pulvinar eget. In tellus ante, mattis a blandit ut, consequat ac mauris.

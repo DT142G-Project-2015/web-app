@@ -50,7 +50,9 @@ $(document).ready(function(){
                     storage[element.name] = element.value;
                 });
                 storage.exp_date = exp_date;
+                checkDate(storage.exp_date);
                 storage.category = category;
+
 
                 //alert(JSON.stringify(storage));
                 $.ajax({
@@ -59,6 +61,7 @@ $(document).ready(function(){
                     dataType: 'json',
                     data: JSON.stringify(storage)
                 }).done(function() {
+                    alert('DONE');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -74,13 +77,9 @@ $(document).ready(function(){
             storage[element.id] = element.value;
         });
 
-        /*var todays_date = $.datepicker.formatDate('yyyy-MM-dd', new Date());
+        checkDate(storage.exp_date);
+        //alert(JSON.stringify(storage));
 
-        if(Date.parse(todays_date)>=Date.parse(storage.exp_date)){
-            alert("didn't work?");
-        }
-        alert(JSON.stringify(storage));
-        */
         $.ajax({
             url: '../../api/storage',
             type: 'POST',
@@ -97,4 +96,12 @@ $(document).ready(function(){
     });
 
 
+    function checkDate(exp_date){
+        /* Följande koder notifierar användaren om felaktig exp date är gjord.*/
+        var todays_date = new Date(); //$.datepicker.formatDate('yy-MM-dd', new Date());
+        d = new Date(exp_date);
+        if(Date.parse(todays_date) >= Date.parse(d)){
+            alert("Expire date is earlier than today's date!");
+        }
+    }
 });
