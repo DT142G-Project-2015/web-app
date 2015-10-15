@@ -9,16 +9,15 @@ import util.Utils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @Path("menu")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,21 +28,21 @@ public class MenuResource {
         Menu.Group g = new Menu.Group();
         g.id = (Integer) rows.get(0).get("group_id");
         g.name = (String) rows.get(0).get("group_name");
-        g.items = new ArrayList<Menu.Item>();
 
-        for (Map<String, Object> row : rows) {
-            if (row.get("item_id") != null) {
-                Menu.Item i = new Menu.Item();
 
-                i.id = (Integer) row.get("item_id");
-                i.name = (String) row.get("item_name");
-                i.description = (String) row.get("item_description");
-                i.price = (BigDecimal) row.get("item_price");
-                i.type = (Integer) row.get("item_type");
+        g.items = rows.stream()
+                .filter(r -> r.get("item_id") != null)
+                .map(row -> {
 
-                g.items.add(i);
-            }
-        }
+                    Menu.Item i = new Menu.Item();
+                    i.id = (Integer) row.get("item_id");
+                    i.name = (String) row.get("item_name");
+                    i.description = (String) row.get("item_description");
+                    i.price = (BigDecimal) row.get("item_price");
+                    i.type = (Integer) row.get("item_type");
+                    return i;
+
+        }).collect(toList());
 
         return g;
     }
@@ -53,16 +52,16 @@ public class MenuResource {
         Menu m = new Menu();
 
         m.id = (int)rows.get(0).get("menu_id");
-        m.name = (String) rows.get(0).get("menu_name");
-        m.start_date = (Timestamp) rows.get(0).get("menu_start_date");
-        m.stop_date = (Timestamp) rows.get(0).get("menu_stop_date");
+        m.type = (Integer) rows.get(0).get("menu_type");
+        m.start_date = (java.sql.Date) rows.get(0).get("menu_start_date");
+        m.stop_date = (java.sql.Date) rows.get(0).get("menu_stop_date");
 
         Stream<Menu.Group> groups = rows.stream()
                 .filter(r -> r.get("group_id") != null)
                 .collect(groupingBy(row -> row.get("group_id")))
                 .values().stream().map(groupRows -> parseGroup(groupRows));
 
-        m.groups = groups.collect(Collectors.toList());
+        m.groups = groups.collect(toList());
 
         return m;
     }
@@ -76,10 +75,10 @@ public class MenuResource {
                 ResultSet rs = st.executeQuery(expandedMenuQuery);
 
                 Stream<Menu> menus = Database.toList(rs).stream()
-                        .collect(Collectors.groupingBy(row -> row.get("menu_id")))
+                        .collect(groupingBy(row -> row.get("menu_id")))
                         .values().stream().map(rows -> parseMenu(rows));
 
-                return Utils.toJson(menus.collect(Collectors.toList()));
+                return Utils.toJson(menus.collect(toList()));
             }
         }
 
@@ -87,7 +86,7 @@ public class MenuResource {
 
     public static final String expandedMenuQuery =
             "SELECT m.id AS menu_id, " +
-                    "m.name AS menu_name, " +
+                    "m.type AS menu_type, " +
                     "m.start_date AS menu_start_date, " +
                     "m.stop_date AS menu_stop_date, " +
                     "mg.id AS group_id, " +
@@ -145,7 +144,7 @@ public class MenuResource {
     }
 
 
-    int insertGroup(Connection conn, String name, int menuId) throws SQLException {
+    static int insertGroup(Connection conn, String name, int menuId) throws SQLException {
 
         String q = "INSERT INTO menu_group (name, menu_id) VALUES ((?), (?))";
 
@@ -158,12 +157,12 @@ public class MenuResource {
         }
     }
 
-    int insertMenu(Connection c, String name, Date start, Date stop) throws SQLException {
+    static int insertMenu(Connection c, int type, Date start, Date stop) throws SQLException {
 
-        String q = "INSERT INTO menu (name, start_date, stop_date) VALUES ((?), (?), (?))";
+        String q = "INSERT INTO menu (type, start_date, stop_date) VALUES ((?), (?), (?))";
 
         try (PreparedStatement st = c.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
-            st.setString(1, name);
+            st.setInt(1, type);
             st.setTimestamp(2, start == null ? null : new Timestamp(start.getTime()));
             st.setTimestamp(3, stop == null ? null : new Timestamp(stop.getTime()));
             st.executeUpdate();
@@ -185,7 +184,7 @@ public class MenuResource {
 
             if (menu.isValidPost()) {
 
-                menu.id = insertMenu(conn, menu.name, menu.start_date, menu.stop_date);
+                menu.id = insertMenu(conn, menu.type, menu.start_date, menu.stop_date);
 
                 Menu.Group g = new Menu.Group();
 /*
@@ -225,10 +224,10 @@ public class MenuResource {
             Gson gson = new Gson();
             Menu menu = gson.fromJson(postData, Menu.class);
 
-            if (menu.name != null) try (PreparedStatement st = conn
-                    .prepareStatement("UPDATE menu SET name = (?) WHERE id = (?)")) {
+            if (menu.type != null) try (PreparedStatement st = conn
+                    .prepareStatement("UPDATE menu SET type = (?) WHERE id = (?)")) {
 
-                st.setString(1, menu.name);
+                st.setInt(1, menu.type);
                 st.setInt(2, id);
                 st.executeUpdate();
             }
@@ -236,7 +235,7 @@ public class MenuResource {
             if (menu.start_date != null) try (PreparedStatement st = conn
                     .prepareStatement("UPDATE menu SET start_date = (?) WHERE id = (?)")) {
 
-                st.setTimestamp(1, new Timestamp(menu.start_date.getTime()));
+                st.setDate(1, menu.start_date);
                 st.setInt(2, id);
                 st.executeUpdate();
             }
@@ -244,7 +243,7 @@ public class MenuResource {
             if (menu.stop_date != null) try (PreparedStatement st = conn
                     .prepareStatement("UPDATE menu SET stop_date = (?) WHERE id = (?)")) {
 
-                st.setTimestamp(1, new Timestamp(menu.stop_date.getTime()));
+                st.setDate(1, menu.stop_date);
                 st.setInt(2, id);
                 st.executeUpdate();
             }
