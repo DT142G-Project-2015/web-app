@@ -15,10 +15,25 @@
 	<div id="overlay"></div>
 	<div id="alter-staff-popup" class="popup">
 		<h1>Ändra användare</h1>
-		<span id="delete-staff-btn" class="button red">Radera användaren</span>
+		<div class="popup-content">
+			<form>
+				<input id="alter-id" type="hidden">
+				Användarnamn:<br>
+				<input id="alter-username" type="text"><br>
+				Lösenord:<br>
+				<input id="alter-password" type="password"><br>
+				Roll:<br>
+				<input id="alter-role" type="text"><br>
+				Förnamn:<br>
+				<input id="alter-first_name" type="text"><br>
+				Efternamn:<br>
+				<input id="alter-last_name" type="text">
+			</form>
+		</div>
 		<div class="popup-dialog-holder">
 			<span class="button r apply-btn green">Verkställ</span>
 			<span class="button r cancel-btn yellow">Avbryt</span>
+			<span id="delete-staff-btn" class="button l red">Radera användaren</span>
 		</div>
 	</div>
 

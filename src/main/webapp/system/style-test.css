@@ -102,7 +102,7 @@ td{
 	right: 0;
 	bottom: 0;
 	background: #111;
-	opacity: 0.5;
+	opacity: 0.9;
 }
 
 .popup{
@@ -112,12 +112,15 @@ td{
 	top: 10%;
 	left: 50%;
 	width: 400px;
-	height: 400px;
 	margin-left: -200px;
 	box-shadow: 0 2px 4px #000;
 	border-top: 8px solid #111;
 	border-radius: 4px;
 	background: #222;
+}
+
+.popup-content{
+    margin: 20px 20px 80px 20px;
 }
 
 .popup-dialog-holder{
@@ -202,8 +205,7 @@ td{
 	right: 0;
 	left: 0;
 	padding-top: 20px;
-	background: linear-gradient(#444, #222);
-	background-repeat: no-repeat;
+	background: #444;
 	background-size: 100%;
 }
 
