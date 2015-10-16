@@ -379,6 +379,26 @@ form input {
     display: none;
 }
 
+.start_date{
+	font-size: 0.5em;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.stop_date{
+	font-size: 0.5em;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
 #delete-menu-section{
 	padding: 20px;
     /*height: 300px;*/

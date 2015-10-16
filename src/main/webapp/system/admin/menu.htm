@@ -39,9 +39,10 @@
     <div class="section" id="add_menu_section">
         <h1>Meny</h1>
         <form>
-            <label>Namn: <input type="text" name="type"></label>
-            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label>
-            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label>
+            <br><label>Lunch: <input value="0" type="radio" name="type"></label><br>
+            <label>Middag: <input value="1" type="radio" name="type"></label><br>
+            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label><br>
+            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label><br><br>
             <span id="create_menu" class="button">Skapa och lägg till ny</span>
         </form>
     </div>
@@ -70,15 +71,17 @@
             </form>
     </div>
 
-
     <!-- mustache.js template used for rendering menus from JavaScript-->
     <script id="menus_template" type="x-tmpl-mustache">
         {{ #menus }}
-            <div class="menu" data-menu-id="{{ id }}">
+            <div class="menu" data-menu-id="{{ id }}" data-start-date="{{ start_date }}">
                 <div class="menu-header">
                     <h4>
                         {{ name }}
-                        <span style="font-size: 0.5em">{{ start_date }} -  {{ stop_date }}</span>
+                        <label style="font-size:0.5em">Start Datum:</label>
+                            <input id="start{{ id }}" class="start_date" type="text" name="start_date">
+                        <label style="font-size:0.5em">Slut Datum:</label>
+                            <input id="stop{{ id }}"class="stop_date" value="{{ stop_date }}" type="text" name="stop_date">
                         <span class="delete-menu button delete-btn">Radera Meny</span>
                     </h4>
                     <div class="menu-list-menu">Namn</div>

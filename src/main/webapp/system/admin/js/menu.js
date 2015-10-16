@@ -53,10 +53,59 @@ $(document).ready(function() {
                 openAddMenu();
             });
 
-            $('.delete-menu'). click(function(){
+            $('.delete-menu').click(function(){
                 var menu_id = $(this).closest('.menu').data('menu-id');
                 openDeleteMenu(menu_id);
             });
+
+
+            //CHANGE DATE
+            menus.forEach(function(m) {
+                var menuToSend = {};
+                //START
+                $( "#start" + m.id ).datepicker({
+                   onSelect: function(date) {
+                      menuToSend["type"] = m.type;
+                      menuToSend["start_date"] = date;
+                      menuToSend["stop_date"] = m.stop_date;
+                      $.ajax({
+                          url: '../../api/menu/' + m.id,
+                          type: 'PUT',
+                          dataType: 'json',
+                          data: JSON.stringify(menuToSend)
+                      }).done(function() {
+                          refreshMenus();
+                      });
+                  }
+                });
+                $( ".start_date" ).datepicker("option", "dateFormat", "yy-mm-dd");
+                $( "#start" + m.id ).datepicker("setDate", m.start_date);
+                //END
+
+                //STOP
+                $( "#stop" + m.id ).datepicker({
+                   onSelect: function(date) {
+                      menuToSend["type"] = m.type;
+                      menuToSend["start_date"] = m.start_date;
+                      menuToSend["stop_date"] = date;
+                      console.log(menuToSend);
+                      $.ajax({
+                          url: '../../api/menu/' + m.id,
+                          type: 'PUT',
+                          dataType: 'json',
+                          data: JSON.stringify(menuToSend)
+                      }).done(function() {
+                          refreshMenus();
+                      });
+                  }
+                });
+                $( ".stop_date" ).datepicker("option", "dateFormat", "yy-mm-dd");
+                $( "#stop" + m.id ).datepicker("setDate", m.stop_date);
+                //END
+
+            });
+
+            //END
 
         });
     }
@@ -70,9 +119,11 @@ $(document).ready(function() {
 
         var menu = {}
         $('#create_menu').off('click').click(function() {
-            $('#add_menu_section form :input').each(function(index, element){
-                menu[element.name] = element.value;
-            });
+
+            menu["type"] = $('input[name="type"]:checked', '#add_menu_section form').val();
+            menu["start_date"] = $('input[name="start_date"]', '#add_menu_section form').val();
+            menu["stop_date"] = $('input[name="stop_date"]', '#add_menu_section form').val();
+
             console.log(menu);
             $.ajax({
                 url: '../../api/menu',
