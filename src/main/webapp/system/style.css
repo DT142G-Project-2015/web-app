@@ -316,6 +316,9 @@ td{
 	background: #333;
 }
 
+#show-add-storage {
+	margin:28px;
+}
 /* Styling for change state box*/
 
 #change-item-box {

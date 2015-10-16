@@ -168,14 +168,29 @@ ALTER TABLE schedule ADD FOREIGN KEY (shift_id) REFERENCES shift(id);
 
 CREATE TABLE article
 (
-	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name		VARCHAR(255),
+	article_id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	article_name		VARCHAR(255),
 	image		LONGBLOB,
-	category	VARCHAR(255),
 	amount		DOUBLE,
 	unit		VARCHAR(255),
 	exp_date 	VARCHAR(255)
 );
+
+CREATE TABLE category
+(
+	category_id		INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	category_name	VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE article_category
+(
+	category_id		INT NOT NULL,
+    article_id		INT NOT NULL,
+    PRIMARY KEY (category_id, article_id)
+);
+ALTER TABLE article_category ADD FOREIGN KEY (article_id) REFERENCES article(article_id);
+ALTER TABLE article_category ADD FOREIGN KEY (category_id) REFERENCES category(category_id);
+
 -- Skapa en ny kategoriserad article med värdena, Dryck, grönsaker, råvaror, färskvaror, tillbehör.
 
 
@@ -183,12 +198,41 @@ CREATE TABLE article
 -- # Test Data #
 -- #############
 
-INSERT INTO article (name, category, amount, unit, exp_date) VALUES
-('Citron', 'Grönsak', 650, 'gram', '2015-08-28');
-INSERT INTO article (name, category, amount, unit, exp_date) VALUES
-('Kyckling', 'Kött', 0.5, 'kg', '2015-09-15');
-INSERT INTO article (name, category, amount, unit, exp_date) VALUES
-('Potatis', 'Tillbehör', 7, 'kg', '2015-11-13');
+
+INSERT INTO category (category_name) VALUES
+('Tillbehör');
+INSERT INTO category (category_name) VALUES
+('Grönsaker');
+INSERT INTO category (category_name) VALUES
+('Råvaror');
+INSERT INTO category (category_name) VALUES
+('Färskvaror');
+INSERT INTO category (category_name) VALUES
+('Dryck');
+
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Citron', 650, 'gram', '2015-08-28');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Kyckling', 0.5, 'kg', '2015-09-15');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Potatis', 7, 'kg', '2015-11-13');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Ris', 0.5, 'kg', '2015-11-15');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Pasta', 7, 'kg', '2015-12-13');
+
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 1);
+INSERT INTO article_category (category_id, article_id) VALUES
+(3, 2);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 3);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 4);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 5);
+
+-----------------------------------------------
 
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('root', 'toor', 1, 'Gustav', 'Åström');
