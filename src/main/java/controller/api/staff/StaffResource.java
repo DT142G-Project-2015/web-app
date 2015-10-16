@@ -86,7 +86,7 @@ public class StaffResource {
     @PUT  @Path("{id: [0-9]+}")
     public Response alterStaff(@PathParam("id") int id, String putData) throws SQLException {
 
-        String q = "UPDATE account SET account.username = (?), account.userhash = (?), account.role = (?), account.first_name = (?), account.last_name = (?) WHERE account.id = (?)";
+        String q = "UPDATE account SET account.username = (?), account.role = (?), account.first_name = (?), account.last_name = (?) WHERE account.id = (?)";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q)) {
@@ -95,19 +95,14 @@ public class StaffResource {
 
             Staff staff = gson.fromJson(putData, Staff.class);
 
-            if (staff.isValid()) {
-                st.setString(1, staff.username);
-                st.setString(2, staff.password);
-                st.setInt(3, staff.role);
-                st.setString(4, staff.first_name);
-                st.setString(5, staff.last_name);
-                st.setInt(5, id);
-                st.executeUpdate();
-                return Response.ok(new UpdateMessage("updated", id).toJson()).build();
-            }
-            else {
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
+            st.setString(1, staff.username);
+            st.setInt(2, staff.role);
+            st.setString(3, staff.first_name);
+            st.setString(4, staff.last_name);
+            st.setInt(5, id);
+            st.executeUpdate();
+            return Response.ok(new UpdateMessage("updated", id).toJson()).build();
+
         }
     }
 

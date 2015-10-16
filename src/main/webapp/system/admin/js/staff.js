@@ -11,6 +11,8 @@ $(document).ready(function(){
 
     function getStaff(){
 
+        $("#loader").show();
+
         $.ajax({
             url: '../../api/staff',
             type: 'GET',
@@ -25,9 +27,9 @@ $(document).ready(function(){
 
     function getOneStaff(id){
 
-        alert("getOneStaff()");
+        $("#loader").show();
 
-        return $.ajax({
+        $.ajax({
             url: '../../api/staff/'+id,
             type: 'GET',
             dataType: 'json'
@@ -38,10 +40,11 @@ $(document).ready(function(){
             $("#alter-first_name").val(data.first_name);
             $("#alter-last_name").val(data.last_name);
         });
-
     }
 
     function addStaff(){
+
+        $("#loader").show();
 
         var staff = {}
         $('#add-staff form input').each(function(index, element){
@@ -58,29 +61,29 @@ $(document).ready(function(){
         });
     }
 
-    function alterStaff(){
+    function alterStaff(id){
 
-        alert("alterStaff()");
+        $("#loader").show();
 
         var staff = {}
         $('#alter-staff-popup form input').each(function(index, element){
             staff[element.id.replace("alter-", "")] = element.value;
         });
 
-        //alert(JSON.stringify(staff));
-
         $.ajax({
-            url: '../../api/staff',
+            url: '../../api/staff/'+id,
             type: 'PUT',
             dataType: 'json',
             data: JSON.stringify(staff)
         }).done(function(altedStaff){
             getStaff();
-            alert(JSON.stringify(altedStaff));
         });
     }
 
     function deleteStaff(id){
+
+        $("#loader").show();
+
         $.ajax({
             url: '../../api/staff/'+id,
             type: 'DELETE'
@@ -104,9 +107,15 @@ $(document).ready(function(){
             getOneStaff(id);
 
             $("#delete-staff-btn").off().click(function(){
-                deleteStaff(id);
-                $(".popup").hide();
-                $("#overlay").hide();
+                if($(this).html() == "Är du säker?"){
+                    deleteStaff(id);
+                    $(".popup").hide();
+                    $("#overlay").hide();
+                    $(this).html("Radera användaren");
+                }
+                else{
+                    $(this).html("Är du säker?");
+                }
             });
 
             $(".apply-btn").off().click(function(){
@@ -114,6 +123,8 @@ $(document).ready(function(){
                 $("#overlay").hide();
 
                 alterStaff(id);
+                $("#alter-staff-popup input").val("");
+                $("#delete-staff-btn").html("Radera användare");
             });
         });
 
@@ -127,10 +138,13 @@ $(document).ready(function(){
         $("#overlay").off().click(function(){
             $(".popup").fadeOut(400);
             $(this).fadeOut(400);
+            $("#loader").delay(200).fadeOut(200);
         });
         $(".cancel-btn").off().click(function(){
             $(".popup").fadeOut(400);
             $("#overlay").fadeOut(400);
+            $("#delete-staff-btn").html("Radera användare");
+            $("#loader").delay(200).fadeOut(200);
         });
 
         $('#css-black').off().click(function (){
@@ -139,6 +153,8 @@ $(document).ready(function(){
         $('#css-white').off().click(function (){
            $('link[href="../style-test.css"]').attr('href','../style-white.css');
         });
+
+        $("#loader").delay(200).fadeOut(200);
 
     }
 
