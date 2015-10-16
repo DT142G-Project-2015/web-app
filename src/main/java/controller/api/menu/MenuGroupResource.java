@@ -52,6 +52,18 @@ public class MenuGroupResource  {
         }
     }
 
-    // TODO: DELETE
+    @DELETE @Path("{id: [0-9]+}")
+    public String deleteMenuGroup(@PathParam("id") int id) throws SQLException {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement("DELETE FROM menu_group WHERE id = (?) and menu_id = (?)")) {
+            st.setInt(1, id);
+            st.setInt(2, menuId);
 
+            if (st.executeUpdate() != 0)
+                return new UpdateMessage("deleted", id).toJson();
+            else
+                throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+        }
+    }
 }

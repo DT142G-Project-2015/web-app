@@ -1,7 +1,5 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class Staff {
     public int id;
     public String username;
