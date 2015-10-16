@@ -46,6 +46,12 @@
         </form>
     </div>
 
+    <div class="section" id="delete-menu-section">
+        <h1>Är du säker på att du vill ta bort meny?</h1>
+        <button id="yes-delete" class="button delete-btn">Ja</button>
+        <button id="no-delete" class="button delete-btn">Nej</button>
+    </div>
+
     <div class="section" id="add_item_section">
         <h1>Måltider</h1>
 
@@ -70,7 +76,11 @@
         {{ #menus }}
             <div class="menu" data-menu-id="{{ id }}">
                 <div class="menu-header">
-                    <h4>{{ name }} <span style="font-size: 0.5em">{{ start_date }} -  {{ stop_date }}</span></h4>
+                    <h4>
+                        {{ name }}
+                        <span style="font-size: 0.5em">{{ start_date }} -  {{ stop_date }}</span>
+                        <span class="delete-menu button delete-btn">Radera Meny</span>
+                    </h4>
                     <div class="menu-list-menu">Namn</div>
                     <div class="menu-list-menu">Beskrivning</div>
                     <div class="menu-list-menu">Pris</div>

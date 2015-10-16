@@ -53,6 +53,11 @@ $(document).ready(function() {
                 openAddMenu();
             });
 
+            $('.delete-menu'). click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                openDeleteMenu(menu_id);
+            });
+
         });
     }
 
@@ -77,6 +82,25 @@ $(document).ready(function() {
             }).done(function(addedItem) {
                 refreshMenus();
                 $('#add_menu_section').fadeOut(200);
+            });
+        });
+    }
+
+    function openDeleteMenu(menu_id){
+        $('#delete-menu-section').fadeIn(200);
+
+        $('#no-delete').click(function(){
+            $('#delete-menu-section').fadeOut(200);
+        });
+
+        $('#yes-delete').click(function(){
+            $.ajax({
+                url: '../../api/menu/' + menu_id,
+                type: 'DELETE',
+                dataType: 'text'
+            }).done(function() {
+                refreshMenus();
+                $('#delete-menu-section').fadeOut(200);
             });
         });
     }
