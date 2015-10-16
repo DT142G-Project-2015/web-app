@@ -34,11 +34,8 @@ public class MenuGroupResource  {
     }
 
     @POST
-    public Response addMenuGroup(String postData) throws SQLException {
-        try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(
-                     "INSERT INTO menu_group (menu_id, name) VALUES ((?), (?))",
-                     Statement.RETURN_GENERATED_KEYS)) {
+    public String addMenuGroup(String postData) throws SQLException {
+        try (Connection conn = Database.getConnection()) {
 
             Gson gson = new Gson();
 
@@ -46,17 +43,27 @@ public class MenuGroupResource  {
 
             if (group.isValidPost()) {
 
-                st.setInt(1, menuId);
-                st.setString(2, group.name);
-                st.executeUpdate();
+                int id = MenuResource.insertGroup(conn, group.name, menuId);
 
-                return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
+                return new UpdateMessage("created", id).toJson();
             } else {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+                throw new WebApplicationException(Response.Status.BAD_REQUEST);
             }
         }
     }
 
-    // TODO: DELETE
+    @DELETE @Path("{id: [0-9]+}")
+    public String deleteMenuGroup(@PathParam("id") int id) throws SQLException {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement("DELETE FROM menu_group WHERE id = (?) and menu_id = (?)")) {
+            st.setInt(1, id);
+            st.setInt(2, menuId);
 
+            if (st.executeUpdate() != 0)
+                return new UpdateMessage("deleted", id).toJson();
+            else
+                throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+        }
+    }
 }

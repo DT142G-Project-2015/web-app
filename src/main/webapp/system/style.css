@@ -136,6 +136,10 @@ td{
 	margin-top: 50px;
 	padding-top: 20px;
 }
+.content{
+	margin-top: 50px;
+	padding-top: 20px;
+}
 
 .section, .section2, .section3{
 	background: #fff;
@@ -336,12 +340,54 @@ td{
 
 /* Start styling of the menu page */
 
+.menu{
+	margin-top: 10px;
+}
+
 .menu_item {
     margin: 10px 10px;
 }
 
 form input {
     font-size: 12px;
+}
+
+.add{
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	font-size: 0.8em !important;
+	padding: 10px;
+	background: #cdcdcd;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: 1.5em;
+}
+
+#add_menu_section{
+	padding: 20px;
+    /*height: 300px;*/
+    position: absolute;
+    top: 60px;
+    margin-left: 0px;
+    width: 70%;
+    left: 15%;
+    display: none;
+}
+
+#delete-menu-section{
+	padding: 20px;
+    /*height: 300px;*/
+    position: absolute;
+    top: 60px;
+    margin-left: 0px;
+    width: 70%;
+    left: 15%;
+    display: none;
 }
 
 #add_item_section {
@@ -358,15 +404,16 @@ form input {
 
 .menu h4 {
 	padding: 10px;
-	background: #def;
+	background: #cdcdcd;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
+	font-size: 1.5em;
 }
 
 .menu h5 {
 	padding: 10px;
 	/*margin-left: 10px;*/
-	background: #def;
+	background: #cdcdcd;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }

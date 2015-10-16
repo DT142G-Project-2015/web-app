@@ -19,42 +19,88 @@ $(document).ready(function() {
             url: '../../api/menu',
             type: 'GET',
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function(menus) {
 
-            menuFetches = data.map(function(menu) {
-                return $.ajax({
-                    url: '../../api/menu/' + menu.id + '?expand=true',
-                    type: 'GET',
-                    dataType: 'json'
+            menus.forEach(function(m) {
+                m.name = m.type == 1 ? 'Middag' : 'Lunch';
+            });
+
+            var rendered = Mustache.render(menusTemplate, {menus: menus});
+            $('#menus').empty();
+            $('#menus').append(rendered);
+
+            $('#menus .menu-row .button').click(function() {
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                var item_id = $(this).closest('.menu-row').data('item-id');
+
+                $.ajax({
+                    url: '../../api/menu/' + menu_id + '/group/' + group_id + '/item/' + item_id,
+                    type: 'DELETE',
+                    dataType: 'text'
+                }).done(function() {
+                    refreshMenus();
                 });
             });
 
-            $.when.apply($, menuFetches).done(function() {
-                var menus = Array.prototype.slice.call(arguments).slice(0, -2);
+            $('#menus .add_item').click(function() {
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                openAddItemDialog(menu_id, group_id);
+            });
 
-                var rendered = Mustache.render(menusTemplate, {menus: menus});
-                $('#menus').empty();
-                $('#menus').append(rendered);
+            $('#add_menu').click(function(){
+                openAddMenu();
+            });
 
-                $('#menus .menu-row .button').click(function() {
-                    var menu_id = $(this).closest('.menu').data('menu-id');
-                    var group_id = $(this).closest('.menu-group').data('group-id');
-                    var item_id = $(this).closest('.menu-row').data('item-id');
+            $('.delete-menu'). click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                openDeleteMenu(menu_id);
+            });
 
-                    $.ajax({
-                        url: '../../api/menu/' + menu_id + '/group/' + group_id + '/item/' + item_id,
-                        type: 'DELETE',
-                        dataType: 'text'
-                    }).done(function() {
-                        refreshMenus();
-                    });
-                });
+        });
+    }
 
-                $('#menus .add_item').click(function() {
-                    var menu_id = $(this).closest('.menu').data('menu-id');
-                    var group_id = $(this).closest('.menu-group').data('group-id');
-                    openAddItemDialog(menu_id, group_id);
-                });
+    function openAddMenu(){
+        $('#add_menu_section').fadeIn(200);
+        $( "#start_picker" ).datepicker();
+        $( "#stop_picker" ).datepicker();
+        $( "#start_picker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+        $( "#stop_picker" ).datepicker("option", "dateFormat", "yy-mm-dd");
+
+        var menu = {}
+        $('#create_menu').off('click').click(function() {
+            $('#add_menu_section form :input').each(function(index, element){
+                menu[element.name] = element.value;
+            });
+            console.log(menu);
+            $.ajax({
+                url: '../../api/menu',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(menu)
+            }).done(function(addedItem) {
+                refreshMenus();
+                $('#add_menu_section').fadeOut(200);
+            });
+        });
+    }
+
+    function openDeleteMenu(menu_id){
+        $('#delete-menu-section').fadeIn(200);
+
+        $('#no-delete').click(function(){
+            $('#delete-menu-section').fadeOut(200);
+        });
+
+        $('#yes-delete').click(function(){
+            $.ajax({
+                url: '../../api/menu/' + menu_id,
+                type: 'DELETE',
+                dataType: 'text'
+            }).done(function() {
+                refreshMenus();
+                $('#delete-menu-section').fadeOut(200);
             });
         });
     }
@@ -79,6 +125,8 @@ $(document).ready(function() {
                 data: JSON.stringify(item)
             }).done(function(addedItem) {
                 addGroupItem(menu_id, group_id, addedItem.id);
+                $('#add_item_section').fadeOut(200);
+
             });
         });
     }
