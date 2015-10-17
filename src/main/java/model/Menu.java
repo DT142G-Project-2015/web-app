@@ -32,12 +32,12 @@ public class Menu {
     }
 
     public int id;
-    public String name;
-    public Date start_date;
-    public Date stop_date;
+    public Integer type;
+    public java.sql.Date start_date;
+    public java.sql.Date stop_date;
     public List<Group> groups;
 
     public boolean isValidPost() {
-        return name != null && name.length() > 0;
+        return type != null && (type == 0 || type == 1);
     }
 }

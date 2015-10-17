@@ -19,6 +19,7 @@ public class ContextListener implements ServletContextListener {
         System.out.println("App started");
     }
 
+
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
 

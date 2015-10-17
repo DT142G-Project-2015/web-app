@@ -29,9 +29,9 @@ ALTER TABLE item_item ADD FOREIGN KEY (item_id_sub) REFERENCES item(id);
 CREATE TABLE menu
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	name		VARCHAR(255) NOT NULL,
-	start_date	TIMESTAMP,
-	stop_date	TIMESTAMP
+	type		INT NOT NULL,
+	start_date	DATE,
+	stop_date	DATE
 );
 
 CREATE TABLE menu_group
@@ -241,7 +241,7 @@ INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('waitress', 'tipme', 2, 'Viktor', 'Spindler');
 
-INSERT INTO menu (name, start_date, stop_date) VALUES ('Lunch', NOW(), '2038-01-19 03:14:07');
+INSERT INTO menu (type, start_date, stop_date) VALUES (0, NOW(), '2038-01-19');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('dinner');
 -- INSERT INTO menu (name, startdate, stopdate) VALUES ('alacarte');
 

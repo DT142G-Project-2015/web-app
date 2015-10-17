@@ -7,6 +7,13 @@
     <title>Antons Skafferi - inloggad</title>
     <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
     <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style.css">
+    <!--DATEPICKER-->
+    <script src="../jquery-1.11.3.min.js"></script>
+    <script src="../mustache.min.js"></script>
+    <link rel="stylesheet" href="../jquery-ui-1.11.4.custom//jquery-ui.css">
+    <script src="../jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
+    <!--END-->
    <!-- <link rel="stylesheet" type="text/css" href="menu.css"> -->
 </head>
 
@@ -25,8 +32,25 @@
 <div id="content">
     <div class="section">
         <h1>Menyer</h1>
-
+        <h4 id="add_menu" class="add">+ Lägg till ny meny</h4>
         <div id="menus"></div>
+    </div>
+
+    <div class="section" id="add_menu_section">
+        <h1>Meny</h1>
+        <form>
+            <br><label>Lunch: <input value="0" type="radio" name="type"></label><br>
+            <label>Middag: <input value="1" type="radio" name="type"></label><br>
+            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label><br>
+            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label><br><br>
+            <span id="create_menu" class="button">Skapa och lägg till ny</span>
+        </form>
+    </div>
+
+    <div class="section" id="delete-menu-section">
+        <h1>Är du säker på att du vill ta bort meny?</h1>
+        <button id="yes-delete" class="button delete-btn">Ja</button>
+        <button id="no-delete" class="button delete-btn">Nej</button>
     </div>
 
     <div class="section" id="add_item_section">
@@ -47,13 +71,19 @@
             </form>
     </div>
 
-
     <!-- mustache.js template used for rendering menus from JavaScript-->
     <script id="menus_template" type="x-tmpl-mustache">
         {{ #menus }}
-            <div class="menu" data-menu-id="{{ id }}">
+            <div class="menu" data-menu-id="{{ id }}" data-start-date="{{ start_date }}">
                 <div class="menu-header">
-                    <h4>{{ name }}</h4>
+                    <h4>
+                        {{ name }}
+                        <label style="font-size:0.5em">Start Datum:</label>
+                            <input id="start{{ id }}" class="start_date" type="text" name="start_date">
+                        <label style="font-size:0.5em">Slut Datum:</label>
+                            <input id="stop{{ id }}"class="stop_date" value="{{ stop_date }}" type="text" name="stop_date">
+                        <span class="delete-menu button delete-btn">Radera Meny</span>
+                    </h4>
                     <div class="menu-list-menu">Namn</div>
                     <div class="menu-list-menu">Beskrivning</div>
                     <div class="menu-list-menu">Pris</div>
@@ -74,6 +104,7 @@
                         {{ /items }}
                     </div>
                 {{ /groups }}
+                <h4 class="add">+ Lägg till kategori</h4>
             </div>
         {{ /menus }}
     </script>
@@ -88,8 +119,6 @@
         </div>
     </script>
 
-    <script src="../jquery-1.11.3.min.js"></script>
-    <script src="../mustache.min.js"></script>
-    <script src="js/menu.js"></script>
+
 
 </body>
