@@ -374,7 +374,7 @@ form input {
 #add_menu_section{
 	padding: 20px;
     /*height: 300px;*/
-    position: absolute;
+    position: fixed;
     top: 60px;
     margin-left: 0px;
     width: 70%;
@@ -385,7 +385,7 @@ form input {
 #add_group_section{
 	padding: 20px;
     /*height: 300px;*/
-    position: absolute;
+    position: fixed;
     top: 60px;
     margin-left: 0px;
     width: 70%;
@@ -427,7 +427,7 @@ form input {
 #add_item_section {
     padding: 20px;
     /*height: 300px;*/
-    position: absolute;
+    position: fixed;
     top: 60px;
     margin-left: 0px;
     width: 70%;
