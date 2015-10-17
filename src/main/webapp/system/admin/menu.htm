@@ -47,6 +47,15 @@
         </form>
     </div>
 
+    <div class="section" id="add_group_section">
+        <h1>Grupp</h1>
+        <form>
+            <br><label>Name: <input type="text" name="name"></label><br>
+            <span id="create_group" class="button">Skapa och lägg till ny</span>
+        </form>
+    </div>
+
+
     <div class="section" id="delete-menu-section">
         <h1>Är du säker på att du vill ta bort meny?</h1>
         <button id="yes-delete" class="button delete-btn">Ja</button>
@@ -92,7 +101,7 @@
                 </div>
                 {{ #groups }}
                     <div class="menu-group" data-group-id="{{ id }}">
-                        <h5> {{ name }} <span class="button add_item add-btn" id="add-btn">Lägg till</span> </h5>
+                        <h5> {{ name }} <span class="button add_item add-btn" id="add-btn">Lägg till item i grupp</span> </h5>
                         {{ #items }}
                             <div class="menu-row" data-item-id="{{ id }}"">
                                 <div class="menu-list-item">{{ name }}</div>
@@ -104,7 +113,7 @@
                         {{ /items }}
                     </div>
                 {{ /groups }}
-                <h4 class="add">+ Lägg till kategori</h4>
+                <h4 class="add add_group">+ Lägg till kategori</h4>
             </div>
         {{ /menus }}
     </script>
