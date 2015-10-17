@@ -151,6 +151,7 @@ public class StorageResource
                     st2.setInt(2, art.category_id);
                     st2.executeUpdate();
                 }
+
                 return Response.ok(new UpdateMessage("created", articleId).toJson()).build();
             }
             else {
