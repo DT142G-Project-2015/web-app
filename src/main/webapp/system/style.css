@@ -416,7 +416,7 @@ form input {
 #delete-menu-section{
 	padding: 20px;
     /*height: 300px;*/
-    position: absolute;
+    position: fixed;
     top: 60px;
     margin-left: 0px;
     width: 70%;
