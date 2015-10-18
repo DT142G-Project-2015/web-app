@@ -22,7 +22,12 @@ $(document).ready(function() {
         }).done(function(menus) {
 
             menus.forEach(function(m) {
-                m.name = m.type == 1 ? 'Middag' : 'Lunch';
+                m.name = m.type == 1 ? 'Middag' : (m.type == 0 ? 'Lunch' : 'Statisk');
+                m.groups.forEach(function(g){
+                    g.items.forEach(function(i){
+                         i.type = i.type == 1 ? 'Dryck' : (i.type == 0 ? 'N/A' : 'Kötträtt');
+                    });
+                });
             });
 
             var rendered = Mustache.render(menusTemplate, {menus: menus});
@@ -215,11 +220,13 @@ $(document).ready(function() {
         $('#create_item').off('click').click(function() {
 
             var item = {}
-            $('#add_item_section form :input').each(function(index, element) {
+            /*$('#add_item_section form :input').each(function(index, element) {
                 item[element.name] = element.value;
-            })
-
-            item.type = 0;
+            })*/
+            item["name"] = $('input[name="name"]', '#add_item_section form').val();
+            item["description"] = $('input[name="description"]', '#add_item_section form').val();
+            item["type"] = parseInt($('select[name="type"]', '#add_item_section form').val());
+            item["price"] = $('input[name="price"]', '#add_item_section form').val();
 
             $.ajax({
                 url: '../../api/item',

@@ -286,9 +286,9 @@ INSERT INTO item (name, description, type, price) VALUES
 ('Vichyssoise Rotselleri Ren Löjrom', 'Vichyssoisse på rotselleri serveras med rökt ren, löjrom och krasse ', 0, 145);
 
 INSERT INTO item (name, description, type, price) VALUES
-('Pärlhöna Svamp Portvin Tryffel', 'Pannstekt pärlhöna serveras med potatispuré smaksatt med tryffel samt svamp, rökt fläsk och rödvinssås smaksatt med portvin och torkad frukt ', 2, 275);
+('Pärlhöna Svamp Portvin Tryffel', 'Pannstekt pärlhöna serveras med potatispuré smaksatt med tryffel samt svamp, rökt fläsk och rödvinssås smaksatt med portvin och torkad frukt ', 0, 275);
 INSERT INTO item (name, description, type, price) VALUES
-('Häst Jordärtskocka Kål', 'Ryggbiff av häst serveras med rökt jordärtskockspuré, rostade jordärtskockor och spetskål', 0, 275);
+('Häst Jordärtskocka Kål', 'Ryggbiff av häst serveras med rökt jordärtskockspuré, rostade jordärtskockor och spetskål', 2, 275);
 INSERT INTO item (name, description, type, price) VALUES
 ('Gös Morot Kräfta Kantareller', 'Pannstekt gös serveras med morotsstomp smaksatt med kräfta, rostad svartrot, rökt fläsk, kantareller samt beurre blanc på kräftfond', 0, 295);
 INSERT INTO item (name, description, type, price) VALUES
@@ -297,25 +297,25 @@ INSERT INTO item (name, description, type, price) VALUES
 ('Jordärtskocka Betor Svamp Nötter', 'Rökt jordärtskockspuré samt bakade rödbetor serveras med smörstekt svamp, friterat äpple, rostade hasselnötter, äppelgelé och linser kokta i portvin', 0, 295);
 
 INSERT INTO item (name, description, type, price) VALUES
-('Fanta', '', 0, 20);
+('Fanta', '', 1, 20);
 INSERT INTO item (name, description, type, price) VALUES
-('Coca Cola', '', 0, 20);
+('Coca Cola', '', 1, 20);
 INSERT INTO item (name, description, type, price) VALUES
-('Sprite', '', 0, 20);
+('Sprite', '', 1, 20);
 INSERT INTO item (name, description, type, price) VALUES
-('Coca Cola Zero', '', 0, 20);
+('Coca Cola Zero', '', 1, 20);
 INSERT INTO item (name, description, type, price) VALUES
-('Falcon', '', 0, 59);
+('Falcon', '', 1, 59);
 INSERT INTO item (name, description, type, price) VALUES
-('Staropramen', '', 0, 59);
+('Staropramen', '', 1, 59);
 INSERT INTO item (name, description, type, price) VALUES
-('Heiniken', '', 0, 59);
+('Heiniken', '', 1, 59);
 INSERT INTO item (name, description, type, price) VALUES
-('Mariestad', '', 0, 59);
+('Mariestad', '', 1, 59);
 INSERT INTO item (name, description, type, price) VALUES
-('Husets vin (rött)', '', 0, 79);
+('Husets vin (rött)', '', 1, 79);
 INSERT INTO item (name, description, type, price) VALUES
-('Husets vin (vitt)', '', 0, 79);
+('Husets vin (vitt)', '', 1, 79);
 
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 1);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);

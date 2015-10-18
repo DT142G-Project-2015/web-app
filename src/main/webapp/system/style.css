@@ -450,6 +450,8 @@ form input {
     width: 70%;
     left: 15%;
     display: none;
+    overflow: scroll;
+    height: 75%;
 }
 
 

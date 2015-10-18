@@ -72,14 +72,14 @@
         <h1>Måltider <span class="close-section">[stäng]</span></h1>
 
             <div id="item_list"></div>
-
-            <form>
+            <hr>
+            <form style="margin-bottom: 20px;">
                 <label>Namn: <input type="text" name="name"></label>
                 <label>Beskrivning: <input type="text" name="description"></label>
                 <label>Type: <select name="type">
-                    <option value="none">N/A</option>
-                    <option value="meat">Kötträtt</option>
-                    <option value="drink">Dryck</option>
+                    <option value="0">N/A</option>
+                    <option value="2">Kötträtt</option>
+                    <option value="1">Dryck</option>
                 </select>r</label>
                 <label>Pris: <input type="number" name="price"> kr</label><br><br>
                 <span id="create_item" class="button">Skapa och lägg till ny</span>

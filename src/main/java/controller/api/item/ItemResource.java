@@ -50,6 +50,7 @@ public class ItemResource {
 
             Item item = gson.fromJson(postData, Item.class);
 
+
             if (item.isValid()) {
                 st.setString(1, item.name);
                 st.setString(2, item.description);
