@@ -246,11 +246,14 @@ INSERT INTO menu (type, start_date, stop_date) VALUES (0, NOW(), '2015-12-31');
 
 INSERT INTO menu (type, start_date, stop_date) VALUES (1, NOW(), '2015-12-31');
 
+INSERT INTO menu (type, start_date, stop_date) VALUES (2, NOW(), '2015-12-31');
+
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
 INSERT INTO menu_group (name, menu_id) VALUES ('Tillbehör till våfflor', 1);
 
 INSERT INTO menu_group (name, menu_id) VALUES ('Förrätter', 2);
 INSERT INTO menu_group (name, menu_id) VALUES ('Huvudrätter', 2);
+INSERT INTO menu_group (name, menu_id) VALUES ('Drycker', 3);
 
 INSERT INTO item (name, description, type, price) VALUES
 ('Ostpanerad schnitzel med tomatgräddsås', '', 0, 75);
@@ -293,6 +296,26 @@ INSERT INTO item (name, description, type, price) VALUES
 INSERT INTO item (name, description, type, price) VALUES
 ('Jordärtskocka Betor Svamp Nötter', 'Rökt jordärtskockspuré samt bakade rödbetor serveras med smörstekt svamp, friterat äpple, rostade hasselnötter, äppelgelé och linser kokta i portvin', 0, 295);
 
+INSERT INTO item (name, description, type, price) VALUES
+('Fanta', '', 0, 20);
+INSERT INTO item (name, description, type, price) VALUES
+('Coca Cola', '', 0, 20);
+INSERT INTO item (name, description, type, price) VALUES
+('Sprite', '', 0, 20);
+INSERT INTO item (name, description, type, price) VALUES
+('Coca Cola Zero', '', 0, 20);
+INSERT INTO item (name, description, type, price) VALUES
+('Falcon', '', 0, 59);
+INSERT INTO item (name, description, type, price) VALUES
+('Staropramen', '', 0, 59);
+INSERT INTO item (name, description, type, price) VALUES
+('Heiniken', '', 0, 59);
+INSERT INTO item (name, description, type, price) VALUES
+('Mariestad', '', 0, 59);
+INSERT INTO item (name, description, type, price) VALUES
+('Husets vin (rött)', '', 0, 79);
+INSERT INTO item (name, description, type, price) VALUES
+('Husets vin (vitt)', '', 0, 79);
 
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 1);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (1, 2);
@@ -314,6 +337,17 @@ INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (4, 16);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (4, 17);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (4, 18);
 INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (4, 19);
+
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 20);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 21);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 22);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 23);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 24);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 25);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 26);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 27);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 28);
+INSERT INTO menu_group_item (menu_group_id, item_id) VALUES (5, 29);
 
 
 SET NAMES "UTF-8";
