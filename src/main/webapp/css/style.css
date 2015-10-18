@@ -134,3 +134,7 @@ h3{
 	border-top: 1px solid #000;
 	background: #333;
 }
+
+#text-holder i {
+	color: #675757;
+}

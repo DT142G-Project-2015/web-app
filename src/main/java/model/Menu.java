@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
@@ -11,12 +11,27 @@ public class Menu {
         public String getName() {
             return name;
         }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getPrice() {
+            return price.toString();
+        }
     }
 
     public static class Group {
         public int id;
         public String name;
-        public List<Item> items;
+        public List<Item> items = new ArrayList<>();
+
+
+        public Group() {}
+
+        public Group(String name) {
+            this.name = name;
+        }
 
         public String getName() {
             return name;
