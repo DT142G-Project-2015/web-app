@@ -42,8 +42,8 @@ public class StorageResource
 
                         c.articles = categoryRows.stream().map(articleRow -> {
                             Category.Article a = new Category.Article();
-                            a.name = (String) articleRow.get("article_name");
-                            a.id = (int) articleRow.get("article_id");
+                            a.article_name = (String) articleRow.get("article_name");
+                            a.article_id = (int) articleRow.get("article_id");
                             a.exp_date = (String) articleRow.get("exp_date");
                             a.amount = (Double) articleRow.get("amount");
                             a.unit = (String) articleRow.get("unit");
@@ -109,7 +109,7 @@ public class StorageResource
             Category.Article article = gson.fromJson(postData, Category.Article.class);
 
            if (article.isValid()) {
-                st.setString(1, article.name);
+                st.setString(1, article.article_name);
                 st.setDouble(2, article.amount);
                 st.setString(3, article.unit);
                 st.setString(4, article.exp_date);
@@ -138,7 +138,7 @@ public class StorageResource
             Category.Article art = gson.fromJson(postData, Category.Article.class);
             //If the data isValid(), we make the insertion.
             if (art.isValid()) {
-                st.setString(1, art.name);
+                st.setString(1, art.article_name);
                 st.setDouble(2, art.amount);
                 st.setString(3, art.unit);
                 st.setString(4, art.exp_date);

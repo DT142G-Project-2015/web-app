@@ -13,16 +13,15 @@ public class Category {
 
 
     public static class Article {
-        public int id;
-        public String name;
+        public int article_id;
+        public String article_name;
         public double amount;
         public String unit;
         public String exp_date;
         public int category_id;
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
         public boolean isValid() {
-            return ((name != null) && (unit != null) && (exp_date.compareTo(date) >= 0));
+            return ((article_name != null) && (unit != null));
         }
     }
 }

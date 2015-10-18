@@ -28,7 +28,7 @@ public class inventoryResource
     @GET
     public String getStorage() throws SQLException
     {
-        String query = "SELECT DISTINCT * FROM article ORDER BY id";
+        String query = "SELECT DISTINCT * FROM article ORDER BY article_id";
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query))
         {
