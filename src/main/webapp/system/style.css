@@ -269,6 +269,12 @@ td{
 }
 
 /* Style for the inventory and menu. */
+.inventory h1{
+	font-size: 14px;
+	background: #eee;
+
+}
+
 .inventory-list {
 	width: 100%;
 }
@@ -296,8 +302,8 @@ td{
 	width:600px;
 }
 
-.inventory:nth-child(even) {
-		background: #EEE;
+.inventory-list {
+	border-bottom:1px solid #ddd;
 }
 
 .add-btn {
