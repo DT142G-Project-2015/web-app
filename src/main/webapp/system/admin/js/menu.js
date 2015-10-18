@@ -53,6 +53,12 @@ $(document).ready(function() {
                 openAddMenu();
             });
 
+            $('.add_group').click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                openAddGroup(menu_id);
+                console.log("asd")
+            });
+
             $('.delete-menu').click(function(){
                 var menu_id = $(this).closest('.menu').data('menu-id');
                 openDeleteMenu(menu_id);
@@ -152,6 +158,24 @@ $(document).ready(function() {
             }).done(function() {
                 refreshMenus();
                 $('#delete-menu-section').fadeOut(200);
+            });
+        });
+    }
+
+    function openAddGroup(menu_id){
+        $('#add_group_section').fadeIn(200);
+        var group = {};
+        console.log(group);
+        $('#create_group').off('click').click(function(){
+            group["name"] = $('input[name="name"]', '#add_group_section form').val();
+            $.ajax({
+                url: '../../api/menu/' + menu_id + '/group',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(group)
+            }).done(function(){
+                refreshMenus();
+                $('#add_group_section').fadeOut(200);
             });
         });
     }
