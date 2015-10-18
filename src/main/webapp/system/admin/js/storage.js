@@ -97,6 +97,7 @@ $(document).ready(function(){
                 }).done(function(addedStorage){
                         alert('ADDED');
                         $(".add-storage").hide();
+                        $("#show-add-storage").show();
                         getStorage(); //Used to fetch the new menu.
                 });
          });
