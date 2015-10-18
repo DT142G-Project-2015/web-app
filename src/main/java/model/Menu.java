@@ -38,6 +38,6 @@ public class Menu {
     public List<Group> groups;
 
     public boolean isValidPost() {
-        return type != null && (type == 0 || type == 1);
+        return type != null && (type == 0 || type == 1 || type == 2);
     }
 }
