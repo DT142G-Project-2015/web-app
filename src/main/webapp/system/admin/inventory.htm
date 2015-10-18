@@ -47,16 +47,16 @@
                    <h1 id="category-item">> {{ name }}</h1>
                     {{ #articles }}
 
-                    <div class="inventory-list" id="inventory-list{{ id }}">
+                    <div class="inventory-list" id="inventory-list{{ article_id }}">
 
                                     <form>
-                                    <div class="inventory-list-item">{{ id }}</div>
-                                    <div class="inventory-list-item"><input type="text" name="name" value="{{ name }}"></div>
+                                    <div class="inventory-list-item">{{ article_id }}</div>
+                                    <div class="inventory-list-item"><input type="text" name="article_name" value="{{ article_name }}"></div>
                                     <div class="inventory-list-item"><input type="text" name="amount" value="{{ amount }}"></div>
                                     <div class="inventory-list-item"><input type="text" name="unit" value="{{ unit }}"></div>
-                                    <div class="inventory-list-item"><input type="text" name="exp_date" value="{{ exp_date }}"></div>
+                                    <div class="inventory-list-item exp_date"><input type="text" name="exp_date" value="{{ exp_date }}"></div>
                                     <div class="inventory-list-item" data-unit="{{ unit }}"
-                                                data-amount="{{ amount }}" data-id="{{ id }}" data-date="{{ exp_date }}">
+                                                data-amount="{{ amount }}" data-id="{{ article_id }}" data-date="{{ exp_date }}">
                                         <span class="change-btn button" id="change-btn">Ändra</span>
                                         <span class="delete-btn button" id="delete-btn">Radera</span>
                                     </div>
@@ -78,7 +78,7 @@
             <form id="form">
                 <table id="insert-storage"><tr><td>
                  Varunamn:</td><td>
-                    <input id="name" type="text"><br></td>
+                    <input id="article_name" type="text"><br></td>
                 </tr><tr valign="top"><td>
                     Kategori:</td><td>
                     <input type="radio" name="category_id" value="1">Tillbehör<br>

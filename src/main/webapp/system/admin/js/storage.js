@@ -44,7 +44,7 @@ $(document).ready(function(){
                     type: 'DELETE',
                     dataType: 'json'
                 }).done(function() {
-                    alert('deleted');
+                    alert('DELETED');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -60,8 +60,8 @@ $(document).ready(function(){
                     storage[element.name] = element.value;//Inserts each elemet at the right position
                 });
                 //Sets the id.
-                storage.id = storage_id;
-
+                storage.article_id = storage_id;
+       //         alert(JSON.stringify(storage));
                 //Sends data to StorageResource PUT method.
                 $.ajax({
                     url: '../../api/storage/'+storage_id,
@@ -95,7 +95,8 @@ $(document).ready(function(){
                     dataType: 'json',
                     data: JSON.stringify(storage)
                 }).done(function(addedStorage){
-                        alert('Added');
+                        alert('ADDED');
+                        $(".add-storage").hide();
                         getStorage(); //Used to fetch the new menu.
                 });
          });
@@ -119,7 +120,7 @@ $(document).ready(function(){
 
     /* checkDate() notifies the user if the wrong expire date is made. */
     function checkDate(exp_date){
-        var todays_date = new Date(); //$.datepicker.formatDate('yy-MM-dd', new Date());
+        var todays_date = new Date();
         d = new Date(exp_date);
         if(Date.parse(todays_date) >= Date.parse(d)){
             alert("Expire date is earlier than today's date!");
