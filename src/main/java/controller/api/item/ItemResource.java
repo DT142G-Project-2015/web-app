@@ -24,7 +24,8 @@ public class ItemResource {
                 ? "SELECT * FROM item"
                 : "SELECT * FROM item " +
                   "WHERE NOT EXISTS (SELECT * from menu_group_item mgi " +
-                                    "WHERE item.id = mgi.item_id AND mgi.menu_group_id = (?))";
+                                    "WHERE item.id = mgi.item_id AND mgi.menu_group_id = (?)) " +
+                        "AND deleted = 0";
 
 
         try (Connection conn = Database.getConnection();
@@ -88,7 +89,7 @@ public class ItemResource {
     @DELETE @Path("{id: [0-9]+}")
     public Response deleteItem(@PathParam("id") int id) throws SQLException {
         try (Connection conn = Database.getConnection();
-            PreparedStatement st = conn.prepareStatement("DELETE FROM item WHERE id = (?)")) {
+            PreparedStatement st = conn.prepareStatement("UPDATE item SET deleted = 1 WHERE id = (?)")) {
             st.setInt(1, id);
 
             st.executeUpdate();
