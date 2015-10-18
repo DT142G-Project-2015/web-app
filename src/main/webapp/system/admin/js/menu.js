@@ -64,6 +64,17 @@ $(document).ready(function() {
                 openDeleteMenu(menu_id);
             });
 
+            $('.delete-group').click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                openDeleteGroup(menu_id, group_id);
+            });
+
+            $('.close-section').click(function(){
+                $("#add_item_section").fadeOut(200);
+                $("#add_menu_section").fadeOut(200);
+                $("#add_group_section").fadeOut(200);
+            });
 
             //CHANGE DATE
             menus.forEach(function(m) {
@@ -158,6 +169,23 @@ $(document).ready(function() {
             }).done(function() {
                 refreshMenus();
                 $('#delete-menu-section').fadeOut(200);
+            });
+        });
+    }
+
+    function openDeleteGroup(menu_id, group_id){
+        $('#delete-group-section').fadeIn(200);
+        $('#no-group-delete').click(function(){
+            $('#delete-group-section').fadeOut(200);
+        });
+        $('#yes-group-delete').click(function(){
+            $.ajax({
+                url: '../../api/menu/' + menu_id + '/group/' + group_id,
+                type: 'DELETE',
+                dataType: 'text'
+            }).done(function() {
+                refreshMenus();
+                $('#delete-group-section').fadeOut(200);
             });
         });
     }
