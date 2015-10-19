@@ -32,28 +32,19 @@
             <div id="add-shift-holder">
                 <h1>Lägg till arbetspass</h1>
                 <div id="add-shift-content">
-                    <div>
+                    <form>
                         Från<br>
-                        <input id="add-start" type="text"><br>
+                        <input id="start" type="text"><br>
                         Till<br>
-                        <input type="text"><br>
+                        <input id="stop" type="text"><br>
                         Antal personal<br>
-                        <input type="text"><br>
+                        <input id="max_staff" type="text"><br>
                         Beskrivning<br>
-                        <input type="text"><br><br>
-                        Frekvens<br>
-                        <div class="">
-                            <input type="radio" name="add-frequency" value="monday"> Måndag
-                            <input type="radio" name="add-frequency" value="tuesday"> Tisdag
-                            <input type="radio" name="add-frequency" value="wednesday"> Onsdag
-                            <input type="radio" name="add-frequency" value="thursday"> Torsdag
-                        </div><div>
-                            <input type="radio" name="add-frequency" value="friday"> Fredag
-                            <input type="radio" name="add-frequency" value="saturday"> Lördag
-                            <input type="radio" name="add-frequency" value="sunday"> Söndag
-                            <input type="radio" name="add-frequency" value="0"> Ingen
-                        </div><br><br>
-                        <span class="button green">Lägg till</span>
+                        <input id="description" type="text"><br>
+                        Upprepa<br>
+                        <input type="radio" id="repeat" value="0" checked> Nej<br>
+                        <input type="radio" id="repeat" value="1"> Ja<br><br>
+                        <span id="add-shift-btn" class="button green">Lägg till</span>
 
                     </form>
                 </div>
@@ -108,16 +99,16 @@
     <script src="../jquery-1.11.3.min.js"></script>
     <script src="../mustache.min.js"></script>
     <script src="js/schedule.js"></script>
-    <script id="staff-template" type="x-tmpl-mustache">
+    <script id="shift-template" type="x-tmpl-mustache">
         <tr><td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td></tr>
         {{ #articles }}
             <tr>
-                <td>{{ id }}</td>
-                <td>{{ username }}</td>
-                <td>{{ first_name}} {{ last_name }}</td>
-                <td>{{ role }}</td>
+                <td>{{ start }}</td>
+                <td>{{ stop }}</td>
+                <td>{{ count_staff }} ({{ max_staff }})</td>
+                <td>{{ description }}</td>
                 <td>
-                    <span id="alter-staff-btn{{ id }}" class="button yellow">Ändra</span>
+                    <span id="alter-shift-btn{{ id }}" class="button yellow">Ändra</span>
                 </td>
             </tr>
         {{ /articles }}
