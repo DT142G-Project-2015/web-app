@@ -30,15 +30,54 @@
 
 </div>
 
+<!-- <div class="inventory-list-menu">Varu ID</div>
+<div class="inventory-list-menu">Varunamn</div>
+<div class="inventory-list-menu">Antal</div>
+<div class="inventory-list-menu">Enhet</div>
+<div class="inventory-list-menu">Utgångsdatum</div>
+<div class="inventory-list-menu">Hantera</div>
+
+
+                                    <div class="inventory-list-item">{{ article_id }}</div>
+                                    <div class="inventory-list-item"><input type="text" name="article_name" value="{{ article_name }}"></div>
+                                    <div class="inventory-list-item"><input type="text" name="amount" value="{{ amount }}"></div>
+                                    <div class="inventory-list-item"><input type="text" name="unit" value="{{ unit }}"></div>
+                                    <div class="inventory-list-item exp_date"><input type="text" name="exp_date" value="{{ exp_date }}"></div>
+                                    <div class="inventory-list-item" data-unit="{{ unit }}"
+                                                data-amount="{{ amount }}" data-id="{{ article_id }}" data-date="{{ exp_date }}">
+                                        <span class="change-btn button" id="change-btn">Ändra</span>
+                                        <span class="delete-btn button" id="delete-btn">Radera</span>
+                                    </div>
+
+                                    -->
+
+
 <script id="storage_template" type="x-tmpl-mustache">
     <h1>Lager</h1>
     <div class="inventory-list">
-        <div class="inventory-list-menu">Varu ID</div>
-        <div class="inventory-list-menu">Varunamn</div>
-        <div class="inventory-list-menu">Antal</div>
-        <div class="inventory-list-menu">Enhet</div>
-        <div class="inventory-list-menu">Utgångsdatum</div>
-        <div class="inventory-list-menu">Hantera</div>
+
+        <table>
+            <tr>
+                <td>
+                    Varu ID
+                </td>
+                <td>
+                    Varunamn
+                </td>
+                <td>
+                    Antal
+                </td>
+                <td>
+                    Enhet
+                </td>
+                <td>
+                    Utgångsdatum
+                </td>
+                <td>
+                    Hantera
+                </td>
+            </tr>
+        </table>
     </div>
 
 
@@ -50,16 +89,44 @@
                     <div class="inventory-list" id="inventory-list{{ article_id }}">
 
                                     <form>
-                                    <div class="inventory-list-item">{{ article_id }}</div>
-                                    <div class="inventory-list-item"><input type="text" name="article_name" value="{{ article_name }}"></div>
-                                    <div class="inventory-list-item"><input type="text" name="amount" value="{{ amount }}"></div>
-                                    <div class="inventory-list-item"><input type="text" name="unit" value="{{ unit }}"></div>
-                                    <div class="inventory-list-item exp_date"><input type="text" name="exp_date" value="{{ exp_date }}"></div>
-                                    <div class="inventory-list-item" data-unit="{{ unit }}"
-                                                data-amount="{{ amount }}" data-id="{{ article_id }}" data-date="{{ exp_date }}">
-                                        <span class="change-btn button" id="change-btn">Ändra</span>
-                                        <span class="delete-btn button" id="delete-btn">Radera</span>
-                                    </div>
+
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        {{ article_id }}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="article_name" value="{{ article_name }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="amount" value="{{ amount }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="unit" value="{{ unit }}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="exp_date" value="{{ exp_date }}">
+                                                    </td>
+                                                    <td>
+                                                        <div class="inventory-list-item" data-unit="{{ unit }}"
+                                                                    data-amount="{{ amount }}" data-id="{{ article_id }}" data-date="{{ exp_date }}">
+                                                            <table>
+                                                             <tr>
+                                                               <td>
+                                                                <span class="change-btn button" id="change-btn">Ändra</span>
+                                                               </td>
+                                                               <td>
+                                                                <span class="delete-btn button" id="delete-btn">Radera</span>
+                                                               </td>
+                                                             </tr>
+                                                            </table>
+                                                    </div>
+                                                    </td>
+                                                </tr>
+                                      </table>
+
+
+
                                     </form>
 
 

@@ -23,26 +23,108 @@
 	</div>
 
 	<div id="content">
-		<div class="section">
+		<div class="section" style="width:50%;">
 			<h1>Meny</h1>
 		</div>
 		<div class="section-holder">
 			<div class="section2">
 				<h1>Öppettider</h1>
+				<div class="open-times">
+					<strong>Vardagar</strong><br>
+					11.00-13.00 Lunch<br>
+					17.00-21.00 A la carté<br>
+					<strong>Lördagar</strong><br>
+					16.00-00.00 A la carté<br>
+					<strong>Söndagar</strong><br>
+					Stängt
+				</div>
 			</div>
+
 			<div class="section2">
 				<h1>Personal</h1>
-
+				<div class="personal">
+					Gustav Åström, root<br>
+					Sebastian Persson, boss <br>
+					Viktor Spindler, waitress <br>
+				</div>
 			</div>
+
 		</div>
 		<div class="section-holder">
 			<div class="section2">
 				<h1>Bokningar</h1>
+				<div class="bookings">
+					Viktor Spindler är nu inbokad på kvällspass den 20/10-15.<br>
+					Gustav Åström är nu inbokad på lunchpass den 20/10-15.<br>
+					Sebastian Persson är nu inbokad på kvällspass den 21/10-15.<br>
+				</div>
 			</div>
-			<div class="section2">
+			<div class="section2 lager">
+
+
+				<script id="storage_template" type="x-tmpl-mustache">
+				  <div id="lager">
+
 				<h1>Lager</h1>
+
+
+					<div class="inventory" style="width:100%;">
+						<table>
+							<tr>
+								<td>
+									Varu ID
+								</td>
+								<td>
+									Varunamn
+								</td>
+								<td>
+									Antal
+								</td>
+								<td>
+									Enhet
+								</td>
+								<td>
+									Utgångsdatum
+								</td>
+							</tr>
+							</table>
+							{{ #categories }}
+						<h1 id="category-item">> {{ name }}</h1>
+						{{ #articles }}
+							<table>
+								<tr>
+										<td>
+											{{ article_id }}
+										</td>
+										<td>
+											{{ article_name }}
+										</td>
+										<td>
+											{{ amount }}
+										</td>
+										<td>
+											{{ unit }}
+										</td>
+										<td>
+											{{ exp_date }}
+										</td>
+									</tr>
+								</table>
+
+
+
+						{{ /articles }}
+						{{ /categories }}
+
+					</div>
+					</script>
+				</div>
 			</div>
 		</div>
 	</div>
 
+
+	<script src="../jquery-1.11.3.min.js"></script>
+	<script src="../mustache.min.js"></script>
+	<script src="js/storage.js"></script>
 </body>

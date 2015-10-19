@@ -44,7 +44,7 @@ $(document).ready(function(){
                     type: 'DELETE',
                     dataType: 'json'
                 }).done(function() {
-                    alert('DELETED');
+                   // alert('DELETED');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -69,7 +69,7 @@ $(document).ready(function(){
                     dataType: 'text',
                     data: JSON.stringify(storage)
                 }).done(function() {
-                    alert('UPDATED..');
+                   // alert('UPDATED..');
                     getStorage(); //Used to fetch the new menu.
                 });
             });
@@ -95,7 +95,7 @@ $(document).ready(function(){
                     dataType: 'json',
                     data: JSON.stringify(storage)
                 }).done(function(addedStorage){
-                        alert('ADDED');
+                        //alert('ADDED');
                         $(".add-storage").hide();
                         $("#show-add-storage").show();
                         getStorage(); //Used to fetch the new menu.
