@@ -58,6 +58,9 @@ $(document).ready(function(){
             data: JSON.stringify(staff)
         }).done(function(addedStaff){
             getStaff();
+        }).fail(function(){
+            $("#add-staff-error").slideDown(200);
+            $("#loader").fadeOut(200);
         });
     }
 
@@ -131,10 +134,12 @@ $(document).ready(function(){
         $("#add-staff-btn").off().click(function(){
             addStaff();
             $("#add-staff input").val("");
+            $("#add-staff-error").slideUp(200);
         });
 
         $("#overlay").hide();
         $(".popup").hide();
+        $("#add-staff-error").hide();
         $("#overlay").off().click(function(){
             $(".popup").fadeOut(400);
             $(this).fadeOut(400);

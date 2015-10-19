@@ -28,16 +28,13 @@
 			</form>
 		</div>
 		<div class="popup-dialog-holder">
-			<span class="button r apply-btn green">Verkställ</span>
+			<span class="button r apply-btn green">Verkställ ändringar</span>
 			<span class="button r cancel-btn yellow">Avbryt</span>
-			<span id="delete-staff-btn" class="button l red">Radera användaren</span>
+			<span id="delete-staff-btn" class="button l red">Radera användare</span>
 		</div>
 	</div>
-
 	<div id="header">
-
 		<img id="loader" style="margin: 15px 2%" src="../loader.gif">
-
 		<div id="nav">
 			<a class="nav-item" href="index.htm">Överblick</a>
 			<a class="nav-item active" href="staff.htm">Arbetspass</a>
@@ -57,6 +54,7 @@
 			<div id="staff-sidebar">
 				<h1>Lägg till personal</h1>
 				<div id="add-staff">
+					<div id="add-staff-error">Lösenordet måste vara minst 6 tecken och rollen måste vara 1 eller 2.</div>
 					<form>
 						Användarnamn:<br>
 						<input id="username" type="text"><br>
@@ -67,7 +65,7 @@
 						Förnamn:<br>
 						<input id="first_name" type="text"><br>
 						Efternamn:<br>
-						<input id="last_name" type="text"><br>
+						<input id="last_name" type="text"><br><br>
 						<span id="add-staff-btn" class="button green">Lägg till</span>
 					</form>
 				</div>
@@ -75,13 +73,11 @@
 				<h1>Hantera personal</h1>
 				<div id="staff-list">
 					<table>
-
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<script src="../jquery-1.11.3.min.js"></script>
 	<script src="../mustache.min.js"></script>
 	<script src="js/staff.js"></script>

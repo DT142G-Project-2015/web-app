@@ -147,10 +147,10 @@ CREATE TABLE account
 CREATE TABLE shift
 (
 	id			INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	minimum		INT NOT NULL,
-	maximum		INT NOT NULL,
-	start_date	TIMESTAMP NOT NULL,
-	stop_date	TIMESTAMP NOT NULL
+	max_staff	INT NOT NULL,
+	start_date	DATETIME NOT NULL,
+	stop_date	DATETIME NOT NULL,
+	description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE schedule
