@@ -179,7 +179,7 @@ public class MenuResource {
         try {
             conn = Database.getConnection();
             Gson gson = new GsonBuilder()
-                    .setDateFormat("yyyy-mm-dd").create();
+                    .setDateFormat("yyyy-MM-dd").create();
 
             Menu menu = gson.fromJson(postData, Menu.class);
 
@@ -224,7 +224,8 @@ public class MenuResource {
 
             conn.setAutoCommit(false);  // Begin Transaction
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd").create();
             Menu menu = gson.fromJson(postData, Menu.class);
 
             if (menu.type != null) try (PreparedStatement st = conn

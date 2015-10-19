@@ -14,6 +14,6 @@ public class Utils {
     }
 
     public static String toJson(Object o) {
-        return new GsonBuilder().setPrettyPrinting().create().toJson(o);
+        return new GsonBuilder().setDateFormat("yyyy-MM-dd").setPrettyPrinting().create().toJson(o);
     }
 }

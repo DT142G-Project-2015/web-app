@@ -12,6 +12,8 @@
     <script src="../mustache.min.js"></script>
     <link rel="stylesheet" href="../jquery-ui-1.11.4.custom//jquery-ui.css">
     <script src="../jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+    <script src="js/datepicker_sv.js"></script>
+
     <script src="js/menu.js"></script>
     <!--END-->
    <!-- <link rel="stylesheet" type="text/css" href="menu.css"> -->
@@ -32,54 +34,73 @@
 <div id="content">
     <div class="section">
         <h1>Menyer</h1>
-        <h4 id="add_menu" class="add">+ Lägg till ny meny</h4>
+        <div id="add_menu" class="menu-add">+ Lägg till ny meny</div>
         <div id="menus"></div>
     </div>
 
     <div class="section" id="add_menu_section">
-        <h1>Meny</h1>
+        <h1>Meny <span class="close-section">[stäng]</span></h1>
         <form>
-            <label>Namn: <input type="text" name="type"></label>
-            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label>
-            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label>
+            <br><label>Lunch: <input value="0" type="radio" name="type"></label><br>
+            <label>Middag: <input value="1" type="radio" name="type"></label><br>
+            <label>Statisk: <input value="2" type="radio" name="type"></label><br>
+            <label>Start Datum: <input id="start_picker"  type="text" name="start_date"></label><br>
+            <label>Slut Datum: <input id="stop_picker" type="text" name="stop_date"></label><br><br>
             <span id="create_menu" class="button">Skapa och lägg till ny</span>
         </form>
     </div>
 
+    <div class="section" id="add_group_section">
+        <h1>Grupp <span class="close-section">[stäng]</span> </h1>
+        <form>
+            <br><label>Name: <input type="text" name="name"></label><br>
+            <span id="create_group" class="button">Skapa och lägg till ny</span>
+        </form>
+    </div>
+
+
     <div class="section" id="delete-menu-section">
-        <h1>Är du säker på att du vill ta bort meny?</h1>
-        <button id="yes-delete" class="button delete-btn">Ja</button>
-        <button id="no-delete" class="button delete-btn">Nej</button>
+        <h1 style="margin-bottom: 20px;">Är du säker på att du vill ta bort meny?</h1>
+        <span id="yes-delete" class="button menu-delete">Ja</span>
+        <span id="no-delete" class="button menu-delete">Nej</span>
+    </div>
+
+    <div class="section" id="delete-group-section">
+        <h1 style="margin-bottom: 20px;">Är du säker på att du vill ta bort gruppen?</h1>
+        <span id="yes-group-delete" class="button menu-delete">Ja</span>
+        <span id="no-group-delete" class="button menu-delete">Nej</span>
     </div>
 
     <div class="section" id="add_item_section">
-        <h1>Måltider</h1>
+        <h1>Måltider <span class="close-section">[stäng]</span></h1>
 
             <div id="item_list"></div>
-
-            <form>
+            <hr>
+            <form style="margin-bottom: 20px;">
                 <label>Namn: <input type="text" name="name"></label>
                 <label>Beskrivning: <input type="text" name="description"></label>
                 <label>Type: <select name="type">
-                    <option value="none">N/A</option>
-                    <option value="meat">Kötträtt</option>
-                    <option value="drink">Dryck</option>
+                    <option value="0">N/A</option>
+                    <option value="2">Kötträtt</option>
+                    <option value="1">Dryck</option>
                 </select>r</label>
                 <label>Pris: <input type="number" name="price"> kr</label><br><br>
                 <span id="create_item" class="button">Skapa och lägg till ny</span>
             </form>
     </div>
 
-
     <!-- mustache.js template used for rendering menus from JavaScript-->
     <script id="menus_template" type="x-tmpl-mustache">
         {{ #menus }}
-            <div class="menu" data-menu-id="{{ id }}">
+            <div class="menu" data-menu-id="{{ id }}" data-start-date="{{ start_date }}">
                 <div class="menu-header">
                     <h4>
                         {{ name }}
-                        <span style="font-size: 0.5em">{{ start_date }} -  {{ stop_date }}</span>
-                        <span class="delete-menu button delete-btn">Radera Meny</span>
+                        <label style="font-size:0.5em">Start Datum:</label>
+                            <input id="start{{ id }}" class="start_date" type="text" name="start_date">
+                        <label style="font-size:0.5em">Slut Datum:</label>
+                            <input id="stop{{ id }}"class="stop_date" value="{{ stop_date }}" type="text" name="stop_date">
+                        <span class="delete-menu button menu-delete">Radera Meny</span>
                     </h4>
                     <div class="menu-list-menu">Namn</div>
                     <div class="menu-list-menu">Beskrivning</div>
@@ -87,21 +108,25 @@
                     <div class="menu-list-menu">Typ</div>
                     <div class="menu-list-menu">Hantera</div>
                 </div>
+                <div class="menu-add add_group" style="margin-bottom: 5px;">+ Lägg till grupp</div>
                 {{ #groups }}
                     <div class="menu-group" data-group-id="{{ id }}">
-                        <h5> {{ name }} <span class="button add_item add-btn" id="add-btn">Lägg till</span> </h5>
+                        <h5> {{ name }}
+
+                            <span class="button menu-delete delete-group">Radera Grupp</span>
+                        </h5>
                         {{ #items }}
                             <div class="menu-row" data-item-id="{{ id }}"">
                                 <div class="menu-list-item">{{ name }}</div>
                                 <div class="menu-list-item">{{ description }}</div>
-                                <div class="menu-list-item">{{ price }}</div>
+                                <div class="menu-list-item">{{ price }}:-</div>
                                 <div class="menu-list-item">{{ type }}</div>
-                                <div class="menu-list-item"><span class="button delete-btn" id="delete-btn">Radera</span></div>
+                                <div class="menu-list-item"><span class="button menu-delete" id="delete-btn">Radera</span></div>
                             </div>
                         {{ /items }}
+                        <div class="menu-add add_item add-btn" id="add-btn"><span style="margin-left: 20px">+ Lägg till item i grupp</div>
                     </div>
                 {{ /groups }}
-                <h4 class="add">+ Lägg till kategori</h4>
             </div>
         {{ /menus }}
     </script>
@@ -111,11 +136,9 @@
     <script id="item_template" type="x-tmpl-mustache">
         <div class="menu_item" data-id="{{ id }}">
             <b>{{ name }}</b> <i>{{ description }}</i> {{ price }} kr
-            <span class="delete_btn button delete-btn" id="delete-btn">Radera</span>
-            <span class="add_btn button add-btn" id="add-btn">Lägg till</span>
+            <span class="delete_btn button menu-delete" id="delete-btn">Radera</span>
+            <span class="add_btn button add-btn menu-add-btn" id="add-btn">Lägg till</span>
         </div>
     </script>
-
-
-
+</div>
 </body>

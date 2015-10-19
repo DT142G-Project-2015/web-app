@@ -24,7 +24,7 @@
         <div class="sidebar-content-item">
             <h3>Dagens lunch</h3>
 
-            <c:forEach items="${groups}" var="g">
+            <c:forEach items="${lunchGroups}" var="g">
                 <strong>${g.name}</strong><br>
                 <c:forEach items="${g.items}" var="i">
                     ${i.name}<br>

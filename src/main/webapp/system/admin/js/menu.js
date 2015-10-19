@@ -22,7 +22,12 @@ $(document).ready(function() {
         }).done(function(menus) {
 
             menus.forEach(function(m) {
-                m.name = m.type == 1 ? 'Middag' : 'Lunch';
+                m.name = m.type == 1 ? 'Middag' : (m.type == 0 ? 'Lunch' : 'Statisk');
+                m.groups.forEach(function(g){
+                    g.items.forEach(function(i){
+                         i.type = i.type == 1 ? 'Dryck' : (i.type == 0 ? 'N/A' : 'Kötträtt');
+                    });
+                });
             });
 
             var rendered = Mustache.render(menusTemplate, {menus: menus});
@@ -53,10 +58,76 @@ $(document).ready(function() {
                 openAddMenu();
             });
 
-            $('.delete-menu'). click(function(){
+            $('.add_group').click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                openAddGroup(menu_id);
+                console.log("asd")
+            });
+
+            $('.delete-menu').click(function(){
                 var menu_id = $(this).closest('.menu').data('menu-id');
                 openDeleteMenu(menu_id);
             });
+
+            $('.delete-group').click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                openDeleteGroup(menu_id, group_id);
+            });
+
+            $('.close-section').click(function(){
+                $("#add_item_section").fadeOut(200);
+                $("#add_menu_section").fadeOut(200);
+                $("#add_group_section").fadeOut(200);
+            });
+
+            //CHANGE DATE
+            menus.forEach(function(m) {
+                var menuToSend = {};
+                //START
+                $( "#start" + m.id ).datepicker({
+                   onSelect: function(date) {
+                      menuToSend["type"] = m.type;
+                      menuToSend["start_date"] = date;
+                      menuToSend["stop_date"] = m.stop_date;
+                      $.ajax({
+                          url: '../../api/menu/' + m.id,
+                          type: 'PUT',
+                          dataType: 'json',
+                          data: JSON.stringify(menuToSend)
+                      }).done(function() {
+                          refreshMenus();
+                      });
+                  }
+                });
+                $( ".start_date" ).datepicker("option", "dateFormat", "yy-mm-dd");
+                $( "#start" + m.id ).datepicker("setDate", m.start_date);
+                //END
+
+                //STOP
+                $( "#stop" + m.id ).datepicker({
+                   onSelect: function(date) {
+                      menuToSend["type"] = m.type;
+                      menuToSend["start_date"] = m.start_date;
+                      menuToSend["stop_date"] = date;
+                      console.log(menuToSend);
+                      $.ajax({
+                          url: '../../api/menu/' + m.id,
+                          type: 'PUT',
+                          dataType: 'json',
+                          data: JSON.stringify(menuToSend)
+                      }).done(function() {
+                          refreshMenus();
+                      });
+                  }
+                });
+                $( ".stop_date" ).datepicker("option", "dateFormat", "yy-mm-dd");
+                $( "#stop" + m.id ).datepicker("setDate", m.stop_date);
+                //END
+
+            });
+
+            //END
 
         });
     }
@@ -70,9 +141,11 @@ $(document).ready(function() {
 
         var menu = {}
         $('#create_menu').off('click').click(function() {
-            $('#add_menu_section form :input').each(function(index, element){
-                menu[element.name] = element.value;
-            });
+
+            menu["type"] = $('input[name="type"]:checked', '#add_menu_section form').val();
+            menu["start_date"] = $('input[name="start_date"]', '#add_menu_section form').val();
+            menu["stop_date"] = $('input[name="stop_date"]', '#add_menu_section form').val();
+
             console.log(menu);
             $.ajax({
                 url: '../../api/menu',
@@ -105,6 +178,41 @@ $(document).ready(function() {
         });
     }
 
+    function openDeleteGroup(menu_id, group_id){
+        $('#delete-group-section').fadeIn(200);
+        $('#no-group-delete').click(function(){
+            $('#delete-group-section').fadeOut(200);
+        });
+        $('#yes-group-delete').click(function(){
+            $.ajax({
+                url: '../../api/menu/' + menu_id + '/group/' + group_id,
+                type: 'DELETE',
+                dataType: 'text'
+            }).done(function() {
+                refreshMenus();
+                $('#delete-group-section').fadeOut(200);
+            });
+        });
+    }
+
+    function openAddGroup(menu_id){
+        $('#add_group_section').fadeIn(200);
+        var group = {};
+        console.log(group);
+        $('#create_group').off('click').click(function(){
+            group["name"] = $('input[name="name"]', '#add_group_section form').val();
+            $.ajax({
+                url: '../../api/menu/' + menu_id + '/group',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(group)
+            }).done(function(){
+                refreshMenus();
+                $('#add_group_section').fadeOut(200);
+            });
+        });
+    }
+
     function openAddItemDialog(menu_id, group_id) {
         $('#add_item_section').fadeIn(200);
         refreshItems(menu_id, group_id);
@@ -112,11 +220,13 @@ $(document).ready(function() {
         $('#create_item').off('click').click(function() {
 
             var item = {}
-            $('#add_item_section form :input').each(function(index, element) {
+            /*$('#add_item_section form :input').each(function(index, element) {
                 item[element.name] = element.value;
-            })
-
-            item.type = 0;
+            })*/
+            item["name"] = $('input[name="name"]', '#add_item_section form').val();
+            item["description"] = $('input[name="description"]', '#add_item_section form').val();
+            item["type"] = parseInt($('select[name="type"]', '#add_item_section form').val());
+            item["price"] = $('input[name="price"]', '#add_item_section form').val();
 
             $.ajax({
                 url: '../../api/item',
