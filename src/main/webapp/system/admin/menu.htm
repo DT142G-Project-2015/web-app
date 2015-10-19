@@ -134,11 +134,13 @@
 
     <!-- mustache.js template used for rendering items from JavaScript-->
     <script id="item_template" type="x-tmpl-mustache">
-        <div class="menu_item" data-id="{{ id }}">
-            <b>{{ name }}</b> <i>{{ description }}</i> {{ price }} kr
-            <span class="delete_btn button menu-delete" id="delete-btn">Radera</span>
-            <span class="add_btn button add-btn menu-add-btn" id="add-btn">Lägg till</span>
-        </div>
+        <tr style="font-weight: normal !important; font-size: 0.8em;" class="menu_item" data-id="{{ id }}">
+            <td style="width: 20%"><b>{{ name }}</b></td> <td><i style=" width: 20%">{{ description }}</i></td> <td style="width: 70px">{{ price }}kr<td>
+            <td style="width: 155px">
+                <span class="delete_btn button menu-delete" id="delete-btn">Radera</span>
+                <span class="add_btn button add-btn menu-add-btn" id="add-btn">Lägg till</span>
+            <td>
+        </tr>
     </script>
 </div>
 </body>
