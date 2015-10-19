@@ -22,10 +22,13 @@
                 Stängt
             </div>
             <div class="sidebar-content-item">
+
                 <h3>Dagens lunch</h3>
 
                 <c:forEach items="${lunchGroups}" var="g">
-                    <strong>${g.name}</strong><br>
+                    <c:if test="${!fn:contains(g.name, 'Mat')}">
+                        <br><h3>${g.name}</h3>
+                    </c:if>
                     <ul>
                         <c:forEach items="${g.items}" var="i">
                             <c:if test="${!fn:contains(i.name, 'inkl dryck och kaffe')}">
