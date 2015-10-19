@@ -26,9 +26,13 @@
 
                 <c:forEach items="${lunchGroups}" var="g">
                     <strong>${g.name}</strong><br>
-                    <c:forEach items="${g.items}" var="i">
-                        ${i.name}<br>
-                    </c:forEach>
+                    <ul>
+                        <c:forEach items="${g.items}" var="i">
+                            <c:if test="${!fn:contains(i.name, 'inkl dryck och kaffe')}">
+                                <li style = "margin: 5px 5px 5px 20px; font-size: 0.9em" ><i>${i.name}</i></li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
                 </c:forEach>
 
             </div>
