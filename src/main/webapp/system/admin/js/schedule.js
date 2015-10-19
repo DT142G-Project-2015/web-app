@@ -13,7 +13,7 @@ $(document).ready(function(){
         $("#loader").show();
 
         $.ajax({
-            url: '../../api/shifts',
+            url: '../../api/shift',
             type: 'GET',
             dataType: 'json'
         }).done(function(data){
@@ -42,9 +42,10 @@ $(document).ready(function(){
             data: JSON.stringify(shift)
         }).done(function(addedShift){
             getShifts();
+            alert("success");
         }).fail(function(){
-            $("#add-shift-error").slideDown(200);
             $("#loader").fadeOut(200);
+            alert("fail");
         });
     }
 
@@ -53,9 +54,9 @@ $(document).ready(function(){
 
     function events(){
 
-        $("#add-shift-btn").click(function(){
+        $("#add-shift-btn")off().click(function(){
             addShift();
-            $("#add-shift-holder input").val("");
+            //$("#add-shift-holder input").val("");
         });
 
         $("#loader").fadeOut(200);
