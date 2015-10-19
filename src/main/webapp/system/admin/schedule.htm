@@ -42,8 +42,8 @@
                         Beskrivning<br>
                         <input id="description" type="text"><br>
                         Upprepa<br>
-                        <input type="radio" id="repeat" value="0" checked> Nej<br>
-                        <input type="radio" id="repeat" value="1"> Ja<br><br>
+                        <input type="radio" id="repeat" name="repeat" value="0" checked> Nej<br>
+                        <input type="radio" id="repeat" name="repeat" value="1"> Ja<br><br>
                         <span id="add-shift-btn" class="button green">Lägg till</span>
 
                     </form>
@@ -100,7 +100,7 @@
     <script src="../mustache.min.js"></script>
     <script src="js/schedule.js"></script>
     <script id="shift-template" type="x-tmpl-mustache">
-        <tr><td>Id</td><td>Användarnamn</td><td>Namn</td><td>Roll</td><td>Åtgärder</td></tr>
+        <tr><td>Från</td><td>Till</td><td>Bokade</td><td>Beskrivning</td><td>Åtgärder</td></tr>
         {{ #articles }}
             <tr>
                 <td>{{ start }}</td>

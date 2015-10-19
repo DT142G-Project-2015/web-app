@@ -54,7 +54,7 @@ $(document).ready(function(){
 
     function events(){
 
-        $("#add-shift-btn")off().click(function(){
+        $("#add-shift-btn").off().click(function(){
             addShift();
             //$("#add-shift-holder input").val("");
         });
