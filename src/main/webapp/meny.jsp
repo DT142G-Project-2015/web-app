@@ -21,6 +21,7 @@
 		</div>
 		<div id="text-holder">
 		<div id="menu_holder">
+			<h1 class="menu_h1" style="border: none !important">À la carte</h1>
 			<c:forEach items="${dinnerGroups}" var="g">
 				<h1 class="menu_h1">${g.name}</h1><br>
 				<c:forEach items="${g.items}" var="i">
