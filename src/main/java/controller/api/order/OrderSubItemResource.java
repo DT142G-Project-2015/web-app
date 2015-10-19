@@ -55,9 +55,9 @@ public class OrderSubItemResource {
             Gson gson = new Gson();
             IdHolder idHolder = gson.fromJson(postData, IdHolder.class);
 
-            OrderResource.insertGroupSubItem(conn, idHolder.id, parentItemId);
+            int subItemId = OrderResource.insertGroupSubItem(conn, idHolder.id, parentItemId);
 
-            UpdateMessage msg = new UpdateMessage("created", idHolder.id);
+            UpdateMessage msg = new UpdateMessage("created", subItemId);
 
             return Response.ok(Utils.toJson(msg)).build();
         }

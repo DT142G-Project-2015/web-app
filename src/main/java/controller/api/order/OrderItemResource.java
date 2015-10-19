@@ -57,9 +57,9 @@ public class OrderItemResource {
             Gson gson = new Gson();
             IdHolder idHolder = gson.fromJson(postData, IdHolder.class);
 
-            OrderResource.insertGroupItem(conn, idHolder.id, groupId);
+            int groupItemId = OrderResource.insertGroupItem(conn, idHolder.id, groupId);
 
-            UpdateMessage msg = new UpdateMessage("created", idHolder.id);
+            UpdateMessage msg = new UpdateMessage("created", groupItemId);
 
             return Response.ok(Utils.toJson(msg)).build();
         }

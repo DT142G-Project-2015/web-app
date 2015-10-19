@@ -22,7 +22,12 @@ $(document).ready(function() {
         }).done(function(menus) {
 
             menus.forEach(function(m) {
-                m.name = m.type == 1 ? 'Middag' : 'Lunch';
+                m.name = m.type == 1 ? 'Middag' : (m.type == 0 ? 'Lunch' : 'Statisk');
+                m.groups.forEach(function(g){
+                    g.items.forEach(function(i){
+                         i.type = i.type == 1 ? 'Dryck' : (i.type == 0 ? 'N/A' : 'Kötträtt');
+                    });
+                });
             });
 
             var rendered = Mustache.render(menusTemplate, {menus: menus});
@@ -64,6 +69,17 @@ $(document).ready(function() {
                 openDeleteMenu(menu_id);
             });
 
+            $('.delete-group').click(function(){
+                var menu_id = $(this).closest('.menu').data('menu-id');
+                var group_id = $(this).closest('.menu-group').data('group-id');
+                openDeleteGroup(menu_id, group_id);
+            });
+
+            $('.close-section').click(function(){
+                $("#add_item_section").fadeOut(200);
+                $("#add_menu_section").fadeOut(200);
+                $("#add_group_section").fadeOut(200);
+            });
 
             //CHANGE DATE
             menus.forEach(function(m) {
@@ -162,6 +178,23 @@ $(document).ready(function() {
         });
     }
 
+    function openDeleteGroup(menu_id, group_id){
+        $('#delete-group-section').fadeIn(200);
+        $('#no-group-delete').click(function(){
+            $('#delete-group-section').fadeOut(200);
+        });
+        $('#yes-group-delete').click(function(){
+            $.ajax({
+                url: '../../api/menu/' + menu_id + '/group/' + group_id,
+                type: 'DELETE',
+                dataType: 'text'
+            }).done(function() {
+                refreshMenus();
+                $('#delete-group-section').fadeOut(200);
+            });
+        });
+    }
+
     function openAddGroup(menu_id){
         $('#add_group_section').fadeIn(200);
         var group = {};
@@ -187,11 +220,13 @@ $(document).ready(function() {
         $('#create_item').off('click').click(function() {
 
             var item = {}
-            $('#add_item_section form :input').each(function(index, element) {
+            /*$('#add_item_section form :input').each(function(index, element) {
                 item[element.name] = element.value;
-            })
-
-            item.type = 0;
+            })*/
+            item["name"] = $('input[name="name"]', '#add_item_section form').val();
+            item["description"] = $('input[name="description"]', '#add_item_section form').val();
+            item["type"] = parseInt($('select[name="type"]', '#add_item_section form').val());
+            item["price"] = $('input[name="price"]', '#add_item_section form').val();
 
             $.ajax({
                 url: '../../api/item',

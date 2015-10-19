@@ -441,8 +441,8 @@ form input {
     display: none;
 }
 
-#add_item_section {
-    padding: 20px;
+#delete-group-section{
+	padding: 20px;
     /*height: 300px;*/
     position: fixed;
     top: 60px;
@@ -452,10 +452,23 @@ form input {
     display: none;
 }
 
+#add_item_section {
+    padding: 20px;
+    /*height: 300px;*/
+    position: fixed;
+    top: 60px;
+    margin-left: 0px;
+    width: 70%;
+    left: 15%;
+    display: none;
+    overflow: scroll;
+    height: 75%;
+}
+
 
 .menu h4 {
 	padding: 10px;
-	background: #cdcdcd;
+	background: #ffc04c;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 	font-size: 1.5em;
@@ -482,6 +495,7 @@ form input {
 	padding: 10px;
 }
 
+
 /* END styling of the menu page. */
 
 /* Styles for the index-page */
@@ -494,3 +508,55 @@ form input {
 }
 
 /* END styles for index-page*/
+
+.close-section {
+	float: right;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.menu-add{
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	font-size: 0.8em !important;
+	padding: 10px;
+	background: #88ee88;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: 1.5em;
+}
+
+.menu-delete{
+	cursor: pointer;
+    -moz-user-select: none;
+    font-size: 0.8em;
+    padding: 6px;
+    background: #FF4D4D none repeat scroll 0% 0%;
+    font-size: 9pt;
+    font-weight: normal !important;
+}
+.menu-add-btn{
+	cursor: pointer;
+    -moz-user-select: none;
+    font-size: 0.8em;
+    padding: 6px;
+    background: #88ee88 none repeat scroll 0% 0%;
+    font-size: 9pt;
+    font-weight: normal !important;
+}
+
+.menu-row{
+	margin-left: 22px;
+	font-size: 10pt;
+}
+
+/* END styling of the menu page. */
