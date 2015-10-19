@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import model.Shift;
 import model.UpdateMessage;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,7 +25,7 @@ public class ShiftResource {
 
     @POST
     public Response addShift(String postData) throws SQLException {
-        String q = "INSERT INTO shift (max_staff, start, stop, description, repeat) VALUES ((?), (?), (?), (?), (?))";
+        String q = "INSERT INTO shift (max_staff, start, stop, description, repeated) VALUES ((?), (?), (?), (?), (?))";
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -38,7 +37,7 @@ public class ShiftResource {
             st.setTimestamp(2, shift.start == null ? null : new Timestamp(shift.start.getTime()));
             st.setTimestamp(3, shift.stop == null ? null : new Timestamp(shift.stop.getTime()));
             st.setString(4, shift.description);
-            st.setBoolean(5, shift.repeat);
+            st.setBoolean(5, shift.repeated);
             st.executeUpdate();
 
             return Response.ok(new UpdateMessage("created", Database.getAutoIncrementID(st)).toJson()).build();
@@ -52,7 +51,7 @@ public class ShiftResource {
         s.description = (String) rows.get(0).get("description");
         s.start = (Timestamp) rows.get(0).get("start");
         s.stop = (Timestamp) rows.get(0).get("stop");
-        s.repeat = (Boolean) rows.get(0).get("repeat");
+        s.repeated = (Boolean) rows.get(0).get("repeated");
 
         s.scheduled = rows.stream()
                 .filter(r -> r.get("account_id") != null)
