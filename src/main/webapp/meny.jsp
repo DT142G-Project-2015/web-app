@@ -21,12 +21,13 @@
 		</div>
 		<div id="text-holder">
 		<div id="menu_holder">
+			<h1 class="menu_h1" style="border: none !important">À la carte</h1>
 			<c:forEach items="${dinnerGroups}" var="g">
 				<h1 class="menu_h1">${g.name}</h1><br>
 				<c:forEach items="${g.items}" var="i">
 					<br><b>${i.name}, ${i.price}kr</b>
 					<c:if test = "${i.description != ''}">
-						<br><i style="font-size: 0.8em">${i.description}</i><br>
+						<br><i style="font-size: 0.9em">${i.description}</i><br>
 					</c:if>
 				</c:forEach>
 			</c:forEach>

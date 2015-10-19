@@ -8,12 +8,17 @@ colors:
 
 @font-face {
     font-family: Typoslab;
-    src: url("fonts/typoslab.otf");
+    src: url("css/fonts/typoslab.otf");
 }
 
 @font-face {
     font-family: Nation;
-    src: url("fonts/nation.ttf");
+    src: url("css/fonts/nation.ttf");
+}
+
+@font-face {
+    font-family: Nation;
+    src: url("css/fonts/walkway.ttf");
 }
 
 
@@ -40,16 +45,10 @@ h3{
 }
 
 #sidebar{
-	/*position: fixed;
-	z-index: 10;
-	top: 0px;
-	left: 0px;
-	border-right: 1px solid #000;
-	display:inline-block;
-    width: 20%;*/
 	height: 100%;
 	background: #675757;
 	float: left;
+	width: 100%;
 }
 
 #logo-holder{
