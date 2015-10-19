@@ -14,12 +14,12 @@
             <div class="sidebar-content-item">
                 <h3>Öppettider</h3>
                 <strong>Vardagar</strong><br>
-                11.00-13.00 Lunch<br>
-                17.00-21.00 A la carté<br>
+                <i style="font-size: 0.9em">11.00-13.00 Lunch</i><br>
+                <i style="font-size: 0.9em">17.00-21.00 A la carté</i><br>
                 <strong>Lördagar</strong><br>
-                16.00-00.00 A la carté<br>
+                <i style="font-size: 0.9em">16.00-00.00 A la carté</i><br>
                 <strong>Söndagar</strong><br>
-                Stängt
+                <i style="font-size: 0.9em">Stängt</i>
             </div>
             <div class="sidebar-content-item">
 

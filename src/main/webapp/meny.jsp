@@ -27,7 +27,7 @@
 				<c:forEach items="${g.items}" var="i">
 					<br><b>${i.name}, ${i.price}kr</b>
 					<c:if test = "${i.description != ''}">
-						<br><i style="font-size: 0.8em">${i.description}</i><br>
+						<br><i style="font-size: 0.9em">${i.description}</i><br>
 					</c:if>
 				</c:forEach>
 			</c:forEach>
