@@ -8,12 +8,17 @@ colors:
 
 @font-face {
     font-family: Typoslab;
-    src: url("fonts/typoslab.otf");
+    src: url("css/fonts/typoslab.otf");
 }
 
 @font-face {
     font-family: Nation;
-    src: url("fonts/nation.ttf");
+    src: url("css/fonts/nation.ttf");
+}
+
+@font-face {
+    font-family: Nation;
+    src: url("css/fonts/walkway.ttf");
 }
 
 

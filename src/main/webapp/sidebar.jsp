@@ -13,16 +13,16 @@
         <div id="sidebar-content">
             <div class="sidebar-content-item">
                 <h3>Öppettider</h3>
-                <strong>Vardagar</strong><br>
+                <h3 style="margin-bottom: 0px !important">Vardagar</h3>
                 <i style="font-size: 0.9em">11.00-13.00 Lunch</i><br>
-                <i style="font-size: 0.9em">17.00-21.00 A la carté</i><br>
-                <strong>Lördagar</strong><br>
-                <i style="font-size: 0.9em">16.00-00.00 A la carté</i><br>
-                <strong>Söndagar</strong><br>
+                <i style="font-size: 0.9em">17.00-21.00 A la carté</i><br><br>
+                <h3 style="margin-bottom: 0px !important">Lördagar</h3>
+                <i style="font-size: 0.9em">16.00-00.00 A la carté</i><br><br>
+                <h3 style="margin-bottom: 0px !important">Söndagar</h3>
                 <i style="font-size: 0.9em">Stängt</i>
             </div>
             <div class="sidebar-content-item">
-
+                <div style="border-bottom: 1px solid #FFF;"></div><br>
                 <h3>Dagens lunch</h3>
 
                 <c:forEach items="${lunchGroups}" var="g">
