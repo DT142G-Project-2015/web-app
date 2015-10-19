@@ -85,7 +85,10 @@ public class ShiftResource {
                     .values().stream().map(rowsForId -> parseShift(rowsForId))
                     .collect(toList());
 
-            return Utils.toJson(orders);
+
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting().create();
+
+            return gson.toJson(orders);
         }
 
     }
