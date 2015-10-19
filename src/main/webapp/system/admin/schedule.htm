@@ -32,15 +32,29 @@
             <div id="add-shift-holder">
                 <h1>Lägg till arbetspass</h1>
                 <div id="add-shift-content">
-                    <form>
+                    <div>
                         Från<br>
-                        <input id="add-start-" type="text"><br>
+                        <input id="add-start" type="text"><br>
                         Till<br>
                         <input type="text"><br>
                         Antal personal<br>
                         <input type="text"><br>
                         Beskrivning<br>
-                        <input type="text"><br>
+                        <input type="text"><br><br>
+                        Frekvens<br>
+                        <div class="">
+                            <input type="radio" name="add-frequency" value="monday"> Måndag
+                            <input type="radio" name="add-frequency" value="tuesday"> Tisdag
+                            <input type="radio" name="add-frequency" value="wednesday"> Onsdag
+                            <input type="radio" name="add-frequency" value="thursday"> Torsdag
+                        </div><div>
+                            <input type="radio" name="add-frequency" value="friday"> Fredag
+                            <input type="radio" name="add-frequency" value="saturday"> Lördag
+                            <input type="radio" name="add-frequency" value="sunday"> Söndag
+                            <input type="radio" name="add-frequency" value="0"> Ingen
+                        </div><br><br>
+                        <span class="button green">Lägg till</span>
+
                     </form>
                 </div>
             </div><div id="standard-shift-holder">
