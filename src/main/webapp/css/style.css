@@ -40,14 +40,16 @@ h3{
 }
 
 #sidebar{
-	position: fixed;
+	/*position: fixed;
 	z-index: 10;
 	top: 0px;
 	left: 0px;
-	width: 20%;
-	height: 100%;
 	border-right: 1px solid #000;
+	display:inline-block;
+    width: 20%;*/
+	height: 100%;
 	background: #675757;
+	float: left;
 }
 
 #logo-holder{
@@ -96,7 +98,7 @@ h3{
 }
 
 #sidebar-content{
-	margin: 10px;
+	margin: 10px 10px 40px 10px;
 	background: #444;
 	border-radius: 6px 0px 0px 6px;
 }
@@ -108,10 +110,65 @@ h3{
 	padding: 20px;
 }
 
+#sidebar_holder{
+	width: 20%;
+	float: left;
+}
+
+#end_sidebar{
+	height: 0;
+    padding-bottom: 50%;
+    background: #333 ;
+}
+
+/*#left_end{
+	width: 40%;
+	height: 40%;
+	left: 0px;
+	top: 0px;
+	background: linear-gradient(to right bottom, black 50%, transparent 50%)
+}*/
+
+#left_end{
+	float: left;
+    width: 0;
+	height: 0;
+	padding-bottom: 50%;
+	padding-left: 50%;
+	overflow: hidden;
+}
+#left_end:after {
+    content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	margin-left: -500px;
+	border-bottom: 500px solid transparent;
+	border-left: 500px solid #675757;;
+}
+
+#right_end {
+	float: left;
+    width: 0;
+    height: 0;
+    padding-left:50%;
+    padding-top: 50%;
+    overflow: hidden;
+}
+#right_end:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    margin-left:-500px;
+    margin-top:-500px;
+    border-left: 500px solid transparent;
+    border-top: 500px solid #675757;
+}
+
 #content{
 	float: right;
 	width: 80%;
-	height: 2000px;
 }
 
 #media-holder{
@@ -135,6 +192,16 @@ h3{
 	background: #333;
 }
 
-#text-holder i {
-	color: #675757;
+.menu_h1{
+	font-weight: normal !important;
+	padding: 10px;
+	border-top: 1px dotted #fff;
+	border-bottom: 1px dotted #fff;
+	margin-top: 35px;
+}
+
+#menu_holder{
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
 }

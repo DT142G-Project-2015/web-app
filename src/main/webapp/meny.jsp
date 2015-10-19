@@ -20,12 +20,17 @@
 			<img src="img/meny.jpg">
 		</div>
 		<div id="text-holder">
-		<c:forEach items="${dinnerGroups}" var="g">
-			<h1>${g.name}</h1><br>
-			<c:forEach items="${g.items}" var="i">
-				${i.name} <i>${i.description}</i> ${i.price} kr<br>
+		<div id="menu_holder">
+			<c:forEach items="${dinnerGroups}" var="g">
+				<h1 class="menu_h1">${g.name}</h1><br>
+				<c:forEach items="${g.items}" var="i">
+					<br><b>${i.name}, ${i.price}kr</b>
+					<c:if test = "${i.description != ''}">
+						<br><i style="font-size: 0.8em">${i.description}</i><br>
+					</c:if>
+				</c:forEach>
 			</c:forEach>
-        </c:forEach>
+        </div>
 		</div>
 	</div>
 </body>
