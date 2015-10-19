@@ -1,6 +1,7 @@
 package controller.api.schedule;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Shift;
 import model.UpdateMessage;
 import util.Database;
@@ -29,13 +30,13 @@ public class ShiftResource {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm").create();
 
             Shift shift = gson.fromJson(postData, Shift.class);
 
             st.setInt(1, shift.max_staff);
-            st.setDate(2, shift.start);
-            st.setDate(3, shift.stop);
+            st.setTimestamp(2, shift.start == null ? null : new Timestamp(shift.start.getTime()));
+            st.setTimestamp(3, shift.stop == null ? null : new Timestamp(shift.stop.getTime()));
             st.setString(4, shift.description);
             st.setBoolean(5, shift.repeat);
             st.executeUpdate();
@@ -44,15 +45,13 @@ public class ShiftResource {
         }
     }
 
-
-
     private static Shift parseShift(List<Map<String, Object>> rows) {
         Shift s = new Shift();
-        s.id = (Integer) rows.get(0).get("shift_id");
+        s.id = (Integer) rows.get(0).get("id");
         s.max_staff = (Integer) rows.get(0).get("max_staff");
         s.description = (String) rows.get(0).get("description");
-        s.start = (Date) rows.get(0).get("start");
-        s.stop = (Date) rows.get(0).get("stop");
+        s.start = (Timestamp) rows.get(0).get("start");
+        s.stop = (Timestamp) rows.get(0).get("stop");
         s.repeat = (Boolean) rows.get(0).get("repeat");
 
         s.scheduled = rows.stream()
@@ -63,7 +62,6 @@ public class ShiftResource {
 
         return s;
     }
-
 
     @GET
     public String getShifts() throws SQLException {
@@ -83,7 +81,7 @@ public class ShiftResource {
 
             // group rows by shift id, and convert each group of rows into a Shift object
             List<Shift> orders = rows.stream()
-                    .collect(groupingBy(row -> row.get("shift_id")))
+                    .collect(groupingBy(row -> row.get("id")))
                     .values().stream().map(rowsForId -> parseShift(rowsForId))
                     .collect(toList());
 
