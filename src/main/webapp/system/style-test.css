@@ -268,11 +268,11 @@ td{
 	float: left;
 	width: 14.285%;
 	height: 400px;
-	box-shadow: inset 4px 0 0 #f1f0f0;
+	box-shadow: inset 6px 0 0 #f1f0f0;
 }
 
 #schedule-holder .day{
-	background-image: -webkit-linear-gradient(top, #fff 95%, #f1f0f0 5%);
+	background-image: -webkit-linear-gradient(top, #fff 90%, #f1f0f0 10%);
 	background-size: 50px 25px;
 }
 
@@ -287,7 +287,7 @@ td{
 	height: 75px;
 	margin-top: 75px;
 	background: #eee;
-	box-shadow: inset 4px 0 0 #8e8;
+	box-shadow: inset 6px 0 0 #8e8;
 	font-size: 12px;
 	transition: all 0.2s;
 }
@@ -303,5 +303,9 @@ td{
 .time-interval.booked{
 	cursor: not-allowed;
 	box-shadow: inset 4px 0 0 #900;
+}
+
+#loader{
+	display: none;
 }
 
