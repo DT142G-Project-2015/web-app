@@ -1,4 +1,13 @@
 $(document).ready(function(){
+
+    $.ajaxSetup({
+        xhrFields: {
+            withCredentials: true
+        }
+    });
+
+
+
     var book_holder = {};
     $(".button_persons").click(function(){
         book_holder["persons"] = $(this).text();
@@ -12,9 +21,13 @@ $(document).ready(function(){
 
     $("#book_date").datepicker({
         onSelect: function(date) {
+            checkDay()
             book_holder["book_date"] = $(this).val();
             console.log(book_holder);
             $("#section_3").slideDown(200);
+
+
+
             $('html, body').animate({
                 scrollTop: $("#section_3").offset().top
             }, 2000);
@@ -39,10 +52,29 @@ $(document).ready(function(){
         book_holder["phone"] = $("#tel").val();
         book_holder["email"] = $('#email').val();
         console.log(book_holder);
+        $.ajax({
+            url: 'api/booth',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(book_holder)
+        }).done(function() {
+            alert("done");
+        }).fail(function(){
+            alert("fail");
+        });
     });
 
     function noSundays(date) {
           return [date.getDay() != 0, ''];
+    }
+
+    function checkDay() {
+        var date1 = $('#book_date').datepicker('getDate');
+        var day = date1.getDay();
+        if (day == 6)
+            $('.sat_day').slideDown();
+        else
+            $('.sat_day').slideUp();
     }
 
 });

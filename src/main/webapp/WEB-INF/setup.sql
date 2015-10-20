@@ -197,6 +197,21 @@ ALTER TABLE article_category ADD FOREIGN KEY (category_id) REFERENCES category(c
 
 
 -- #############
+-- # Book booth #
+-- #############
+CREATE TABLE book_booth
+(
+	booth_id	INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	persons	INT NOT NULL,
+	date_time TIMESTAMP NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	phone VARCHAR(20) NOT NULL,
+	email VARCHAR(255) NOT NULL
+);
+
+
+
+-- #############
 -- # Test Data #
 -- #############
 

@@ -57,6 +57,10 @@
 					<div class="s_border"></div>
 					<i class="fa fa-clock-o" style="font-size: 60px; display: block"></i>
 					<h1>TID</h1>
+					<div class="sat_day">
+						<div class="button_time">16:00</div>
+                        <div class="button_time">16:30</div>
+					</div>
 					<div class="week_day">
 						<div>
 							<div class="button_time">17:00</div>
@@ -69,6 +73,18 @@
 							<div class="button_time">19:30</div>
 							<div class="button_time">20:00</div>
 							<div class="button_time">20:30</div>
+						</div>
+					</div>
+					<div class="sat_day">
+						<div>
+							<div class="button_time">21:00</div>
+							<div class="button_time">21:30</div>
+							<div class="button_time">22:30</div>
+							<div class="button_time">22:30</div>
+						</div>
+						<div>
+							<div class="button_time">23:00</div>
+							<div class="button_time">23:30</div>
 						</div>
 					</div>
 				</div>
