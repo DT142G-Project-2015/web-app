@@ -103,6 +103,7 @@ public class OrderResource {
 
         order.groups = byGroup.values().stream()
                 .map(groupRows -> parseGroup(groupRows))
+                .sorted((g1, g2) -> Integer.compare(g2.id, g1.id))
                 .collect(Collectors.toList());
 
         return order;
@@ -134,7 +135,8 @@ public class OrderResource {
                            "LEFT JOIN note n1 ON i_n.note_id = n1.id " +
                            "LEFT JOIN note n2 ON s_n.note_id = n2.id " +
                            "LEFT JOIN item i1 ON rgi.item_id = i1.id " +
-                           "LEFT JOIN item i2 ON rgsi.item_id = i2.id ";
+                           "LEFT JOIN item i2 ON rgsi.item_id = i2.id " +
+                           "";
 
 
     @GET
