@@ -48,8 +48,6 @@ public class BookBoothResource {
 
             BookBooth booth = gson.fromJson(postData, BookBooth.class);
 
-
-
             Date dateTime = new SimpleDateFormat("yy-MM-dd hh:mm").parse((booth.book_date.trim() + " " + booth.book_time.trim()));
 
             st.setInt(1, booth.persons);

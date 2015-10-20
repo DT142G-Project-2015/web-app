@@ -26,7 +26,7 @@ public class ShiftResource {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
 
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm").create();
 
             Shift shift = gson.fromJson(postData, Shift.class);
 
