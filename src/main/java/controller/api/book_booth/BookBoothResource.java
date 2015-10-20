@@ -63,7 +63,7 @@ public class BookBoothResource {
     }
 
     @PUT @Path("{id: [0-9]+}")
-    public Response updateGroupStatus(@PathParam("id") int id, String postData) throws SQLException {
+    public Response updateBoothStatus(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
                      "UPDATE book_booth SET status = (?) WHERE id = (?)")) {
