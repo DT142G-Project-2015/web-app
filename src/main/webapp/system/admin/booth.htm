@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Antons Skafferi - inloggad</title>
+    <link rel="stylesheet" media="screen and (orientation:portrait)" href="../mobile.css">
+    <link rel="stylesheet" media="screen and (orientation:landscape)" href="../style-test.css">
+    <script src="../jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div id="change-css">
+    <span id="css-black"></span>
+    <span id="css-white"></span>
+</div>
+<div id="overlay"></div>
+<div id="alter-staff-popup" class="popup">
+    <h1>Ändra användare</h1>
+    <div class="popup-content">
+        <form>
+            Användarnamn:<br>
+            <input id="alter-username" type="text"><br>
+            Roll:<br>
+            <input id="alter-role" type="text"><br>
+            Förnamn:<br>
+            <input id="alter-first_name" type="text"><br>
+            Efternamn:<br>
+            <input id="alter-last_name" type="text">
+        </form>
+    </div>
+    <div class="popup-dialog-holder">
+        <span class="button r apply-btn green">Verkställ ändringar</span>
+        <span class="button r cancel-btn yellow">Avbryt</span>
+        <span id="delete-staff-btn" class="button l red">Radera användare</span>
+    </div>
+</div>
+<div id="header">
+    <img id="loader" style="margin: 15px 2%" src="../loader.gif">
+    <div id="nav">
+        <a class="nav-item" href="index.htm">Överblick</a>
+        <a class="nav-item" href="staff.htm">Arbetspass</a>
+        <a class="nav-item active" href="booth.htm">Bordsbokningar</a>
+        <a class="nav-item" href="menu.htm">Meny</a>
+        <a class="nav-item" href="inventory.htm">Lager</a>
+        <a class="nav-item" href="login.htm">Logga ut</a>
+    </div>
+</div>
+<div id="content">
+    <div class="section">
+        <h1>Hantera bordsbokningar</h1>
+        <div id="booth-list">
+            <table style="text-align:center">
+            </table>
+        </div>
+    </div>
+    </div>
+</div>
+<script src="../mustache.min.js"></script>
+<script src="js/booth.js"></script>
+<script id="booth-template" type="x-tmpl-mustache">
+		<tr><td>Id</td><td>Namn</td><td>Antal personer</td><td>Datum/Tid</td><td>Telefon</td><td>Email</td><td>Satus</td></tr>
+		{{ #articles }}
+			<tr>
+				<td>{{ booth_id }}</td>
+				<td>{{ name }}</td>
+				<td>{{ persons }}</td>
+				<td>{{ date_time }}</td>
+				<td>{{ phone }}</td>
+				<td>{{ email }}</td>
+				<td>{{ status }}</td>
+				<td>
+					<span id="approve-booth-btn{{ booth_id }}" class="button green">Godkänn</span>
+					<span id="reject-booth-btn{{ booth_id }}" class="button red">Avfärda</span>
+				</td>
+			</tr>
+		{{ /articles }}
+	</script>
+</body>
+</html>
