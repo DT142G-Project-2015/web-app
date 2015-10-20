@@ -42,7 +42,7 @@ public class BookBoothResource {
         String q = "INSERT INTO book_booth(persons, date_time, name, phone, email) VALUES((?), (?), (?), (?), (?))";
 
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(q)) {
+             PreparedStatement st = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
 
             Gson gson = new Gson();
 
