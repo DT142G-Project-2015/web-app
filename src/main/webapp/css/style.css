@@ -6,10 +6,10 @@ colors:
 #000 - black
 */
 
-@font-face {
+/*@font-face {
     font-family: Typoslab;
     src: url("css/fonts/typoslab.otf");
-}
+}*/
 
 @font-face {
     font-family: Nation;
@@ -204,3 +204,108 @@ h3{
 	margin: 0 auto;
 	text-align: center;
 }
+/* BOOK TABLE */
+
+#book_holder{
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.button_persons{
+	padding: 10px 15px 10px 15px;
+	border: 1px solid #cdcdcd;
+	display: inline-block;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.button_persons:hover{
+	border: 1px solid #FBCB09;
+	background: #FDF5CE;
+	color: #C77405;
+}
+
+.button_persons_selected{
+	border: 1px solid #FBCB09;
+	background: #FDF5CE;
+	color: #C77405;
+}
+
+.button_time{
+	padding: 10px 15px 10px 15px;
+	border: 1px solid #cdcdcd;
+	display: inline-block;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.button_time:hover{
+	border: 1px solid #FBCB09;
+	background: #FDF5CE;
+	color: #C77405;
+}
+
+.button_time_selected{
+	border: 1px solid #FBCB09;
+	background: #FDF5CE;
+	color: #C77405;
+}
+
+.s_border{
+	border-bottom: 1px dotted #fff;
+	margin: 20px 20px 40px 20px;
+}
+
+.section h1{
+	margin-top: 10px;
+	font-weight: normal;
+}
+
+.arrow{
+	position: relative;
+	top: 33px;
+	font-size: 20px !important;
+}
+
+#section_2{
+	display: none;
+}
+
+#section_3{
+	display: none;
+}
+
+#section_4{
+	display: none;
+}
+
+input{
+	background: none;
+	border: 1px solid #FFF;
+	color: #FFF;
+	padding: 10px;
+	margin: 5px;
+	width: 250px;
+}
+
+#book_date{
+	text-align: center;
+}
+
+#book_done{
+	border: 1px solid #4BB74C;
+	background:#BDFCC9;
+	color:#3F6826;
+	padding: 10px;
+	margin: 5px 5px 20px 5px;
+	width: 250px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+
+/* FBCB09 gul
+FDF5CE ljus gul
+C77405 mör gul */
+

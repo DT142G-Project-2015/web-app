@@ -151,7 +151,7 @@ CREATE TABLE shift
 	start		TIMESTAMP NOT NULL,
 	stop		TIMESTAMP NOT NULL,
 	description VARCHAR(255) NOT NULL,
-	repeat		BOOL NOT NULL DEFAULT 0
+	repeated	BOOL NOT NULL DEFAULT 0
 );
 
 CREATE TABLE schedule
@@ -194,6 +194,22 @@ ALTER TABLE article_category ADD FOREIGN KEY (article_id) REFERENCES article(art
 ALTER TABLE article_category ADD FOREIGN KEY (category_id) REFERENCES category(category_id);
 
 -- Skapa en ny kategoriserad article med värdena, Dryck, grönsaker, råvaror, färskvaror, tillbehör.
+
+
+-- #############
+-- # Book booth #
+-- #############
+CREATE TABLE book_booth
+(
+	booth_id	INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	persons		INT NOT NULL,
+	date_time 	TIMESTAMP NOT NULL,
+	name 		VARCHAR(255) NOT NULL,
+	phone 		VARCHAR(20) NOT NULL,
+	email 		VARCHAR(255) NOT NULL,
+	status 		INT NOT NULL DEFAULT 0
+);
+
 
 
 -- #############
