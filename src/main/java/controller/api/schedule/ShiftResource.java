@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import model.Shift;
 import model.UpdateMessage;
 import util.Database;
-import util.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -88,6 +87,42 @@ public class ShiftResource {
             return gson.toJson(orders);
         }
 
+    }
+
+    @DELETE @Path("{id: [0-9]+}")
+    public Response deleteShift(@PathParam("id") int id) throws SQLException {
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement("DELETE FROM shift WHERE id = (?)")) {
+            st.setInt(1, id);
+
+            st.executeUpdate();
+            return Response.ok(new UpdateMessage("deleted", id).toJson()).build();
+        }
+    }
+
+    @PUT  @Path("{id: [0-9]+}")
+    public Response updateShift(@PathParam("id") int id, String putData) throws SQLException {
+
+        // (max_staff, start, stop, description, repeat)
+        String q = "UPDATE shift SET max_staff = (?), start = (?), stop = (?), description = (?), repeated = (?) WHERE account.id = (?)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement st = conn.prepareStatement(q)) {
+
+            Gson gson = new Gson();
+
+            Shift shift = gson.fromJson(putData, Shift.class);
+
+            st.setInt(1, shift.max_staff);
+            st.setTimestamp(2, shift.start == null ? null : new Timestamp(shift.start.getTime()));
+            st.setTimestamp(3, shift.stop == null ? null : new Timestamp(shift.stop.getTime()));
+            st.setString(4, shift.description);
+            st.setBoolean(5, shift.repeat);
+            st.executeUpdate();
+            return Response.ok(new UpdateMessage("updated", id).toJson()).build();
+
+        }
     }
 
     @Path("{shift_id: [0-9]+}/schedule")
