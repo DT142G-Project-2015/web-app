@@ -118,7 +118,7 @@ public class ShiftResource {
             st.setTimestamp(2, shift.start == null ? null : new Timestamp(shift.start.getTime()));
             st.setTimestamp(3, shift.stop == null ? null : new Timestamp(shift.stop.getTime()));
             st.setString(4, shift.description);
-            st.setBoolean(5, shift.repeat);
+            st.setBoolean(5, shift.repeated);
             st.executeUpdate();
             return Response.ok(new UpdateMessage("updated", id).toJson()).build();
 
