@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 
     // Functions
-
+    setInterval(getBooth, 5000);
     function getBooth(){
 
         $("#loader").show();
