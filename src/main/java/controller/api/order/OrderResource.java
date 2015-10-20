@@ -103,7 +103,7 @@ public class OrderResource {
 
         order.groups = byGroup.values().stream()
                 .map(groupRows -> parseGroup(groupRows))
-                .sorted((g1, g2) -> Integer.compare(g1.id, g2.id))
+                .sorted((g1, g2) -> Integer.compare(g2.id, g1.id))
                 .collect(Collectors.toList());
 
         return order;
