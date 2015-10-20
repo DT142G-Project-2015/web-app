@@ -21,7 +21,7 @@ $(document).ready(function(){
             dataType: 'json'
         }).done(function(data){
 
-            $('#standard-shift-holder table').html('<tr><td>Från</td><td>Till</td><td>Bokade</td><td>Beskrivning</td><td>Upprepar</td><td>Åtgärder</td></tr>');
+            $('#standard-shift-holder table').html('<tr><td>Från</td><td>Till</td><td>Bokade</td><td>Beskrivning</td><td>Åtgärder</td></tr>');
             $('.day').empty();
 
             var now = new Date();
@@ -37,21 +37,24 @@ $(document).ready(function(){
 
                 shift.zIndex = zIndex;
 
-                if(shift.repeated == true){
-
+                if(shiftStart.format('Y-W') == now.format('Y-W')){
                     shift.start = shiftStart.format('H:i');
                     shift.stop = shiftStop.format('H:i');
                     shift.marginTop = ((parseFloat(shiftStart.format('H')) + parseFloat(shiftStart.format('i'))/60) - 8)*25;
-                    shift.height = (((parseFloat(shiftStop.format('H')) + parseFloat(shiftStop.format('i'))/60)-8)*25)-shift.marginTop;
-                    var renderedShift = Mustache.render(scheduleTemplate, {shift: shift});
-                    $('#' + shiftStart.format('D')).append(renderedShift);
-                }
-                else if(shiftStart.format('Y-W') == now.format('Y-W')){
-
-                    shift.start = shiftStart.format('H:i');
-                    shift.stop = shiftStop.format('H:i');
-                    shift.marginTop = ((parseFloat(shiftStart.format('H')) + parseFloat(shiftStart.format('i'))/60) - 8)*25;
-                    shift.height = (((parseFloat(shiftStop.format('H')) + parseFloat(shiftStop.format('i'))/60)-8)*25)-shift.marginTop;
+                    if(shiftStop.format('H-i') == '00-00'){
+                        shift.height = 400-shift.marginTop;
+                    }
+                    else{
+                        shift.height = (((parseFloat(shiftStop.format('H')) + parseFloat(shiftStop.format('i'))/60)-8)*25)-shift.marginTop;
+                    }
+                    if(shift.max_staff == shift.count_staff){
+                        shift.color = '#ff4d4d';
+                        shift.title = 'Fullbokat';
+                    }
+                    else{
+                        shift.color = '#8c8';
+                        shift.title = 'Boka passet';
+                    }
                     var renderedShift = Mustache.render(scheduleTemplate, {shift: shift});
                     $('#' + shiftStart.format('D')).append(renderedShift);
                 }
@@ -72,6 +75,10 @@ $(document).ready(function(){
             shift[element.id] = element.value;
         });
 
+        if(!$('#repeated').is(':checked')){
+            shift['repeated'] = 'false';
+        }
+
         alert(JSON.stringify(shift));
         $.ajax({
             url: '../../api/shift',
@@ -86,6 +93,18 @@ $(document).ready(function(){
         });
     }
 
+    function deleteStaff(id){
+
+        $("#loader").show();
+
+        $.ajax({
+            url: '../../api/shift/'+id,
+            type: 'DELETE'
+        }).done(function(deleted){
+            getShifts();
+        });
+    }
+
 
     // Events
 
@@ -94,6 +113,17 @@ $(document).ready(function(){
         $('#add-shift-btn').off().click(function(){
             addShift();
             //$("#add-shift-holder input").val("");
+        });
+
+        $("span[id^='delete-shift-btn']").off().click(function(){
+
+            id = $(this).attr("id").match(/\d+/);
+            if($(this).html() == "Är du säker?"){
+                deleteStaff(id);
+            }
+            else{
+                $(this).html("Är du säker?");
+            }
         });
 
         $('#loader').fadeOut(200);

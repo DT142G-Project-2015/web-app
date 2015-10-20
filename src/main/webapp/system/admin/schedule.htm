@@ -40,9 +40,8 @@
                         Antal personal<br>
                         <input id="max_staff" type="text"><br>
                         Beskrivning<br>
-                        <input id="description" type="text"><br>
-                        Upprepa<br>
-                        <input id="repeated" type="text"><br><br>
+                        <input id="description" type="text"><br><br>
+                        <!--<input id="repeated" type="checkbox" value="true"> Upprepa<br><br>-->
                         <span id="add-shift-btn" class="button green">Lägg till</span>
                     </form>
                 </div>
@@ -94,16 +93,15 @@
                 <td>{{ stop }}</td>
                 <td>{{ count_staff }} ({{ max_staff }})</td>
                 <td>{{ description }}</td>
-                <td>{{ repeated }}</td>
                 <td>
-                    <span id="alter-shift-btn{{ id }}" class="button yellow">Ändra</span>
+                    <span id="delete-shift-btn{{ id }}" class="button red">Radera</span>
                 </td>
             </tr>
         {{ /shifts }}
     </script>
     <script id="schedule-template" type="x-tmpl-mustache">
         {{ #shift }}
-            <div class="time-interval" style="z-index: {{ zIndex }}; margin-top: {{ marginTop }}px; height: {{ height }}px" title="Boka passet">
+            <div class="time-interval" style="z-index: {{ zIndex }}; margin-top: {{ marginTop }}px; height: {{ height }}px; box-shadow: inset 6px 0 0 {{ color }};" title="{{ title }}">
                 <div>{{ start }}-{{ stop }}</div>
                 <div>{{ count_staff }} ({{ max_staff }})</div>
                 <div>{{ description }}</div>
