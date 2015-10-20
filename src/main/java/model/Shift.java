@@ -10,7 +10,7 @@ public class Shift {
     public Date start;
     public Date stop;
     public String description;
-    public boolean repeat;
+    public boolean repeated;
     public int count_staff;
     public List<Integer> scheduled;
 }
