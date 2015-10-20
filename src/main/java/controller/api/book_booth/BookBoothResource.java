@@ -62,48 +62,24 @@ public class BookBoothResource {
         }
     }
 
-    /*@PUT  @Path("{id: [0-9]+}")
-    public Response alterStaff(@PathParam("id") int id, String putData) throws SQLException {
-
-        String q = "UPDATE account SET account.username = (?), account.role = (?), account.first_name = (?), account.last_name = (?) WHERE account.id = (?)";
-
+    @PUT @Path("{id: [0-9]+}")
+    public Response updateGroupStatus(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(q)) {
+             PreparedStatement st = conn.prepareStatement(
+                     "UPDATE book_booth SET status = (?) WHERE id = (?)")) {
 
             Gson gson = new Gson();
+            BookBooth booth = gson.fromJson(postData, BookBooth.class);
 
-            Staff staff = gson.fromJson(putData, Staff.class);
 
-            st.setString(1, staff.username);
-            st.setInt(2, staff.role);
-            st.setString(3, staff.first_name);
-            st.setString(4, staff.last_name);
-            st.setInt(5, id);
+            st.setInt(1, booth.status);
+            st.setInt(2, id);
             st.executeUpdate();
-            return Response.ok(new UpdateMessage("updated", id).toJson()).build();
 
+            UpdateMessage msg = new UpdateMessage("updated", id);
+
+            return Response.ok(msg.toJson()).build();
         }
     }
-
-
-    @DELETE @Path("{id: [0-9]+}")
-    public String deleteStaff(@PathParam("id") int id) throws SQLException {
-
-        String q = "DELETE FROM account WHERE account.id = (?)";
-
-        try (Connection conn = Database.getConnection();
-             PreparedStatement st = conn.prepareStatement(q)) {
-
-            st.setInt(1, id);
-
-            int rowsDeleted = st.executeUpdate();
-
-            if (rowsDeleted == 0)
-                throw new NotFoundException();
-
-            return new UpdateMessage("deleted", id).toJson();
-
-        }
-    }*/
 }
 

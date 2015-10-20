@@ -10,4 +10,5 @@ public class BookBooth {
     public String name;
     public String phone;
     public String email;
+    public int status;
 }

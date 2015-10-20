@@ -58,9 +58,9 @@ $(document).ready(function(){
             dataType: 'json',
             data: JSON.stringify(book_holder)
         }).done(function() {
-            alert("done");
+            alert("Din bokning behandlas nu av personalen");
         }).fail(function(){
-            alert("fail");
+            alert("Det gick inte att lägga bordsbeställning");
         });
     });
 
