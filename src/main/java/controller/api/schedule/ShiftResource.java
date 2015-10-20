@@ -26,9 +26,14 @@ public class ShiftResource {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(q, Statement.RETURN_GENERATED_KEYS)) {
 
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm").create();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+
+            System.out.println(postData);
+
 
             Shift shift = gson.fromJson(postData, Shift.class);
+
+            System.out.println(gson.toJson(shift));
 
             st.setInt(1, shift.max_staff);
             st.setTimestamp(2, shift.start == null ? null : new Timestamp(shift.start.getTime()));
@@ -82,7 +87,7 @@ public class ShiftResource {
                     .collect(toList());
 
 
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting().create();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").setPrettyPrinting().create();
 
             return gson.toJson(orders);
         }
