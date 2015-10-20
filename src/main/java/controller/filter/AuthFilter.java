@@ -40,7 +40,10 @@ public class AuthFilter implements Filter {
                     String username = creds.substring(0, creds.indexOf(":")).trim();
                     String password = creds.substring(creds.indexOf(":") + 1).trim();
 
-                    if (LoginManager.isLoggedIn(username, password)) {
+                    Optional<Integer> access = LoginManager.hasAccess(username, password);
+
+                    if (access.isPresent()) {
+                        response.setHeader("X-Account-Id", username);
                         chain.doFilter(request, response);
                     } else {
                         response.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -58,8 +61,7 @@ public class AuthFilter implements Filter {
                         String username = creds.substring(0, creds.indexOf(":")).trim();
                         String password = creds.substring(creds.indexOf(":") + 1).trim();
 
-                        if (LoginManager.isLoggedIn(username, password)) {
-                            response.setHeader("X-Username", username);
+                        if (LoginManager.hasAccess(username, password).isPresent()) {
                             chain.doFilter(request, response);
                         } else {
                             response.sendError(HttpServletResponse.SC_FORBIDDEN);

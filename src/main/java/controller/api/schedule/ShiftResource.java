@@ -7,10 +7,7 @@ import model.UpdateMessage;
 import util.Database;
 import util.Utils;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.*;
@@ -91,6 +88,11 @@ public class ShiftResource {
             return gson.toJson(orders);
         }
 
+    }
+
+    @Path("{shift_id: [0-9]+}/schedule")
+    public ScheduleResource getMenuGroup(@PathParam("shift_id") int shiftId) {
+        return new ScheduleResource(shiftId);
     }
 
 }

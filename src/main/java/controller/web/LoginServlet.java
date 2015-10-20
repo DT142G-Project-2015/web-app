@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         try {
             String username = req.getParameter("username");
             String password = req.getParameter("password");
-            if (LoginManager.isLoggedIn(username, password)) {
+            if (LoginManager.hasAccess(username, password).isPresent()) {
 
                 // delete old login cookies
                 Cookie[] cookies = req.getCookies();
