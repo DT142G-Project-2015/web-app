@@ -26,7 +26,7 @@ public class BookBoothResource {
     @GET
     public String getBookedBooth() throws SQLException {
 
-        String query = "SELECT * FROM book_booth";
+        String query = "SELECT * FROM book_booth WHERE date_time > NOW() ORDER BY date_time ASC ";
 
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
@@ -66,7 +66,7 @@ public class BookBoothResource {
     public Response updateBoothStatus(@PathParam("id") int id, String postData) throws SQLException {
         try (Connection conn = Database.getConnection();
              PreparedStatement st = conn.prepareStatement(
-                     "UPDATE book_booth SET status = (?) WHERE id = (?)")) {
+                     "UPDATE book_booth SET status = (?) WHERE booth_id = (?)")) {
 
             Gson gson = new Gson();
             BookBooth booth = gson.fromJson(postData, BookBooth.class);
