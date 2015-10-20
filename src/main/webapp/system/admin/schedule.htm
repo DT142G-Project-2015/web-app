@@ -42,22 +42,16 @@
                         Beskrivning<br>
                         <input id="description" type="text"><br>
                         Upprepa<br>
-                        <input type="radio" id="repeat" name="repeat" value="0" checked> Nej<br>
-                        <input type="radio" id="repeat" name="repeat" value="1"> Ja<br><br>
+                        <input type="radio" id="repeated" name="repeated" value="0" checked> Nej<br>
+                        <input type="radio" id="repeated" name="repeated" value="1"> Ja<br><br>
                         <span id="add-shift-btn" class="button green">Lägg till</span>
-
                     </form>
                 </div>
             </div><div id="standard-shift-holder">
                 <h1>Standardarbetspass</h1>
                 <div id="standard-shift-content">
                     <table>
-                        <tr>
-                            <td>Från</td>
-                            <td>Till</td>
-                            <td>Antal personal</td>
-                            <td>Beskrivning</td>
-                        </tr>
+                        <tr><td>Från</td><td>Till</td><td>Bokade</td><td>Beskrivning</td><td>Upprepar</td><td>Åtgärder</td></tr>
                     </table>
                 </div>
             </div>
@@ -75,11 +69,6 @@
                     <div class="day-label">Söndag</div>
                 </div>
                 <div class="day" id="mon">
-                    <div class="time-interval" title="Boka passet">
-                        <div>11.00-13.00</div>
-                        <div>0 (2)</div>
-                        <div>Lunch</div>
-                    </div>
                 </div>
                 <div class="day" id="tue">
                 </div>
@@ -99,19 +88,29 @@
     <script src="../jquery-1.11.3.min.js"></script>
     <script src="../mustache.min.js"></script>
     <script src="js/schedule.js"></script>
+    <script src="../date.format.js"></script>
     <script id="shift-template" type="x-tmpl-mustache">
-        <tr><td>Från</td><td>Till</td><td>Bokade</td><td>Beskrivning</td><td>Åtgärder</td></tr>
-        {{ #articles }}
+        {{ #shifts }}
             <tr>
                 <td>{{ start }}</td>
                 <td>{{ stop }}</td>
                 <td>{{ count_staff }} ({{ max_staff }})</td>
                 <td>{{ description }}</td>
+                <td>{{ repeated }}</td>
                 <td>
                     <span id="alter-shift-btn{{ id }}" class="button yellow">Ändra</span>
                 </td>
             </tr>
-        {{ /articles }}
+        {{ /shifts }}
+    </script>
+    <script id="schedule-template" type="x-tmpl-mustache">
+        {{ #shift }}
+            <div class="time-interval" title="Boka passet">
+                <div>{{ start }}-{{ stop }}</div>
+                <div>{{ count_staff }} ({{ max_staff }})</div>
+                <div>{{ description }}</div>
+            </div>
+        {{ /shift }}
     </script>
 </body>
 </html>

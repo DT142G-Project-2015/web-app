@@ -183,7 +183,7 @@ td{
 }
 
 #nav{
-	width: 50%;
+	width: 70%;
 	height: 50px;
 	float: right;
 	background: #fff;
@@ -206,7 +206,7 @@ td{
 }
 
 #content{
-	margin-top: 80px;
+	margin-top: 120px;
 }
 
 .section{
@@ -261,7 +261,7 @@ td{
 }
 
 #schedule-holder{
-	height: 422px;
+	height: 434px;
 }
 
 #schedule-holder .day, .day-label{
@@ -285,7 +285,6 @@ td{
 
 .time-interval{
 	height: 75px;
-	margin-top: 75px;
 	background: #eee;
 	box-shadow: inset 6px 0 0 #8e8;
 	font-size: 12px;
