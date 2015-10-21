@@ -31,6 +31,12 @@ public class AuthFilter implements Filter {
                     return;
                 }
 
+                //Allow everyone to access book booth api
+                if (request.getRequestURI().contains("api/booth")) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+
                 String auth = request.getHeader("Authorization");
 
                 if (auth != null && auth.startsWith("Basic")) {
