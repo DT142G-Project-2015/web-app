@@ -101,7 +101,7 @@
     </script>
     <script id="schedule-template" type="x-tmpl-mustache">
         {{ #shift }}
-            <div class="time-interval" style="z-index: {{ zIndex }}; margin-top: {{ marginTop }}px; height: {{ height }}px; box-shadow: inset 6px 0 0 {{ color }};" title="{{ title }}">
+            <div id="{{ id }}" class="time-interval" style="z-index: {{ zIndex }}; margin-top: {{ marginTop }}px; height: {{ height }}px; box-shadow: inset 6px 0 0 {{ color }};" title="{{ title }}">
                 <div>{{ start }}-{{ stop }}</div>
                 <div>{{ count_staff }} ({{ max_staff }})</div>
                 <div>{{ description }}</div>

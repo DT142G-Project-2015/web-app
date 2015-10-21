@@ -89,7 +89,6 @@ $(document).ready(function(){
             getShifts();
         }).fail(function(){
             $('#loader').fadeOut(200);
-            alert('fail');
         });
     }
 
@@ -102,7 +101,24 @@ $(document).ready(function(){
             type: 'DELETE'
         }).done(function(deleted){
             getShifts();
-        });
+        }).fail(function(){
+          $('#loader').fadeOut(200);
+          $('#delete-shift-btn' + id).html('Redan bokat');
+      });
+    }
+
+    function bookShift(id){
+
+        $("#loader").show();
+
+        $.ajax({
+            url: '../../api/shift/'+id+'/schedule',
+            type: 'POST'
+        }).done(function(data){
+            getShifts();
+        }).fail(function(){
+          $('#loader').fadeOut(200);
+      });
     }
 
 
@@ -124,6 +140,11 @@ $(document).ready(function(){
             else{
                 $(this).html("Är du säker?");
             }
+        });
+
+        $('.time-interval').off().click(function(){
+            var id = $(this).attr('id');
+            bookShift(id);
         });
 
         $('#loader').fadeOut(200);
