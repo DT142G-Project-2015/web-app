@@ -209,3 +209,14 @@ CREATE TABLE book_booth
 	email 		VARCHAR(255) NOT NULL,
 	status 		INT NOT NULL DEFAULT 0
 );
+
+-- #############
+-- # Test Data #
+-- #############
+
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('root', 'toor', 1, 'Gustav', 'Åström');
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('cook', 'password', 1, 'Sebastian', 'Persson');
+INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
+('waitress', 'tipme', 2, 'Viktor', 'Spindler');
