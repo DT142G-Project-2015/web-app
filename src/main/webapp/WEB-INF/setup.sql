@@ -214,6 +214,41 @@ CREATE TABLE book_booth
 -- # Test Data #
 -- #############
 
+INSERT INTO category (category_name) VALUES
+('Tillbehör');
+INSERT INTO category (category_name) VALUES
+('Grönsaker');
+INSERT INTO category (category_name) VALUES
+('Råvaror');
+INSERT INTO category (category_name) VALUES
+('Färskvaror');
+INSERT INTO category (category_name) VALUES
+('Dryck');
+
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Citron', 650, 'gram', '2015-08-28');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Kyckling', 0.5, 'kg', '2015-09-15');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Potatis', 7, 'kg', '2015-11-13');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Ris', 0.5, 'kg', '2015-11-15');
+INSERT INTO article (article_name, amount, unit, exp_date) VALUES
+('Pasta', 7, 'kg', '2015-12-13');
+
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 1);
+INSERT INTO article_category (category_id, article_id) VALUES
+(3, 2);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 3);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 4);
+INSERT INTO article_category (category_id, article_id) VALUES
+(1, 5);
+
+-----------------------------------------------
+
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('root', 'toor', 1, 'Gustav', 'Åström');
 INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
@@ -222,7 +257,9 @@ INSERT INTO account (username, userhash, role, first_name, last_name) VALUES
 ('waitress', 'tipme', 2, 'Viktor', 'Spindler');
 
 INSERT INTO menu (type, start_date, stop_date) VALUES (0, NOW(), '2015-12-31');
+
 INSERT INTO menu (type, start_date, stop_date) VALUES (1, NOW(), '2015-12-31');
+
 INSERT INTO menu (type, start_date, stop_date) VALUES (2, NOW(), '2015-12-31');
 
 INSERT INTO menu_group (name, menu_id) VALUES ('Mat', 1);
