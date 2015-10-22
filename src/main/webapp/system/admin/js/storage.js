@@ -78,28 +78,30 @@ $(document).ready(function(){
          /* Is used to add a new item to the storage. */
          $("#add-storage-btn").click(function(){
                 var storage = {}
-                $('#add-storage form :input').each(function(index, element){
-                    storage[element.id] = element.value;
-                });
+                    $('#add-storage form :input').each(function(index, element){
+                         storage[element.id] = element.value;
+                     });
 
-                // Gets the value of the radio button checked from the function getRadioVal.
-                var val = getRadioVal( document.getElementById('form'), 'category_id' );
+                        // Gets the value of the radio button checked from the function getRadioVal.
+                        var val = getRadioVal( document.getElementById('form'), 'category_id' );
+                        //Sets the category_id to the value of the radio button which is from 1-5.
+                        storage.category_id = val;
+                        checkDate(storage.exp_date);
+                        alert(JSON.stringify(storage));
+                        $.ajax({
+                            url: '../../api/storage',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: JSON.stringify(storage)
+                        }).done(function(addedStorage){
+                                //alert('ADDED');
+                                $(".add-storage").hide();
 
-                //Sets the category_id to the value of the radio button which is from 1-5.
-                storage.category_id = val;
-                checkDate(storage.exp_date);
-               // alert(JSON.stringify(storage));
-                $.ajax({
-                    url: '../../api/storage',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: JSON.stringify(storage)
-                }).done(function(addedStorage){
-                        //alert('ADDED');
-                        $(".add-storage").hide();
-                        $("#show-add-storage").show();
-                        getStorage(); //Used to fetch the new menu.
-                });
+                                $("#show-add-storage").show();
+                                location.reload();
+                              //  getStorage(); //Used to fetch the new menu.
+                        });
+
          });
     }
 
